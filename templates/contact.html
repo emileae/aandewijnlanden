@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+
+{% block main %}
+
+<div class="row">
+  <div class="col s12 center section-intro-text">
+    <div class="headline no-border">Get in Touch</div>
+    <p class="reflow-text">For enquiries please get in touch with {{content|get_val('contact', 'contact_name')}}</p>
+    <ul>
+      <li>
+        <a href="tel:{{content|get_val('contact', 'phone')}}">{{content|get_val('contact', 'phone')}}</a>
+      </li>
+      <li>
+        <a href="mailto:{{content|get_val('contact', 'email')}}">{{content|get_val('contact', 'email')}}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12 center">
+    <p>or pay us a visit:</p>
+    {{content|get_val('contact', 'address_1')}}<br>
+    {{content|get_val('contact', 'address_2')}}<br>
+    {{content|get_val('contact', 'address_3')}}
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}
+
+
+

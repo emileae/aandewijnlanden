@@ -1,0 +1,782 @@
+{% extends "cms.html" %}
+
+
+{% block main %}
+
+<div class="row">
+
+  <ul class="collapsible col s12" data-collapsible="accordion">
+      <!-- ================================ -->
+      <!-- Banner -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Banner</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['banner'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['banner'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <div class="col s12">
+                {% if content['banner'].image %}
+                  <div class="center">
+                    <img src="{{content['banner'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['banner'] %}
+              <input type="hidden" name="content_id" value="{{content['banner'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="banner">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- Gallery -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Gallery</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['FPgallery'].title|check_none}}">
+                <label for="title">Title</label>
+              </div>
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['FPgallery'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+
+              <div class="input-field col s12">
+                <input id="cta_text" type="text" name="cta_text" class="validate" value="{{content|get_val('FPgallery', 'cta_text')|check_none}}">
+                <label for="cta_text">Button Text</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content|get_val('FPgallery', 'cta_link')|check_none}}">
+                <label for="cta_link">Button Link</label>
+              </div>
+
+              <div class="col s12">
+                {% if content['FPgallery'].image %}
+                  <div class="center">
+                    <img src="{{content['FPgallery'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Gallery Section image">
+                </div>
+              </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['FPgallery'] %}
+              <input type="hidden" name="content_id" value="{{content['FPgallery'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="FPgallery">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- Gallery Sections -->
+      <!-- ================================ -->
+
+      <li>
+        <div class="collapsible-header center">Section - Gallery Images</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content|get_val_from_list('FPgalleryIMG', 'titles', 0)}}">
+                <label for="title">Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content|get_val_from_list('FPgalleryIMG', 'cta_links', 0)}}" placeholder="eg. /category/sub-category">
+                <label for="cta_link">Link</label>
+              </div>
+              <div class="col s12">
+                {% if content['FPgalleryIMG'] %}
+                  <div class="center">
+                    <img src="{{content|get_val_from_list('FPgalleryIMG', 'images', 0)}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>File</span>
+                    <input type="file" name="image">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Gallery Section image">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content|get_val_from_list('FPgalleryIMG', 'titles', 1)}}">
+                <label for="title">Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content|get_val_from_list('FPgalleryIMG', 'cta_links', 1)}}" placeholder="eg. /category/sub-category">
+                <label for="cta_link">Link</label>
+              </div>
+              <div class="col s12">
+                {% if content['FPgalleryIMG'] %}
+                  <div class="center">
+                    <img src="{{content|get_val_from_list('FPgalleryIMG', 'images', 1)}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>File</span>
+                    <input type="file" name="image">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Gallery Section image">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content|get_val_from_list('FPgalleryIMG', 'titles', 2)}}">
+                <label for="title">Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content|get_val_from_list('FPgalleryIMG', 'cta_links', 2)}}" placeholder="eg. /category/sub-category">
+                <label for="cta_link">Link</label>
+              </div>
+              <div class="col s12">
+                {% if content['FPgalleryIMG'] %}
+                  <div class="center">
+                    <img src="{{content|get_val_from_list('FPgalleryIMG', 'images', 2)}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>File</span>
+                    <input type="file" name="image">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Gallery Section image">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['FPgalleryIMG'] %}
+              <input type="hidden" name="content_id" value="{{content['FPgalleryIMG'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="FPgalleryIMG">
+            <input type="hidden" name="list_items" value="3">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- About -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - About</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['FPabout'].title|check_none}}">
+                <label for="title">Title</label>
+              </div>
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['FPabout'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+
+              <div class="input-field col s12">
+                <input id="cta_text" type="text" name="cta_text" class="validate" value="{{content|get_val('FPabout', 'cta_text')|check_none}}">
+                <label for="cta_text">Button Text</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content|get_val('FPabout', 'cta_link')|check_none}}">
+                <label for="cta_link">Button Link</label>
+              </div>
+
+              <div class="col s12">
+                {% if content['FPabout'].image %}
+                  <div class="center">
+                    <img src="{{content['FPabout'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Gallery Section image">
+                </div>
+              </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['FPabout'] %}
+              <input type="hidden" name="content_id" value="{{content['FPabout'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="FPabout">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- About Image -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - About Row Image</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['FPaboutIMG'].title|check_none}}">
+                <label for="title">Title</label>
+              </div>
+
+              <div class="col s12">
+                {% if content['FPaboutIMG'].image %}
+                  <div class="center">
+                    <img src="{{content['FPaboutIMG'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Gallery Section image">
+                </div>
+              </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['FPaboutIMG'] %}
+              <input type="hidden" name="content_id" value="{{content['FPaboutIMG'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="FPaboutIMG">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+
+      <!-- ================================ -->
+      <!-- How We Work -->
+      <!-- ================================ -->
+
+      <li>
+        <div class="collapsible-header center">Section - What We Do</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['FPhowWeWork'].title|check_none}}">
+                <label for="title">Title</label>
+              </div>
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['FPhowWeWork'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+
+              <div class="input-field col s12">
+                <input id="cta_text" type="text" name="cta_text" class="validate" value="{{content|get_val('FPhowWeWork', 'cta_text')|check_none}}">
+                <label for="cta_text">Button Text</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content|get_val('FPhowWeWork', 'cta_link')|check_none}}">
+                <label for="cta_link">Button Link</label>
+              </div>
+
+              <div class="col s12">
+                {% if content['FPhowWeWork'].image %}
+                  <div class="center">
+                    <img src="{{content['FPhowWeWork'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Gallery Section image">
+                </div>
+              </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['FPhowWeWork'] %}
+              <input type="hidden" name="content_id" value="{{content['FPhowWeWork'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="FPhowWeWork">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- How We Work Sections -->
+      <!-- ================================ -->
+
+      <li>
+        <div class="collapsible-header center">Section -What We Do Images</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content|get_val_from_list('FPhowWeWorkIMG', 'titles', 0)}}">
+                <label for="title">Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content|get_val_from_list('FPhowWeWorkIMG', 'cta_links', 0)}}" placeholder="eg. /category/sub-category">
+                <label for="cta_link">Link</label>
+              </div>
+              <div class="col s12">
+                {% if content['FPhowWeWorkIMG'] %}
+                  <div class="center">
+                    <img src="{{content|get_val_from_list('FPhowWeWorkIMG', 'images', 0)}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>File</span>
+                    <input type="file" name="image">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Gallery Section image">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content|get_val_from_list('FPhowWeWorkIMG', 'titles', 1)}}">
+                <label for="title">Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content|get_val_from_list('FPhowWeWorkIMG', 'cta_links', 1)}}" placeholder="eg. /category/sub-category">
+                <label for="cta_link">Link</label>
+              </div>
+              <div class="col s12">
+                {% if content['FPhowWeWorkIMG'] %}
+                  <div class="center">
+                    <img src="{{content|get_val_from_list('FPhowWeWorkIMG', 'images', 1)}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>File</span>
+                    <input type="file" name="image">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Gallery Section image">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content|get_val_from_list('FPhowWeWorkIMG', 'titles', 2)}}">
+                <label for="title">Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content|get_val_from_list('FPhowWeWorkIMG', 'cta_links', 2)}}" placeholder="eg. /category/sub-category">
+                <label for="cta_link">Link</label>
+              </div>
+              <div class="col s12">
+                {% if content['FPhowWeWorkIMG'] %}
+                  <div class="center">
+                    <img src="{{content|get_val_from_list('FPhowWeWorkIMG', 'images', 2)}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>File</span>
+                    <input type="file" name="image">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Gallery Section image">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['FPhowWeWorkIMG'] %}
+              <input type="hidden" name="content_id" value="{{content['FPhowWeWorkIMG'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="FPhowWeWorkIMG">
+            <input type="hidden" name="list_items" value="3">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- Footer text -->
+      <!-- ================================ -->
+
+      <li>
+        <div class="collapsible-header center">Section - Footer Text</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['FPfooterText'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="input-field col s12">
+              <input id="cta_text" type="text" name="cta_text" class="validate" value="{{content|get_val('FPfooterText', 'cta_text')|check_none}}">
+              <label for="cta_text">Button Text</label>
+            </div>
+            <div class="input-field col s12">
+              <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content|get_val('FPfooterText', 'cta_link')|check_none}}">
+              <label for="cta_link">Button Link</label>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['FPfooterText'] %}
+              <input type="hidden" name="content_id" value="{{content['FPfooterText'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="FPfooterText">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <li>
+        <div class="collapsible-header center">Contact Details</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <input id="phone" type="text" name="phone" class="validate" value="{{content|get_val('contact', 'phone')|check_none}}">
+                <label for="phone">Phone</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="email" type="text" name="email" class="validate" value="{{content|get_val('contact', 'phone')|check_none}}">
+                <label for="email">Email</label>
+              </div>
+
+              <div class="input-field col s12">
+                <input id="contact_name" type="text" name="contact_name" class="validate" value="{{content|get_val('contact', 'contact_name')|check_none}}">
+                <label for="contact_name">Contact Name</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="address_1" type="text" name="address_1" class="validate" value="{{content|get_val('contact', 'address_1')|check_none}}">
+                <label for="address_1">Address Line 1</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="address_2" type="text" name="address_2" class="validate" value="{{content|get_val('contact', 'address_2')|check_none}}">
+                <label for="address_2">Address Line 2</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="address_3" type="text" name="address_3" class="validate" value="{{content|get_val('contact', 'address_3')|check_none}}">
+                <label for="address_3">Address Line 3</label>
+              </div>
+
+              <div class="input-field col s12">
+                <input id="cta_text" type="text" name="cta_text" class="validate" value="{{content|get_val('contact', 'cta_text')|check_none}}">
+                <label for="cta_text">Button Text</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content|get_val('contact', 'cta_link')|check_none}}">
+                <label for="cta_link">Button Link</label>
+              </div>
+
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['contact'] %}
+              <input type="hidden" name="content_id" value="{{content['contact'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="contact">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <li>
+        <div class="collapsible-header center">Social Media</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_social" enctype="multipart/form-data">
+            
+            <div class="row" style="margin-top: 3rem;">
+              
+              <div class="input-field col s12">
+                <input id="facebook_page" type="text" name="facebook_page" class="validate" value="{{social.facebook_page|check_none}}">
+                <label for="facebook_page">Facebook Page</label>
+              </div>
+
+              <div class="input-field col s12">
+                <input id="instagram_page" type="text" name="instagram_page" class="validate" value="{{social.instagram_page|check_none}}">
+                <label for="instagram_page">Instagram Page</label>
+              </div>
+
+              <div class="input-field col s12">
+                <input id="pinterest_page" type="text" name="pinterest_page" class="validate" value="{{social.pinterest_page|check_none}}">
+                <label for="pinterest_page">Pinterest Page</label>
+              </div>
+
+              <div class="input-field col s12">
+                <input id="twitter_page" type="text" name="twitter_page" class="validate" value="{{social.twitter_page|check_none}}">
+                <label for="twitter_page">Twitter Page</label>
+              </div>
+              
+              <div class="input-field col s12">
+                <input id="linkedin_page" type="text" name="linkedin_page" class="validate" value="{{social.linkedin_page|check_none}}">
+                <label for="linkedin_page">Linkedin Page</label>
+              </div>
+
+            </div>
+
+            <!-- hidden inputs -->
+            {% if social %}
+              <input type="hidden" name="content_id" value="{{social.key.id()}}">
+            {% endif %}
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+  </ul>
+
+</div>
+
+
+{% endblock %}
+

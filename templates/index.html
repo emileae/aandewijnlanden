@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>AanDewijnlanden</title>
+
+  <!-- SEO stuff -->
+  <link href="https://emile.me/" rel="canonical" />
+  {% block seo_description %}
+  <meta name="description" content="A great investment in the Winelands, Stellenbosch, South Africa">
+  {% endblock %}
+
+  <!-- Social -->
+
+  <meta property="og:title" content="AanDewijnlanden" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://www.aandewijnlanden.co.za" />
+  <meta property="og:image" content="{{content|get_val('banner', 'image')}}" />
+  <meta property="og:description" content="Aandewijnlanden, A great investment in the Winelands, Stellenbosch, South Africa" />
+  <meta property="og:site_name" content="AanDewijnlanden" />
+
+  <!-- Fonts -->
+  <!-- <link href='http://fonts.googleapis.com/css?family=Lato:300,400,300italic&Josefin+Slab:300' rel='stylesheet' type='text/css'> -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Cinzel' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/static/font/font-awesome/css/font-awesome.min.css">
+
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/smiley-pad1.png" />
+
+
+  <!-- CSS  -->
+  <link href="/static/stylesheets/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <!-- Google Analytics -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-64376900-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+  {% block style %}
+  {% endblock %}
+
+</head>
+<body>
+<header>
+
+  <div class="navbar-fixed">
+    <ul id="dropdown1" class="dropdown-content">
+      <li><a href="#!">one</a></li>
+      <li><a href="#!">two</a></li>
+      <li class="divider"></li>
+      <li><a href="#!">three</a></li>
+    </ul>
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#!" class="brand-logo"><img src="/static/img/logo.png"> Aandewijnlanden</a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="/plans_prices">Prices & Plans</a></li>
+          <li><a href="/location">Location</a></li>
+          <li><a href="/information">Information</a></li>
+          <li><a class="dropdown-button" data-activates="dropdown1" href="#!">Documentation<i class="material-icons right">arrow_drop_down</i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</header>
+<main>
+{% block main %}
+<div class="row">
+  <div class="col s12">
+
+    <div class="slider">
+
+      <ul class="slides">
+        <li>
+          <img src="/static/img/slider/slide_01.jpg">
+          <div class="caption center-align">
+            <h3>Luxurious interiors</h3>
+            <!-- <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
+          </div>
+        </li>
+        <li>
+          <img src="/static/img/slider/slide_02.jpg">
+          <div class="caption right-align">
+            <h3>Secure Community</h3>
+            <!-- <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
+          </div>
+        </li>
+        <li>
+          <img src="/static/img/slider/slide_03.jpg">
+          <div class="caption left-align">
+            <h3>Tranquil surroundings</h3>
+            <!-- <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
+          </div>
+        </li>
+        <li>
+          <img src="/static/img/slider/slide_04.jpg">
+          <div class="caption center-align">
+            <h3>Spectacular views</h3>
+            <!-- <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
+          </div>
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12">
+    <div id="primary_cta">
+      <div class="row">
+        <div class="col s12 center lg-text">
+          Freestanding homes in landscaped gardens from R 1 250 000 VAT included!
+        </div>
+        <div class="col s12 center spaced">
+          <a href="tel:0874567123" class="btn btn-large">Call Us - 087 4567 123</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row container">
+  <div class="col s12 m4 l4 center">
+    <h5>Secure</h5>
+    <p class="left-align">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean rutrum orci nisi, ut eleifend lectus dignissim vitae. Phasellus at sodales nisl. Duis vulputate iaculis varius. Donec maximus, ante ac aliquet dapibus, metus massa molestie mauris, vitae pretium mi elit porta diam. Etiam nec sodales quam.
+    </p>
+  </div>
+  <div class="col s12 m4 l4 center">
+    <h5>Great Investment</h5>
+    <p class="left-align">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean rutrum orci nisi, ut eleifend lectus dignissim vitae. Phasellus at sodales nisl. Duis vulputate iaculis varius. Donec maximus, ante ac aliquet dapibus, metus massa molestie mauris, vitae pretium mi elit porta diam. Etiam nec sodales quam.
+    </p>
+  </div>
+  <div class="col s12 m4 l4 center">
+    <h5>Winelands</h5>
+    <p class="left-align">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean rutrum orci nisi, ut eleifend lectus dignissim vitae. Phasellus at sodales nisl. Duis vulputate iaculis varius. Donec maximus, ante ac aliquet dapibus, metus massa molestie mauris, vitae pretium mi elit porta diam. Etiam nec sodales quam.
+    </p>
+  </div>
+</div>
+
+<div class="row container">
+  <div class="col s12 center spaced">
+
+    <a href="#" class="btn btn-outline btn-large">
+
+      Plans & Prices
+
+    </a>
+
+  </div>
+</div>
+
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+  <a class="btn-floating btn-large red">
+    <i class="large material-icons">live_help</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating red lighten-1"><i class="material-icons">phone</i></i></a></li>
+    <li><a class="btn-floating red lighten-1"><i class="material-icons">email</i></a></li>
+  </ul>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+
+<footer>
+  <div class="row container">
+    <div class="col s12 m6">
+      Developer: Greenfield<br>
+      Financier: Nedbank
+    </div>
+    <div class="col s12 m6">
+      Sales: Yoyo wazzup
+    </div>
+  </div>
+</footer>
+
+{% endblock %}
+</div>
+</main>
+
+  <!--  Scripts-->
+  <!--<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>-->
+  <script type="text/javascript" src="/static/js/jquery.js"></script>
+  <script src="/static/js/materialize.min.js"></script>
+  <script src="/static/js/init.js"></script>
+  <!-- Thanks https://github.com/davidjbradshaw/image-map-resizer -->
+  <script type="text/javascript" src="/static/js/imageMapResizer.min.js"></script>
+  <script type="text/javascript" src="/static/js/ajax.js"></script>
+
+  <script type="text/javascript">
+
+  </script>
+
+  {% block script %}
+
+  <script type="text/javascript">
+  </script>
+
+  {% endblock %}
+
+  </body>
+</html>

@@ -1,0 +1,393 @@
+{% extends "cms.html" %}
+
+
+{% block main %}
+
+<div class="row">
+
+  <ul class="collapsible col s12" data-collapsible="accordion">
+      <!-- ================================ -->
+      <!-- Banner -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Gallery Banner</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['galleryBanner'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['galleryBanner'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['galleryBanner'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="col s12">
+                {% if content['galleryBanner'].image %}
+                  <div class="center">
+                    <img src="{{content['galleryBanner'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['galleryBanner'] %}
+              <input type="hidden" name="content_id" value="{{content['galleryBanner'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="galleryBanner">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+
+      <!-- ================================ -->
+      <!-- Gallery Images -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Gallery Images</div>
+        <div class="collapsible-body">
+
+          <div id="image_gallery_form_container">
+
+            <form id="image_gallery_form_hidden" class="ajax-form-image-gallery image-gallery-form hide" method="post" action="/admin/save_single_image/new" enctype="multipart/form-data">
+
+              <div class="row">
+                  <div class="col s12 center preview-image-container">
+                    
+                  </div>
+              </div>
+              
+              <div id="image_gallery_form_section">
+                <div class="row">
+                  <!-- <div class="input-field col s12">
+                    <input id="label" type="text" name="label" class="validate" value="gallery">
+                    <label for="label">Label</label>
+                  </div> -->
+                  <div id="material_select" class="input-field col s12">
+                    <select name="label">
+                      <option value="" disabled selected>Choose your option</option>
+                      <option value="restoration">Restoration</option>
+                      <option value="residential">Residential</option>
+                      <option value="logistics">Logistics</option>
+                      <option value="spirituality">Spirituality</option>
+                      <option value="art">Art</option>
+                    </select>
+                    <label>Tag</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <input id="caption" type="text" name="caption" class="validate" value="">
+                    <label for="caption">Caption</label>
+                  </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="file-field input-field">
+                    <div class="btn">
+                      <span>File</span>
+                      <input type="file" name="image">
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input class="file-path validate" type="text" placeholder="Gallery Image">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="input-field col s12">
+                  <button class="btn">
+                    <div class="loader-icon hide transition">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </div>
+                    <div class="loader-success hide transition">
+                      <i class="fa fa-check icon-green"></i>
+                    </div>
+                    <div class="loader-error hide transition">
+                      <i class="fa fa-exclamation icon-red"></i>
+                    </div>
+                    Save
+                  </button>
+                </div>
+              </div>
+
+            </form>
+
+
+            <form id="image_gallery_form" class="ajax-form-image-gallery image-gallery-form" method="post" action="/admin/save_single_image/new" enctype="multipart/form-data">
+
+              <div class="row">
+                  <div class="col s12 center preview-image-container">
+                    
+                  </div>
+              </div>
+              
+              <div id="image_gallery_form_section">
+                <div class="row">
+                  <!-- <div class="input-field col s12">
+                    <input id="label" type="text" name="label" class="validate" value="gallery">
+                    <label for="label">Label</label>
+                  </div> -->
+                  <div class="input-field col s12">
+                    <select name="label">
+                      <option value="" disabled selected>Choose your option</option>
+                      <option value="restoration">Restoration</option>
+                      <option value="residential">Residential</option>
+                      <option value="logistics">Logistics</option>
+                      <option value="spirituality">Spirituality</option>
+                      <option value="art">Art</option>
+                    </select>
+                    <label>Tag</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <input id="caption" type="text" name="caption" class="validate" value="">
+                    <label for="caption">Caption</label>
+                  </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="file-field input-field">
+                    <div class="btn">
+                      <span>File</span>
+                      <input type="file" name="image">
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input class="file-path validate" type="text" placeholder="Gallery Image">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="input-field col s12">
+                  <button class="btn">
+                    <div class="loader-icon hide transition">
+                      <i class="fa fa-spinner fa-spin"></i>
+                    </div>
+                    <div class="loader-success hide transition">
+                      <i class="fa fa-check icon-green"></i>
+                    </div>
+                    <div class="loader-error hide transition">
+                      <i class="fa fa-exclamation icon-red"></i>
+                    </div>
+                    Save
+                  </button>
+                </div>
+              </div>
+
+            </form>
+
+            {% for g in gallery_images %}
+
+              <form id="gallery_image_{{g.key.id()}}" class="ajax-form-image-gallery image-gallery-form" method="post" action="/admin/save_single_image/{{g.key.id()}}" enctype="multipart/form-data" style="margin-top: 3rem;">
+                
+                <div class="row">
+                  <div class="col s12 center preview-image-container">
+                    <img src="{{g.image}}" class="preview-image">
+                  </div>
+                </div>
+
+
+                <div id="image_gallery_form_section">
+                  <div class="row">
+                    <!-- <div class="input-field col s12">
+                    <input id="label" type="text" name="label" class="validate" value="gallery">
+                    <label for="label">Label</label>
+                  </div> -->
+                  <div class="input-field col s12">
+                    <select name="label">
+                      {% if g.label %}
+                        <option value="{{g.label}}" selected>{{g.label|capitalize()}}</option>
+                      {% else %}
+                        <option value="" disabled selected>Choose your option</option>
+                      {% endif %}
+                      <option value="restoration">Restoration</option>
+                      <option value="residential">Residential</option>
+                      <option value="logistics">Logistics</option>
+                      <option value="spirituality">Spirituality</option>
+                      <option value="art">Art</option>
+                    </select>
+                    <label>Tag</label>
+                  </div>
+                  <div class="input-field col s12">
+                      <input id="caption" type="text" name="caption" class="validate" value="{{g.caption}}">
+                      <label for="caption">Caption</label>
+                    </div>
+                  </div>
+
+                  <div class="col s12">
+                      <div class="file-field input-field">
+                      <div class="btn">
+                        <span>File</span>
+                        <input type="file" name="image">
+                      </div>
+                      <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" placeholder="Gallery Image">
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="input-field col s12">
+                    <button class="btn">
+                      <div class="loader-icon hide transition">
+                        <i class="fa fa-spinner fa-spin"></i>
+                      </div>
+                      <div class="loader-success hide transition">
+                        <i class="fa fa-check icon-green"></i>
+                      </div>
+                      <div class="loader-error hide transition">
+                        <i class="fa fa-exclamation icon-red"></i>
+                      </div>
+                      Save
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col s12 right-align">
+                    <div class="btn" onclick="confirmDelete({{g.key.id()}})">
+                      Delete
+                    </div>
+                    <div id="confirm_{{g.key.id()}}" class="confirm button-fold-in overflow-hidden">
+                      <span data-delete-id="{{g.key.id()}}" class="btn delete">Yes, I'm sure</span> <span class="btn" onclick="cancelDelete({{g.key.id()}})">Cancel</span>
+                    </div>
+                  </div>
+                </div>
+
+              </form>
+
+            {% endfor %}
+
+          </div>
+
+          <div class="row">
+              <div class="col s12 center">
+                <button class="btn" onclick="add_image_form()"><i class="icon fa fa-plus"></i> Add</button>
+              </div>
+          </div>
+
+        </div>
+
+      </li>
+
+
+  </ul>
+
+</div>
+
+
+{% endblock %}
+
+
+{% block script %}
+
+<script type="text/javascript">
+  function add_image_form(){
+    var $form = $("#image_gallery_form_hidden").clone();
+    $form.attr("id", "");
+    $form.removeClass("hide");
+
+    var select_html = '<select name="label">'+
+                      '<option value="" disabled selected>Choose your option</option>'+
+                      '<option value="restoration">Restoration</option>'+
+                      '<option value="residential">Residential</option>'+
+                      '<option value="logistics">Logistics</option>'+
+                      '<option value="spirituality">Spirituality</option>'+
+                      '<option value="art">Art</option>'+
+                    '</select>'+
+                    '<label>Tag</label>';
+
+    $form.find("#material_select").html(select_html);
+
+    $form.find("#material_select").attr("id", "");
+
+    $("#image_gallery_form_container").append($form);
+
+    $("select").material_select();
+
+  };
+
+  function cancelDelete(el_id){
+    $elem = $("#confirm_"+el_id)
+    $elem.removeClass("button-fold-out");
+    $elem.addClass("button-fold-in");
+    //$elem.removeClass(".delete");
+  };
+
+  function confirmDelete(el_id){
+    $elem = $("#confirm_"+el_id)
+    $elem.removeClass("button-fold-in");
+    $elem.addClass("button-fold-out");
+    //$elem.addClass(".delete");
+  }
+
+  $("body").on("click", ".delete", function(){
+    delete_id = $(this).data('delete-id');
+
+    function success(){
+      $("#gallery_image_"+delete_id).remove();
+    };
+
+    $.ajax({
+        url: '/admin/delete_single_image/'+delete_id,
+        type: 'post',
+        data: {},
+        
+        // THIS MUST BE DONE FOR FILE UPLOADING
+        contentType: false,
+        processData: false,
+        
+        success: success
+    }).fail(function(){
+      console.log("failed to delete");
+    });
+
+  });
+
+</script>
+
+{% endblock %}
+
+

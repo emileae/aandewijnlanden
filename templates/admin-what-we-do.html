@@ -1,0 +1,539 @@
+{% extends "cms.html" %}
+
+
+{% block main %}
+
+<div class="row">
+
+  <ul class="collapsible col s12" data-collapsible="accordion">
+      <!-- ================================ -->
+      <!-- Banner -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Banner</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['WWDBanner'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['WWDBanner'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['WWDBanner'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="col s12">
+                {% if content['WWDBanner'].image %}
+                  <div class="center">
+                    <img src="{{content['WWDBanner'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['WWDBanner'] %}
+              <input type="hidden" name="content_id" value="{{content['WWDBanner'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="WWDBanner">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- Restoration -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Highlight Text</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['WWDQuote'].title|check_none}}">
+                <label for="title">Highlight text / quote</label>
+              </div>
+            </div>
+
+
+            <!-- hidden inputs -->
+            {% if content['WWDQuote'] %}
+              <input type="hidden" name="content_id" value="{{content['WWDQuote'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="WWDQuote">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+
+      <!-- ================================ -->
+      <!-- Restoration -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Middle 1 ( eg. Restoration )</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['WWDRestoration'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['WWDRestoration'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['WWDRestoration'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="input-field col s12">
+                <input id="cta_text" type="text" name="cta_text" class="validate" value="{{content|get_val('WWDRestoration', 'cta_text')|check_none}}">
+                <label for="cta_text">Button Text</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content['WWDRestoration'].cta_link|check_none}}">
+                <label for="cta_link">Button Link</label>
+              </div>
+
+            <div class="col s12">
+                {% if content['WWDRestoration'].image %}
+                  <div class="center">
+                    <img src="{{content['WWDRestoration'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['WWDRestoration'] %}
+              <input type="hidden" name="content_id" value="{{content['WWDRestoration'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="WWDRestoration">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- Residential -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Middle 2 ( eg. Residential )</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['WWDResidential'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['WWDResidential'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['WWDResidential'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="input-field col s12">
+                <input id="cta_text" type="text" name="cta_text" class="validate" value="{{content|get_val('WWDResidential', 'cta_text')|check_none}}">
+                <label for="cta_text">Button Text</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content['WWDResidential'].cta_link|check_none}}">
+                <label for="cta_link">Button Link</label>
+              </div>
+
+            <div class="col s12">
+                {% if content['WWDResidential'].image %}
+                  <div class="center">
+                    <img src="{{content['WWDResidential'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['WWDResidential'] %}
+              <input type="hidden" name="content_id" value="{{content['WWDResidential'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="WWDResidential">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- Logistics -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Middle 3 ( eg Logistics )</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['WWDLogistics'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['WWDLogistics'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['WWDLogistics'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="input-field col s12">
+                <input id="cta_text" type="text" name="cta_text" class="validate" value="{{content|get_val('WWDLogistics', 'cta_text')|check_none}}">
+                <label for="cta_text">Button Text</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content['WWDLogistics'].cta_link|check_none}}">
+                <label for="cta_link">Button Link</label>
+              </div>
+
+            <div class="col s12">
+                {% if content['WWDLogistics'].image %}
+                  <div class="center">
+                    <img src="{{content['WWDLogistics'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['WWDLogistics'] %}
+              <input type="hidden" name="content_id" value="{{content['WWDLogistics'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="WWDLogistics">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- Spirtuality -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Middle 4 ( eg. Spirituality )</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['WWDSpirituality'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['WWDSpirituality'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['WWDSpirituality'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+             <div class="input-field col s12">
+                <input id="cta_text" type="text" name="cta_text" class="validate" value="{{content|get_val('WWDSpirituality', 'cta_text')|check_none}}">
+                <label for="cta_text">Button Text</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content['WWDSpirituality'].cta_link|check_none}}">
+                <label for="cta_link">Button Link</label>
+              </div>
+
+            <div class="col s12">
+                {% if content['WWDSpirituality'].image %}
+                  <div class="center">
+                    <img src="{{content['WWDSpirituality'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['WWDSpirituality'] %}
+              <input type="hidden" name="content_id" value="{{content['WWDSpirituality'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="WWDSpirituality">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- Art -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Bottom ( eg. Art )</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['WWDArt'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['WWDArt'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['WWDArt'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="input-field col s12">
+                <input id="cta_text" type="text" name="cta_text" class="validate" value="{{content|get_val('WWDArt', 'cta_text')|check_none}}">
+                <label for="cta_text">Button Text</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cta_link" type="text" name="cta_link" class="validate" value="{{content['WWDArt'].cta_link|check_none}}">
+                <label for="cta_link">Button Link</label>
+              </div>
+
+            <div class="col s12">
+                {% if content['WWDArt'].image %}
+                  <div class="center">
+                    <img src="{{content['WWDArt'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['WWDArt'] %}
+              <input type="hidden" name="content_id" value="{{content['WWDArt'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="WWDArt">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+
+
+  </ul>
+
+</div>
+
+
+{% endblock %}
+
+
+{% block script %}
+
+{% endblock %}
+
+

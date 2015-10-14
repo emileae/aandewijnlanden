@@ -1,0 +1,507 @@
+{% extends "cms.html" %}
+
+
+{% block main %}
+
+<div class="row">
+
+  <ul class="collapsible col s12" data-collapsible="accordion">
+      <!-- ================================ -->
+      <!-- Banner -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - About Us Banner</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['AboutUsBanner'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['AboutUsBanner'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <!-- <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['AboutUsBanner'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div> -->
+
+            <div class="col s12">
+                {% if content['AboutUsBanner'].image %}
+                  <div class="center">
+                    <img src="{{content['AboutUsBanner'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['AboutUsBanner'] %}
+              <input type="hidden" name="content_id" value="{{content['AboutUsBanner'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="AboutUsBanner">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+
+      <!-- ================================ -->
+      <!-- The Studio -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - The Studio</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['AboutUsStudio'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['AboutUsStudio'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['AboutUsStudio'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="col s12">
+                {% if content['AboutUsStudio'].image %}
+                  <div class="center">
+                    <img src="{{content['AboutUsStudio'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['AboutUsStudio'] %}
+              <input type="hidden" name="content_id" value="{{content['AboutUsStudio'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="AboutUsStudio">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- The Studio Parralax -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - The Studio banner image</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['AboutUsStudioIMG'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['AboutUsStudioIMG'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <!-- <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['AboutUsStudioIMG'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div> -->
+
+            <div class="col s12">
+                {% if content['AboutUsStudioIMG'].image %}
+                  <div class="center">
+                    <img src="{{content['AboutUsStudioIMG'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['AboutUsStudioIMG'] %}
+              <input type="hidden" name="content_id" value="{{content['AboutUsStudioIMG'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="AboutUsStudioIMG">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- Nicholas -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Nicholas</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['AboutUsNicholas'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['AboutUsNicholas'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['AboutUsNicholas'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="col s12">
+                {% if content['AboutUsNicholas'].image %}
+                  <div class="center">
+                    <img src="{{content['AboutUsNicholas'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['AboutUsNicholas'] %}
+              <input type="hidden" name="content_id" value="{{content['AboutUsNicholas'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="AboutUsNicholas">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- Anastasia -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Anastasia</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['AboutUsAnastasia'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['AboutUsAnastasia'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['AboutUsAnastasia'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="col s12">
+                {% if content['AboutUsAnastasia'].image %}
+                  <div class="center">
+                    <img src="{{content['AboutUsAnastasia'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['AboutUsAnastasia'] %}
+              <input type="hidden" name="content_id" value="{{content['AboutUsAnastasia'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="AboutUsAnastasia">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- The Team -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Team</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['AboutUsTeam'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['AboutUsTeam'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['AboutUsTeam'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="col s12">
+                {% if content['AboutUsTeam'].image %}
+                  <div class="center">
+                    <img src="{{content['AboutUsTeam'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Banner image">
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden inputs -->
+            {% if content['AboutUsTeam'] %}
+              <input type="hidden" name="content_id" value="{{content['AboutUsTeam'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="AboutUsTeam">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <!-- ================================ -->
+      <!-- Get In Touch -->
+      <!-- ================================ -->
+      <li>
+        <div class="collapsible-header center">Section - Get In Touch Details</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['AboutUsContact'].title|check_none}}">
+                <label for="title">Page Title</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="subtitle" type="text" name="subtitle" class="validate" value="{{content['AboutUsContact'].subtitle|check_none}}">
+                <label for="subtitle">Page Sub Title</label>
+              </div>
+
+            </div>
+
+
+            <!-- hidden inputs -->
+            {% if content['AboutUsContact'] %}
+              <input type="hidden" name="content_id" value="{{content['AboutUsContact'].key.id()}}">
+            {% endif %}
+            <!-- include a tag for what is being saved -->
+            <input type="hidden" name="label" value="AboutUsContact">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+
+  </ul>
+
+</div>
+
+
+{% endblock %}
+
+
+{% block script %}
+
+<script type="text/javascript">
+  function add_image_form(){
+    var $form = $("#image_gallery_form_hidden").clone();
+    $form.attr("id", "");
+    $form.removeClass("hide");
+    $("#image_gallery_form_container").append($form);
+  };
+</script>
+
+{% endblock %}
+
+

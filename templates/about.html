@@ -1,0 +1,206 @@
+{% extends "index.html" %}
+
+{% block main %}
+
+<div class="row banner parallax-container valign-wrapper">
+    <div class="parallax">
+      <img src="{{content|get_val('AboutUsBanner', 'image')}}" class="">
+      <div class="dark-overlay"></div>
+    </div>
+    <div class="valign row">
+      	<div>
+	        <div class="headline center-align col s12 light-text">{{content|get_val('AboutUsBanner', 'title')}}</div>
+      	</div>
+      	<div>
+	        <div class="sub-headline center-align col s12">{{content|get_val('AboutUsBanner', 'subtitle')}}</div>
+      	</div>
+    </div>
+</div>
+<div class="page-tab">
+    <svg class="blurp--top" width="192" height="61" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 160.7 61.5" enable-background="new 0 0 160.7 61.5" xml:space="preserve"><path fill="#FFFFFF" d="M80.3,61.5c0,0,22.1-2.7,43.1-5.4s41-5.4,36.6-5.4c-21.7,0-34.1-12.7-44.9-25.4S95.3,0,80.3,0c-15,0-24.1,12.7-34.9,25.4S22.3,50.8,0.6,50.8c-4.3,0-6.5,0,3.5,1.3S36.2,56.1,80.3,61.5z"></path></svg>
+    <div class="down-arrow down-arrow--bubble"><div class="arrow"></div></div>
+</div>
+
+<!-- <div class="row">
+  <div class="col s12 center section-intro-text">
+    <p class="reflow-text">{{content|get_val('AboutUsBanner', 'text')}}</p>
+  </div>
+</div> -->
+
+<div class="row container text-row valign-wrapper hide-on-small-only">
+
+    <div class="col s12 m8 valign valign-wrapper">
+      <div class="valign front-page-content">
+        <div class="headline center no-border">
+          {{content|get_val('AboutUsStudio', 'title')}}
+        </div>
+        <p>
+          {{content|get_val('AboutUsStudio', 'text')}}
+        </p>
+      </div>
+    </div>
+
+    <div class="col s12 m4 valign valign-wrapper">
+      <img src="{{content|get_val('AboutUsStudio', 'image')}}" class="emphasis-img responsive-img valign">
+    </div>
+    
+</div>
+
+<div class="row container text-row hide-on-med-and-up">
+
+    <div class="col s12 m4">
+      <img src="{{content|get_val('AboutUsStudio', 'image')}}" class="emphasis-img responsive-img">
+    </div>
+
+    <div class="col s12 m8">
+      <div class="front-page-content">
+        <div class="headline center no-border">
+          {{content|get_val('AboutUsStudio', 'title')}}
+        </div>
+        <p>
+          {{content|get_val('AboutUsStudio', 'text')}}
+        </p>
+      </div>
+    </div>
+    
+</div>
+
+<!-- {% if content['AboutUsStudioIMG'] %}
+  <div class="row parallax-container valign-wrapper">
+    <div class="parallax">
+      <img src="{{content|get_val('AboutUsStudioIMG', 'image')}}" class="">
+    </div>
+    <div class="valign row">
+      <div class="headline center-align col s12 light-text">{{content|get_val('AboutUsStudioIMG', 'title')}}</div>
+    </div>
+  </div>
+{% endif %} -->
+
+<div class="row container text-row valign-wrapper hide-on-small-only">
+
+    <div class="col s12 m4 valign valign-wrapper">
+      <img src="{{content|get_val('AboutUsNicholas', 'image')}}" class="emphasis-img responsive-img valign">
+    </div>
+
+    <div class="col s12 m8 valign valign-wrapper">
+      <div class="valign front-page-content">
+        <div class="headline center no-border">
+          {{content|get_val('AboutUsNicholas', 'title')}}
+        </div>
+        <p>
+          {{content|get_val('AboutUsNicholas', 'text')}}
+        </p>
+      </div>
+    </div>
+    
+</div>
+
+<div class="row container text-row hide-on-med-and-up">
+
+    <div class="col s12 m4">
+      <img src="{{content|get_val('AboutUsNicholas', 'image')}}" class="emphasis-img responsive-img">
+    </div>
+
+    <div class="col s12 m8">
+      <div class="front-page-content">
+        <div class="headline center no-border">
+          {{content|get_val('AboutUsNicholas', 'title')}}
+        </div>
+        <p>
+          {{content|get_val('AboutUsNicholas', 'text')}}
+        </p>
+      </div>
+    </div>
+    
+</div>
+
+<div class="row container text-row valign-wrapper hide-on-small-only">
+
+    <div class="col s12 m8 valign valign-wrapper">
+      <div class="valign front-page-content">
+        <div class="headline center no-border">
+          {{content|get_val('AboutUsAnastasia', 'title')}}
+        </div>
+        <p>
+          {{content|get_val('AboutUsAnastasia', 'text')}}
+        </p>
+      </div>
+    </div>
+
+    <div class="col s12 m4 valign valign-wrapper">
+      <img src="{{content|get_val('AboutUsAnastasia', 'image')}}" class="emphasis-img responsive-img valign">
+    </div>
+    
+</div>
+
+<div class="row container text-row hide-on-med-and-up">
+
+    <div class="col s12 m4">
+      <img src="{{content|get_val('AboutUsAnastasia', 'image')}}" class="emphasis-img responsive-img valign">
+    </div>
+
+    <div class="col s12 m8">
+      <div class="valign front-page-content">
+        <div class="headline center no-border">
+          {{content|get_val('AboutUsAnastasia', 'title')}}
+        </div>
+        <p>
+          {{content|get_val('AboutUsAnastasia', 'text')}}
+        </p>
+      </div>
+    </div>
+    
+</div>
+
+{% if content['AboutUsTeam'] %}
+
+<div class="row container text-row valign-wrapper">
+
+    <div class="col s12 m4 valign valign-wrapper">
+      <img src="{{content|get_val('AboutUsTeam', 'image')}}" class="emphasis-img responsive-img valign">
+    </div>
+
+    <div class="col s12 m8 valign valign-wrapper">
+      <div class="valign front-page-content">
+        <div class="headline center no-border">
+          {{content|get_val('AboutUsTeam', 'title')}}
+        </div>
+        <p>
+          {{content|get_val('AboutUsTeam', 'text')}}
+        </p>
+      </div>
+    </div>
+    
+</div>
+
+{% endif %}
+
+<div class="row">
+  <div class="col s12 center">
+    <div class="headline no-border">{{content|get_val('AboutUsContact', 'title')}}</div>
+    
+    {% if content['AboutUsContact'].subtitle %}
+      <p class="reflow-text">
+        {{content|get_val('AboutUsContact', 'subtitle')}}
+      </p>
+    {% endif %}
+
+    <div class="large-text">
+      <a href="tel:{{content|get_val('contact', 'phone')}}">{{content|get_val('contact', 'phone')}}</a>
+    </div>
+    <div class="large-text">
+      <a href="mailto:{{content|get_val('contact', 'email')}}">{{content|get_val('contact', 'email')}}</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+  <script type="text/javascript" src="/static/js/materialbox.js"></script>
+
+{% endblock %}
+
+
+
