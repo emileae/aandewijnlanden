@@ -1,0 +1,201 @@
+{% extends "cms.html" %}
+
+{% block main %}
+<div class="row">
+	<div class="col s12">
+		<h2>Documentation</h2>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col s12">
+
+		<div class="row">
+			<div class="col s12">
+				{% if document %}
+					<form action="/admin/documentation" enctype="multipart/form-data" method="post">
+
+						<div class="row">
+				          <div class="col s12 input-field">
+				            <label for="name">Document Display Name</label>
+				                <input placeholder="eg' A'" name="name" type="text" id="name" value="{{document.name|check_none}}"/>
+				          </div>
+				        </div>
+
+				        <div class="row">
+				          <div class="col s12 input-field">
+				            <label for="description">Document Description</label>
+			                <textarea name="description" id="description" class="materialize-textarea">{{document.description|check_none}}</textarea>
+				          </div>
+				        </div>
+
+				        <div class="row">
+				          <div class="col s12">
+				            {% if document.isClientChoice %}
+				            	<input name="isClientChoice" type="checkbox" id="isClientChoice" checked="checked"/>
+				            {% else %}
+			                	<input name="isClientChoice" type="checkbox" id="isClientChoice"/>
+			                {% endif %}
+			                <label for="isClientChoice"></label>
+				          </div>
+				        </div>
+
+				        <div class="input-field col s12">
+						    <select name="order">
+						    	{% if document.order %}
+						    		<option value="{{document.order}}">{{document.order}}</option>
+						    	{% else %}
+						    		<option value="" disabled selected>Choose your option</option>
+						    	{% endif %}
+
+						      {% for i in range(1, order_len) %}
+						      	<option value="{{i}}">{{i}}</option>
+						      {% endfor %}
+						      <!-- <option value="1">1</option>
+						      <option value="2">2</option>
+						      <option value="3">3</option> -->
+						    </select>
+						    <label>Document Order ( 1 appearing at the top of the page )</label>
+						</div>
+
+				        <div class="row">
+				          <div class="col s12">
+
+				            <div class="file-field input-field">
+						      <div class="btn">
+						        <span>File</span>
+						        <input type="file" name="file">
+						      </div>
+						      <div class="file-path-wrapper">
+						      	{% if document.file_key %}
+						      	<input class="file-path validate" type="text" value="{{document.file_key.get().filename}}">
+						      	{% else %}
+						      	<input class="file-path validate" type="text">
+								{% endif %}
+						      </div>
+						    </div>
+
+				          </div>
+				        </div>
+
+				        <input type="hidden" name="document_id" value="{{document.key.id()}}">
+
+				        <div class="row">
+				          <div class="col s12">
+				            <button class="btn">Save</button>
+				          </div>
+				        </div>
+
+					</form>
+
+					<div class="row">
+						<div class="col s12 right-align">
+
+							<form method="post" action="/admin/document/delete/{{document.key.id()}}">
+								<button class="btn red darken-2">Delete</button>
+							</form>
+
+						</div>
+					</div>
+
+				{% else %}
+					<form action="/admin/documentation" enctype="multipart/form-data" method="post">
+
+						<div class="row">
+				          <div class="col s12 input-field">
+				            <label for="name">Document Display Name</label>
+				                <input placeholder="eg' A'" name="name" type="text" id="name"/>
+				          </div>
+				        </div>
+
+				        <div class="row">
+				          <div class="col s12 input-field">
+				            <label for="description">Document Description</label>
+				                <textarea name="description" id="description" class="materialize-textarea"></textarea>
+				          </div>
+				        </div>
+
+				        <div class="row">
+				          <div class="col s12">
+			                <input name="isClientChoice" type="checkbox" id="isClientChoice"/>
+			                <label for="isClientChoice"></label>
+				          </div>
+				        </div>
+
+				        <div class="input-field col s12">
+						    <select name="order">
+						      <!-- <option value="" disabled selected>Choose your option</option> -->
+						      {% for i in range(1, order_len) %}
+						      	{% if loop.last %}
+					      		<option value="{{i}}" selected>{{i}}</option>
+						      	{% else %}
+						      	<option value="{{i}}">{{i}}</option>
+						      	{% endif %}
+						      {% endfor %}
+						      <!-- <option value="1">1</option>
+						      <option value="2">2</option>
+						      <option value="3">3</option> -->
+						    </select>
+						    <label>Document Order ( 1 appearing at the top of the page )</label>
+						</div>
+
+				        <div class="row">
+				          <div class="col s12">
+
+				            <div class="file-field input-field">
+						      <div class="btn">
+						        <span>File</span>
+						        <input type="file" name="file">
+						      </div>
+						      <div class="file-path-wrapper">
+						        <input class="file-path validate" type="text">
+						      </div>
+						    </div>
+
+						    <p>Document File</p>
+
+				          </div>
+				        </div>
+
+				        <div class="row">
+				          <div class="col s12">
+				            <button class="btn">Save</button>
+				          </div>
+				        </div>
+
+					</form>
+				{% endif %}
+			</div>
+		</div>
+
+		{% if not document %}
+		{% for d in documents %}
+			<div class="card">
+		        <div class="card-content">
+		          	<span class="card-title">{{d.order}}. {{d.name}}</span>
+		          	<p>{{d.description|check_none}}</p>
+		          	<p>
+			          {% if d.file_key %}
+			          	<a href="{{d.download_link}}" target="_blank">Download File</a>
+			          {% endif %}
+			      	</p>
+		      		<div class="row right-align">
+				      	<a href="/admin/documentation?document_id={{d.key.id()}}" class="btn red darken-2">Edit Document</a>
+			      	</div>
+		        </div>
+	      	</div>
+      	{% endfor %}
+      	{% endif %}
+
+	</div>
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+
+{% endblock %}
+
+
+

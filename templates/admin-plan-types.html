@@ -1,0 +1,202 @@
+{% extends "cms.html" %}
+
+{% block main %}
+
+<div class="row">
+	<div class="col s12">
+		<h2>Plan Types</h2>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col s12">
+
+		<div class="row">
+			<div class="col s12">
+				{% if plan %}
+				<form action="/admin/plan_types" enctype="multipart/form-data" method="post">
+
+					<div class="row">
+			          <div class="col s12">
+			            <label for="name">Plan Name</label>
+			                <input placeholder="eg' A'" name="name" type="text" id="name" value="{{plan.name|check_none}}"/>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <label for="description">Plan Description</label>
+			                <textarea name="description" id="description">{{plan.description|check_none}}</textarea>
+			          </div>
+			        </div>
+
+			        {% if plan.image %}
+			        <div class="row">
+			        	<div class="col s12 center">
+			        		<img src="{{plan.image}}" style="max-height:300px;">
+			        	</div>
+			        </div>
+			        {% endif %}
+
+			        <div class="row">
+			          <div class="col s12">
+
+			          	<h5>Upload a cover image ( this is only for <strong>images</strong> )</h5>
+
+			            <div class="file-field input-field">
+					      <div class="btn">
+					        <span>Image</span>
+					        <input type="file" name="image" accept="image/*">
+					      </div>
+					      <div class="file-path-wrapper">
+					        <input class="file-path validate" type="text">
+					      </div>
+					    </div>
+
+					    <p>Plan image ( NB images only )</p>
+
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+
+			          	<h5>Upload a file ( this will be the file users download )</h5>
+
+			            <div class="file-field input-field">
+					      <div class="btn">
+					        <span>File</span>
+					        <input type="file" name="file" accept="application/pdf">
+					        <!-- <input type="hidden" name="content_type" value="application/pdf"> -->
+					      </div>
+					      <div class="file-path-wrapper">
+					      	{% if plan.file_key %}
+					        <input class="file-path validate" type="text" value="{{plan.file_key.get().filename|check_none}}">
+					        {% else %}
+					        <input class="file-path validate" type="text">
+					        {% endif %}
+					      </div>
+					    </div>
+
+					    <p>Plan's PDF ( NB PDF files only )</p>
+
+			          </div>
+			        </div>
+
+			        <input type="hidden" name="plan_id" value="{{plan.key.id()}}">
+
+			        <div class="row">
+			          <div class="col s12">
+			            <button class="btn">Save</button>
+			          </div>
+			        </div>
+
+				</form>
+				{% else %}
+				<form action="/admin/plan_types" enctype="multipart/form-data" method="post">
+
+					<div class="row">
+			          <div class="col s12">
+			            <label for="name">Plan Name</label>
+			                <input placeholder="eg' A'" name="name" type="text" id="name"/>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <label for="description">Plan Description</label>
+			                <textarea name="description" id="description"></textarea>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+
+			          	<h5>Upload a cover image ( this is only for <strong>images</strong> )</h5>
+
+			            <div class="file-field input-field">
+					      <div class="btn">
+					        <span>Image</span>
+					        <input type="file" name="image" accept="image/*">
+					      </div>
+					      <div class="file-path-wrapper">
+					        <input class="file-path validate" type="text">
+					      </div>
+					    </div>
+
+					    <p>Plan image ( NB images only )</p>
+
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+
+			          	<h5>Upload a file ( this will be the file users download )</h5>
+
+			            <div class="file-field input-field">
+					      <div class="btn">
+					        <span>File</span>
+					        <input type="file" name="file" accept="application/pdf">
+					        <!-- <input type="hidden" name="content_type" value="application/pdf"> -->
+					      </div>
+					      <div class="file-path-wrapper">
+					        <input class="file-path validate" type="text">
+					      </div>
+					    </div>
+
+					    <p>Plan's PDF ( NB PDF files only )</p>
+
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <button class="btn">Save</button>
+			          </div>
+			        </div>
+
+				</form>
+				{% endif %}
+			</div>
+		</div>
+
+		{% if not plan %}
+		{% for p in plans %}
+			<div class="card">
+				{% if p.image %}
+				<div class="card-image center">
+					<img src="{{p.image}}" style="max-height: 250px;width: auto;">
+				</div>
+				{% endif %}
+		        <div class="card-content">
+		          	<span class="card-title">{{p.name}}</span>
+		          	<p>{{p.description|check_none}}</p>
+		          	<p>
+			          {% if p.file_key %}
+			          	<a href="{{p.download_link}}" target="_blank">Download File</a>
+			          {% endif %}
+			      	</p>
+		      		<div class="row right-align">
+				      	<a href="/admin/plan_types?plan_id={{p.key.id()}}">Edit Plan</a>
+			      	</div>
+		        </div>
+	      	</div>
+      	{% endfor %}
+      	{% endif %}
+
+	</div>
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+
+<script type="text/javascript">
+</script>
+
+{% endblock %}
+
+
+

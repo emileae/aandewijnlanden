@@ -10,6 +10,11 @@
      // slider
      $('.slider').slider({full_width: true, interval: 6000});
 
+     $('select').material_select();
+     $('.modal-trigger').leanModal();
+
+     $('.scrollspy').scrollSpy();
+
 
   }); // end of document ready
 })(jQuery); // end of jQuery name space

@@ -76,11 +76,13 @@ $("body").on('submit', '.ajax-form-image-gallery', function(e){
   var $this = $(this);
 
   var success = function success(data, $form){
-    console.log("ID: .... ", data["gallery_image_id"])
-    console.log("ajax gallery image upload success");
+    //console.log("ID: .... ", data["gallery_image_id"])
+    //console.log("ajax gallery image upload success");
 
-    $form.attr( "id", "gallery_image_"+data["gallery_image_id"] );
-    $form.find(".preview-image-container").append("<img src='"+data["gallery_image_url"]+"' class='preview-image'>")
+    //$form.attr( "id", "gallery_image_"+data["gallery_image_id"] );
+    //$form.find(".preview-image-container").append("<img src='"+data["gallery_image_url"]+"' class='preview-image'>")
+
+    location.reload(true);
 
   };
 

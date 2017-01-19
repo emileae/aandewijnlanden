@@ -1,0 +1,180 @@
+{% extends "cms.html" %}
+
+{% block main %}
+
+<div class="row">
+	<div class="col s12">
+		<h2>Contacts</h2>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col s12">
+
+		<div class="row">
+			<div class="col s12">
+				{% if contact %}
+				<form action="/admin/contact" enctype="multipart/form-data" method="post">
+
+					<div class="row">
+						<div class="col s12 center">
+							<a href="/admin/contact">Back</a>
+						</div>
+					</div>
+
+					<div class="row">
+			          <div class="col s12">
+			            <label for="name">Name</label>
+			                <input placeholder="eg. Daniel" name="name" type="text" id="name" value="{{contact.name|check_none}}"/>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <label for="description">Description</label>
+			                <textarea name="description" id="description">{{contact.description|check_none}}</textarea>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <label for="email">Email</label>
+			                <input placeholder="eg. sales@example.com" name="email" type="email" id="email" value="{{contact.email|check_none}}"/>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <label for="phone">Primary Phone</label>
+			                <input placeholder="eg. 071 525 0678" name="phone" type="text" id="phone" value="{{contact.phone|check_none}}"/>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <label for="mobile">Mobile Phone</label>
+			                <input placeholder="eg. 071 525 0678" name="mobile" type="text" id="mobile" value="{{contact.mobile|check_none}}"/>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <label for="landline">Landline Phone</label>
+			                <input placeholder="eg. 021 786 4955" name="landline" type="text" id="landline" value="{{contact.landline|check_none}}"/>
+			          </div>
+			        </div>
+
+			        <input type="hidden" name="contact_id" value="{{contact.key.id()}}">
+
+			        <div class="row">
+			          <div class="col s12">
+			            <button class="btn">Save</button>
+			          </div>
+			        </div>
+
+				</form>
+				{% else %}
+				<form action="/admin/contact" enctype="multipart/form-data" method="post">
+
+					<div class="row">
+			          <div class="col s12">
+			            <label for="name">Name</label>
+			                <input placeholder="eg. Daniel" name="name" type="text" id="name"/>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <label for="description">Description</label>
+			                <textarea name="description" id="description"></textarea>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <label for="email">Email</label>
+			                <input placeholder="eg. sales@example.com" name="email" type="text" id="email"/>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <label for="phone">Primary Phone</label>
+			                <input placeholder="eg. 071 525 0678" name="phone" type="text" id="phone"/>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <label for="mobile">Mobile Phone</label>
+			                <input placeholder="eg. 071 525 0678" name="mobile" type="text" id="mobile"/>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <label for="landline">Landline Phone</label>
+			                <input placeholder="eg. 021 786 4955" name="landline" type="text" id="landline"/>
+			          </div>
+			        </div>
+
+			        <div class="row">
+			          <div class="col s12">
+			            <button class="btn">Save</button>
+			          </div>
+			        </div>
+
+				</form>
+				{% endif %}
+			</div>
+		</div>
+
+		{% if not contact %}
+		{% for c in contacts %}
+			<div class="card">
+		        <div class="card-content">
+		          	<span class="card-title">{{c.name}}</span>
+		          	<p>{{c.description|check_none}}</p>
+		          	<p>
+			          {% if c.email %}
+			          	<a href="mailto:{{c.email}}" target="_blank">Email - {{c.email}}</a>
+			          {% endif %}
+			      	</p>
+			      	<p>
+			          {% if c.phone %}
+			          	<a href="tel:{{c.phone|format_phone}}" target="_blank">Primary Phone - {{c.phone}}</a>
+			          {% endif %}
+			      	</p>
+			      	<p>
+			          {% if c.mobile %}
+			          	<a href="tel:{{c.mobile|format_phone}}" target="_blank">Mobile Phone - {{c.mobile}}</a>
+			          {% endif %}
+			      	</p>
+			      	<p>
+			          {% if c.landline %}
+			          	<a href="tel:{{c.landline|format_phone}}" target="_blank">Landline Phone - {{c.landline}}</a>
+			          {% endif %}
+			      	</p>
+		      		<div class="row right-align">
+				      	<a href="/admin/contact?contact_id={{c.key.id()}}">Edit Contact</a>
+			      	</div>
+		        </div>
+	      	</div>
+      	{% endfor %}
+      	{% endif %}
+
+	</div>
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+
+<script type="text/javascript">
+</script>
+
+{% endblock %}
+
+
+

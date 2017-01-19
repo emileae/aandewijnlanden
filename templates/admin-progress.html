@@ -1,0 +1,145 @@
+{% extends "cms.html" %}
+
+{% block main %}
+<div class="row">
+	<div class="col s12">
+		<h2>Progress</h2>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col s12">
+
+		<div class="row">
+			<div class="col s12">
+				{% if post %}
+					<form action="/admin/progress" enctype="multipart/form-data" method="post">
+
+						<div class="row">
+				          <div class="col s12">
+				            <label for="name">Post Title</label>
+				                <input name="title" type="text" id="title" value="{{post.title|check_none}}"/>
+				          </div>
+				        </div>
+
+				        <div class="row">
+				          <div class="col s12">
+				            <label for="body">Post Body</label>
+				                <textarea name="body" id="body" class="materialize-textarea">{{post.body|check_none}}</textarea>
+				          </div>
+				        </div>
+
+				        <div class="row">
+				        	<div class="col s12">
+				        		{% if post.image_url %}
+				        			<img src="{{post.image_url}}">
+				        		{% endif %}
+				        	</div>
+				        </div>
+
+				        <div class="row">
+				          <div class="col s12">
+
+				            <div class="file-field input-field">
+						      <div class="btn">
+						        <span>Image</span>
+						        <input type="file" name="image" accept="image/*">
+						      </div>
+						      <div class="file-path-wrapper">
+						        <input class="file-path validate" type="text">
+						      </div>
+						    </div>
+
+				          </div>
+				        </div>
+
+				        <input type="hidden" name="post_id" value="{{post.key.id()}}">
+
+				        <div class="row">
+				          <div class="col s12">
+				            <button class="btn">Post</button>
+				          </div>
+				        </div>
+
+					</form>
+
+					<div class="row">
+						<div class="col s12 right-align">
+
+							<form method="post" action="/admin/post/delete/{{post.key.id()}}">
+								<button class="btn red darken-2">Delete</button>
+							</form>
+
+						</div>
+					</div>
+
+				{% else %}
+					<form action="/admin/progress" enctype="multipart/form-data" method="post">
+
+						<div class="row">
+				          <div class="col s12">
+				            <label for="title">Post Title</label>
+				                <input name="title" type="text" id="title"/>
+				          </div>
+				        </div>
+
+				        <div class="row">
+				          <div class="col s12">
+				            <label for="body">Post Body</label>
+				                <textarea name="body" id="body" class="materialize-textarea"></textarea>
+				          </div>
+				        </div>
+
+				        <div class="row">
+				          <div class="col s12">
+
+				            <div class="file-field input-field">
+						      	<div class="btn">
+							        <span>Image</span>
+							        <input type="file" name="image" accept="image/*">
+						      	</div>
+						      	<div class="file-path-wrapper">
+							        <input class="file-path validate" type="text">
+						      	</div>
+						    </div>
+
+						    <p>Post Image</p>
+
+				          </div>
+				        </div>
+
+				        <div class="row">
+				          <div class="col s12">
+				            <button class="btn">Save</button>
+				          </div>
+				        </div>
+
+					</form>
+				{% endif %}
+			</div>
+		</div>
+
+	</div>
+</div>
+
+{% if posts %}
+<div class="row">
+	<div class="col s12">
+		{% for post in posts %}
+			<div>
+				<p>{{post.title}} - <a href="/admin/progress?post_id={{post.key.id()}}">Edit</a></p>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+
+{% block script %}
+
+{% endblock %}
+
+
+

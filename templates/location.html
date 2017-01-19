@@ -1,0 +1,138 @@
+{% extends "index.html" %}
+
+{% block header %}
+<header>
+
+  <div class="navbar-fixed">
+    <!-- <nav>
+      <div class="nav-wrapper">
+        <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <span class="hide-on-small-only">Aan de Wijnlanden</span></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="/plans_prices">Prices & Plans</a></li>
+          <li class="active"><a href="/location">Location</a></li>
+          <li><a href="/information">Information</a></li>
+          <li><a href="/documentation">Documentation</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav> -->
+    <nav>
+    <div class="nav-wrapper">
+      <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <span class="hide-on-med-and-down">Aan de Wijnlanden</span></a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+          <li><a href="/plans_prices">Prices & Plans</a></li>
+          <li class="active"><a href="/location">Location</a></li>
+          <li><a href="/progress">Progress</a></li>
+          <li><a href="/information">Information</a></li>
+          <li><a href="/client_choices">Client Choices</a></li>
+          <li><a href="/documentation">Documentation</a></li>
+          <li><a href="/contact">Contact</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+          <li><a href="/plans_prices">Prices & Plans</a></li>
+          <li class="active"><a href="/location">Location</a></li>
+          <li><a href="/progress">Progress</a></li>
+          <li><a href="/information">Information</a></li>
+          <li><a href="/client_choices">Client Choices</a></li>
+          <li><a href="/documentation">Documentation</a></li>
+          <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+  </div>
+
+</header>
+{% endblock %}
+
+{% block main %}
+
+<div class="row container">
+	<div class="col s12 center">
+		<h2>{{content['location_intro'].title|check_none}}</h2><!-- Location & Surroundings -->
+		<p>	
+			{{content['location_intro'].text|check_none|safe}}<!-- Aan De Wijnlanden is situated at the gateway to the Stellenbosch Winelands and is the perfect place to etc... -->
+		</p>
+	</div>
+</div>
+
+<!-- <div class="row">
+	<div class="col s12 center">
+		<img src="/static/img/locality.jpg" style="max-height:500px;">
+		<p>
+			Some text about the above image...
+		</p>
+	</div> -->
+</div>
+
+<div class="row container spaced">
+	<div class="col s12 center card">
+		<div class="card-image">
+			<img src="{{content['locality'].image|check_none}}=s1000" class="responsive-img materialboxed">
+		</div>
+		<div class="card-content">
+			<h3>{{content['locality'].title|check_none}}</h3>
+			<p>	
+				{{content['locality'].text|check_none|safe}}
+			</p>
+		</div>
+	</div>
+</div>
+
+
+<div class="row container spaced">
+	<div class="col s12 center card">
+		<div class="card-image">
+			<img src="{{content['adwEstate'].image|check_none}}=s1000" class="responsive-img materialboxed">
+		</div>
+		<div class="card-content">
+			<h3>{{content['adwEstate'].title|check_none}}</h3>
+			<p>	
+				{{content['adwEstate'].text|check_none|safe}}
+			</p>
+		</div>
+	</div>
+</div>
+
+<div class="row container spaced">
+	<div class="col s12 center card">
+		<div class="card-image">
+			<img src="{{content['adwPhase1'].image|check_none}}=s1000" class="responsive-img materialboxed">
+		</div>
+		<div class="card-content">
+			<h3>{{content['adwPhase1'].title|check_none}}</h3>
+			<p>	
+				{{content['adwPhase1'].text|check_none|safe}}
+			</p>
+		</div>
+	</div>
+</div>
+
+<!-- <div class="row container spaced">
+	<div class="col s12 center">
+		<h3>Lifestyle Estate</h3>
+		<img src="/static/img/master_plan.jpg" class="responsive-img materialboxed">
+		<p>	
+			Some text about the above image...
+		</p>
+	</div>
+</div>
+
+<div class="row container spaced">
+	<div class="col s12 center">
+		<h3>Phase 1</h3>
+		<img src="/static/img/slider/slide_07.jpg" class="responsive-img materialboxed">
+		<p>	
+			Some text about the above image...
+		</p>
+	</div>
+</div> -->
+
+<div class="row">
+  <div class="col s12">
+    <div id="map"></div>
+  </div>
+</div>
+
+{% endblock %}
+

@@ -42,6 +42,11 @@ indexes:
   - name: created
     direction: desc
 
+- kind: Document
+  properties:
+  - name: isClientChoice
+  - name: order
+
 - kind: ImageGallery
   properties:
   - name: label

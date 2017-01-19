@@ -1,0 +1,39 @@
+{% extends "cms.html" %}
+
+{% block main %}
+
+<div class="row container">
+	<div class="col s12">
+
+	<h5>Table showing which erven were clicked the most</h5>
+	<p>The number of clicks is not unique per user, i.e. if 1 person clicks on 1 erf 100 times that will count as 100 clicks.</p>
+
+  	</div>
+</div>
+
+<div class="row container">
+	<div class="col s12">
+
+	<table>
+        <thead>
+          <tr>
+              <th data-field="erf">Erf</th>
+              <th data-field="clicks">Clicks</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for e in erf_clicks %}
+          <tr>
+            <td>Erf: {{e.erf_number}}</td>
+            <td>Clicks: {{e.clicks}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+  	</table>
+
+  	</div>
+</div>
+
+{% endblock %}
+

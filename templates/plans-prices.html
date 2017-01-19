@@ -1,10 +1,63 @@
 {% extends "index.html" %}
 
+{% block header %}
+<header>
+
+  <div class="navbar-fixed">
+    <!-- <nav>
+      <div class="nav-wrapper">
+        <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <span class="hide-on-small-only">Aan de Wijnlanden</span></a>
+        <ul class="right hide-on-med-and-down">
+          <li class="active"><a href="/plans_prices">Prices & Plans</a></li>
+          <li><a href="/location">Location</a></li>
+          <li><a href="/information">Information</a></li>
+          <li><a href="/documentation">Documentation</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav> -->
+    <nav>
+    <div class="nav-wrapper">
+      <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <span class="hide-on-med-and-down">Aan de Wijnlanden</span></a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+          <li class="active"><a href="/plans_prices">Prices & Plans</a></li>
+          <li><a href="/location">Location</a></li>
+          <li><a href="/progress">Progress</a></li>
+          <li><a href="/information">Information</a></li>
+          <li><a href="/client_choices">Client Choices</a></li>
+          <li><a href="/documentation">Documentation</a></li>
+          <li><a href="/contact">Contact</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+          <li class="active"><a href="/plans_prices">Prices & Plans</a></li>
+          <li><a href="/location">Location</a></li>
+          <li><a href="/progress">Progress</a></li>
+          <li><a href="/information">Information</a></li>
+          <li><a href="/client_choices">Client Choices</a></li>
+          <li><a href="/documentation">Documentation</a></li>
+          <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+  </div>
+
+</header>
+{% endblock %}
+
 {% block main %}
 
-	<div class="row">
+<div class="row container">
+		<div class="col s12 center">
+			<h2>Plans & Prices</h2>
+			<h5>Click on a stand to see the plan or use the table below</h5>
+		</div>
+	</div>
+
+	<div id="image-map-container-row" class="row hide-on-small-only">
 		<div class="col s12 image-map-container">
-			<img src="/static/img/cropped_plan.png" usemap="#erf-map" border="0" width="100%">
+			<i id="my_location" class="material-icons">my_location</i>
+			<img id="site_plan" src="/static/img/cropped_plan_edit.png" usemap="#erf-map" border="0" width="100%" onload="imageMapResize()">
 
 			<map id="erf-map" name="erf-map">
 				<area shape="circle" alt="1" title="1" coords="786,1748,28" href="1" target="" />
@@ -109,11 +162,101 @@
 				<area shape="circle" alt="100" title="" coords="2743,399,27" href="100" target="" />
 				<area shape="circle" alt="101" title="" coords="2646,168,32" href="101" target="" />
 				<area shape="circle" alt="102" title="" coords="2705,103,33" href="102" target="" />
-				<!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
 			</map>
+			<!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
 
 		</div>
 	</div>
+
+	<div class="row container">
+		<div class="col s12 center">
+			<h2>Stand and Package Prices</h2>
+			<p>or see an <a class="animate-scroll" href="#list_of_plans">overview of all plans</a></p>
+		</div>
+	</div>
+
+	<div class="row container">
+		<div class="col s12">
+
+			<table class="striped">
+		        <thead>
+		          <tr>
+		              <th data-field="erf_number">Stand Number</th>
+		              <th data-field="size">Stand Size</th>
+		              <th data-field="price">Stand Price</th>
+		              <th data-field="type">Plan Type</th>
+		              <th data-field="package_price">Total Package Price</th>
+		          </tr>
+		        </thead>
+
+		        <tbody>
+		          {% for e in erfs %}
+			          <tr class="erf-row" data-erf-number="{{e.erf_number|check_none}}">
+			            <td>{{e.erf_number|check_none}} {% if e.status %} - {{e.status}}{% endif %}</td>
+			            <td>
+			            	{{e.size|check_none}}
+			            </td>
+			            <td>
+			            	{{e.price|check_none}}
+			            </td>
+			            <td>
+			            	{% if e.plan_type %}
+			            		<!-- <a class="modal-trigger" href="#modal_{{e.plan_type.id()}}">{{e.plan_name|check_none}}</a> -->
+			            		<button data-target="modal_{{e.plan_type.id()}}" class="btn modal-trigger track-erf-click" data-erf-number="{{e.erf_number|check_none}}">{{e.plan_name|check_none}}</button>
+			            	{% else %}
+			            		-
+			            	{% endif %}
+			            </td>
+			            <td>
+			            	{{e.turnkey_price|check_none}}
+			            </td>
+			          </tr>
+		          {% endfor %}
+		        </tbody>
+		      </table>
+
+		</div>
+	</div>
+
+	<div id="list_of_plans" class="row center scrollspy">
+		<div class="col s12">
+			<h2>List of Available Plans</h2>
+		</div>
+	</div>
+
+	<div class="row container">
+		{% for p in plan_types %}
+			<div class="col s12 m6 l4">
+				<div class="card">
+					<div class="card-image">
+						<img src="{{p.image}}=s1000" class="materialboxed">
+					</div>
+					<div class="card-content">
+						<h5 class="truncate">{{p.name}}</h5>
+						<p class="truncate">{{p.description}}</p>
+					</div>
+					<div class="card-action center">
+						<a href="{{p.download_link}}" class="no-border" target="_blank"> <i class="fa fa-download"></i> Download</a>
+					</div>
+				</div>
+			</div>
+	  	{% endfor %}
+	</div>
+
+	{% for p in plan_types %}
+		<div id="modal_{{p.key.id()}}" class="modal modal-fixed-header">
+		    <div class="modal-content">
+		      <h4>{{p.name}}</h4>
+		      <p>{{p.description}}</p>
+		    </div>
+		    <div style="overflow-y:auto;" class="center">
+		    	<img src="{{p.image}}=s1500" class="responsive-img">
+		    </div>
+		    <div class="modal-footer">
+		      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+		    </div>
+	  	</div>
+  	{% endfor %}
 
 {% endblock %}
 
@@ -121,10 +264,110 @@
 {% block script %}
 	
 	<script type="text/javascript">
+		/* call iamge map resizer */
+		$(document).ready(function() {
+		    $('map').imageMapResize();
+		    $( 'map' ).trigger( "resize" );
+		    imageMapResize();
+		});
+		$('map').imageMapResize();
+	    $( 'map' ).trigger( "resize" );
+	    imageMapResize();
+
+
 		$("body").on("click", "area", function(e){
 			e.preventDefault();
-			alert($(this).attr("href"));
+			var erf_number = $(this).attr("href");
+			//alert($(this).attr("href"));
+			//$('#modal_4923613069180928').openModal();
+
+			function success(data){
+				console.log(data);
+				if( data["id"] ){
+					$('#modal_'+data["id"]).openModal();
+				};
+			};
+
+			$.ajax({
+				url: "/plan/erf/"+erf_number,
+				type: "get",
+				success: success
+			}).fail(function(){
+				console.log("fail...")
+			});
+
 		});
+
+		$("body").on("click", ".track-erf-click", function(){
+			var erf_number = $(this).data("erf-number");
+			function success(){
+				console.log("tracked click");
+			};
+
+			$.ajax({
+				url: "/erf/track/"+erf_number,
+				type: "get",
+				success: success
+			}).fail(function(){
+				console.log("fail...");
+			});
+		});
+
+		/*$(".animate-scroll").click(function(e) {
+			e.preventDefault();
+			var href = $(this).attr("href");
+			console.log(href);
+		    $('html, body').animate({
+		        scrollTop: $(href).offset().top
+		    }, 2000);
+		});*/
+
+		//3827 x 2138
+
+		/*$("body").on("click", ".erf-row", function(){
+			var erf_number = $(this).data("erf-number");
+			var coords = $("area[alt='"+erf_number+"']").attr("coords");
+
+			console.log(erf_number);
+			console.log(coords);
+
+			var image_width = $("#site_plan").width();
+			var image_height = $("#site_plan").height();
+
+			var y_fr = image_height / 2138;
+			var x_fr = image_width / 3827;
+
+			console.log("fr height: "+ image_height);
+
+
+			var top = coords.split(",")[0];
+			var left = coords.split(",")[1];
+
+			var fr_left = ( left * x_fr ) + 15;
+			var fr_top = ( top * y_fr + 15);
+
+			console.log("left ", left);
+			console.log(fr_left);
+			console.log("top ", top);
+			console.log(fr_top);
+
+			$("#my_location").css("left", fr_left+"px");
+			$("#my_location").css("bottom", fr_top+"px");
+
+
+			alert("coords: "+$("area[alt='"+erf_number+"']").attr("coords"));
+			//$('#modal1').openModal();
+		});*/
+
+		$(document).ready(function() {
+		    $('map').imageMapResize();
+		    $( 'map' ).trigger( "resize" );
+		    imageMapResize();
+		});
+		$('map').imageMapResize();
+	    $( 'map' ).trigger( "resize" );
+	    imageMapResize();
+
 	</script>
 
 {% endblock %}

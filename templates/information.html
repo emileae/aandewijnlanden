@@ -1,0 +1,206 @@
+{% extends "index.html" %}
+
+{% block header %}
+<header>
+
+  <div class="navbar-fixed">
+    <!-- <nav>
+      <div class="nav-wrapper">
+        <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <span class="hide-on-small-only">Aan de Wijnlanden</span></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="/plans_prices">Prices & Plans</a></li>
+          <li><a href="/location">Location</a></li>
+          <li class="active"><a href="/information">Information</a></li>
+          <li><a href="/documentation">Documentation</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav> -->
+    <nav>
+    <div class="nav-wrapper">
+      <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <span class="hide-on-med-and-down">Aan de Wijnlanden</span></a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+          <li><a href="/plans_prices">Prices & Plans</a></li>
+          <li><a href="/location">Location</a></li>
+          <li class="active"><a href="/information">Information</a></li>
+          <li><a href="/client_choices">Client Choices</a></li>
+          <li><a href="/documentation">Documentation</a></li>
+          <li><a href="/contact">Contact</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+          <li><a href="/plans_prices">Prices & Plans</a></li>
+          <li><a href="/location">Location</a></li>
+          <li class="active"><a href="/information">Information</a></li>
+          <li><a href="/client_choices">Client Choices</a></li>
+          <li><a href="/documentation">Documentation</a></li>
+          <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+  </div>
+
+</header>
+{% endblock %}
+
+{% block main %}
+
+<div class="row container spaced">
+	<div class="col s12 center">
+		<h2>Investment Calculator</h2>
+	</div>
+</div>
+
+<div class="row container spaced">
+	<div class="col s12">
+		<form method="post" action="#">
+			<div class="row">
+				<div class="col s12">
+					<label>Unit Purchase Price</label>
+					<input id="pp" type="text" name="name"class="calc" value="" placeholder="Unit Purchase Price" />
+					<p id="pp_error"></p>
+				</div>
+			</div>
+			<!-- <div class="row">
+				<div class="col s12">
+					<label>Unit Size (m<sup>2</sup>)</label>
+					<input id="us" type="text" name="name" class="calc" value="250" placeholder="Unit Size (m^2)" />
+					<p id="us_error"></p>
+				</div>
+			</div> -->
+			<div class="row">
+				<div class="col s12">
+					<label>Gross Monthly Rental</label>
+					<input id="ri" type="text" name="name" class="calc" value="" placeholder="Gross Monthly Rental Income" />
+					<p id="ri_error"></p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div id="rates" class="col s12">
+					Monthly Rates: R <span id="rate_span"></span>
+				</div>
+				<div id="levy" class="col s12">
+					Monthly Levy R <span id="levy_span">1000</span>
+				</div>
+				<div id="net_rent" class="col s12">
+					Net Rent Available: R <span id="net_r"></span>
+				</div>
+
+				<div id="yield" class="col s12">
+					<u>Initial annual yield on purchase price:</u> <span id="init_yield" style="font-size: 2em"></span> <span style="font-size: 2em">%</span>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col s12">
+					<input type="reset" value="Reset" class="btn" />
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="row container spaced">
+	<div class="col s12 center">
+		<h2>General Information</h2>
+	</div>
+</div>
+
+<div class="row container spaced">
+	<div class="col s12 m12 center">
+		{% for i in informations %}
+			<div class="card">
+				{% if i.image %}
+					<div class="card-image">
+						<img src="{{i.image}}=s1500" class="responsive-img materialboxed">
+					</div>
+				{% endif %}
+				<div class="card-content">
+					<h4>{{i.name}}</h4>
+					<p>{{i.description|safe}}</p>
+				</div>
+				<div class="card-action">
+					<a href="{{i.download_link}}" class="no-border" target="_blank"> <i class="fa fa-download"></i> Download</a>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript">
+	$("body").on("keyup", ".calc", function(){
+
+		var pp = $("#pp");
+		var us = $("#us");
+		var ri = $("#ri");
+
+		var pp_error = $("#pp_error");
+		var us_error = $("#us_error");
+		var ri_error = $("#ri_error");
+
+		pp_error.html("");
+		us_error.html("");
+		ri_error.html("");
+
+		var pp_v = parseInt(pp.val());
+		var us_v = parseInt(us.val());
+		var ri_v = parseInt(ri.val());
+
+		//var net_rent = ri_v - 516 - 583;
+		//var yield = parseFloat(100 * ((net_rent * 12) / pp_v));
+		//$("#init_yield").html(yield.toFixed(2));
+
+		if ( !parseFloat(pp.val()) ){
+			pp_error.html("please enter a Purchase Price");
+		};
+		if ( !parseFloat(us.val()) ){
+			us_error.html("please enter a Unit size");
+		};
+		if ( !parseFloat(ri.val()) ){
+			ri_error.html("please enter an expected Rental");
+		};
+
+		var monthly_rate = 0;
+		var levy = 1000;
+
+		if ( parseFloat(pp.val()) ){
+
+			var monthly_rate_a = ( pp_v - 200000 );
+			var monthly_rate = ( monthly_rate_a * 0.006879 ) /12;
+
+		};
+
+		// variable levy
+		/*if ( parseFloat(us.val()) ){
+
+			levy = us_v * 9.08;
+
+		};*/
+
+		$("#rate_span").html(parseFloat(monthly_rate).toFixed(2));
+		$("#levy_span").html(parseFloat(levy).toFixed(2));
+
+		var net_rent = ri_v - monthly_rate - levy;
+		//$("#net_r").html(net_rent);
+		$("#net_r").html(parseFloat(net_rent).toFixed(2));
+
+		if ( parseFloat(pp.val()) && parseFloat(ri.val()) ){
+
+			var yield = parseFloat(100 * ((net_rent * 12) / pp_v));
+			$("#init_yield").html(yield.toFixed(2));
+
+		};
+
+	});
+</script>
+
+{% endblock %}
+
+
+
+

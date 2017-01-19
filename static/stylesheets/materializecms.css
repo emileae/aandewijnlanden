@@ -8308,7 +8308,7 @@ a {
 /* line 5, ../sass/components/_typography.scss */
 html {
   line-height: 1.5;
-  font-family: "Open Sans Condensed", sans-serif;
+  font-family: "Open Sans", sans-serif;
   letter-spacing: 2px;
   font-weight: normal;
   /*color: $off-black;*/
@@ -8791,7 +8791,7 @@ small {
 }
 /* line 123, ../sass/components/_cards.scss */
 .card .card-action a {
-  color: #ffab40;
+  color: #0057db;
   margin-right: 20px;
   -webkit-transition: color 0.3s ease;
   -moz-transition: color 0.3s ease;
@@ -9040,7 +9040,7 @@ small {
 .btn, .btn-large {
   text-decoration: none;
   color: #FFF;
-  background-color: #EF5350;
+  background-color: #0057db;
   text-align: center;
   letter-spacing: .5px;
   -webkit-transition: 0.2s ease-out;
@@ -9052,7 +9052,7 @@ small {
 }
 /* line 50, ../sass/components/_buttons.scss */
 .btn:hover, .btn-large:hover {
-  background-color: #f16a67;
+  background-color: #0061f4;
 }
 
 /* line 57, ../sass/components/_buttons.scss */
@@ -9066,7 +9066,7 @@ small {
   height: 37px;
   line-height: 37px;
   padding: 0;
-  background-color: #EF5350;
+  background-color: #0057db;
   border-radius: 50%;
   transition: .3s;
   cursor: pointer;
@@ -9329,8 +9329,8 @@ a.waves-effect .waves-ripple {
   right: 0;
   background-color: #fafafa;
   padding: 0;
-  max-height: 70%;
-  width: 55%;
+  max-height: 80%;
+  width: 75%;
   margin: auto;
   overflow-y: auto;
   z-index: 1000;
@@ -9573,7 +9573,7 @@ select:focus {
 /* line 5, ../sass/components/_form.scss */
 button:focus {
   outline: none;
-  background-color: #f16563;
+  background-color: #005fef;
 }
 
 /* line 10, ../sass/components/_form.scss */

@@ -1,0 +1,272 @@
+{% extends "cms.html" %}
+
+
+{% block main %}
+<div class="row">
+  <div class="col s12">
+    <h2>Location</h2>
+  </div>
+</div>
+
+
+<div class="row">
+
+  <ul class="collapsible col s12" data-collapsible="accordion">
+
+      <li>
+        <div class="collapsible-header center">Introduction</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['location_intro'].title|check_none}}">
+                <label for="title">Column Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['location_intro'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            {% if content['location_intro'] %}
+              <input type="hidden" name="content_id" value="{{content['location_intro'].key.id()}}">
+            {% endif %}
+            <input type="hidden" name="label" value="location_intro">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+
+      <li>
+        <div class="collapsible-header center">Locality</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['locality'].title|check_none}}">
+                <label for="title">Column Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['locality'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="col s12">
+                Image
+              </div>
+            </div>
+
+             <div class="col s12">
+                {% if content['locality'].image %}
+                  <div class="center">
+                    <img src="{{content['locality'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text">
+                </div>
+              </div>
+            </div>
+
+            {% if content['locality'] %}
+              <input type="hidden" name="content_id" value="{{content['locality'].key.id()}}">
+            {% endif %}
+            <input type="hidden" name="label" value="locality">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <li>
+        <div class="collapsible-header center">ADW Estate</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['adwEstate'].title|check_none}}">
+                <label for="title">Column Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['adwEstate'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="col s12">
+                Image
+              </div>
+            </div>
+
+             <div class="col s12">
+                {% if content['adwEstate'].image %}
+                  <div class="center">
+                    <img src="{{content['adwEstate'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text">
+                </div>
+              </div>
+            </div>
+
+            {% if content['adwEstate'] %}
+              <input type="hidden" name="content_id" value="{{content['adwEstate'].key.id()}}">
+            {% endif %}
+            <input type="hidden" name="label" value="adwEstate">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+      <li>
+        <div class="collapsible-header center">ADW Phase 1</div>
+        <div class="collapsible-body">
+          <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="title" type="text" name="title" class="validate" value="{{content['adwPhase1'].title|check_none}}">
+                <label for="title">Column Title</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="input-field col s12">
+                <textarea id="text" name="text" class="materialize-textarea">{{content['adwPhase1'].text|check_none}}</textarea>
+                <label for="text">Text</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 3rem;">
+              <div class="col s12">
+                Image
+              </div>
+            </div>
+
+             <div class="col s12">
+                {% if content['adwPhase1'].image %}
+                  <div class="center">
+                    <img src="{{content['adwPhase1'].image}}" style="max-height: 200px;">
+                  </div>
+                {% endif %}
+                <div class="file-field input-field">
+                <div class="btn">
+                  <span>File</span>
+                  <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text">
+                </div>
+              </div>
+            </div>
+
+            {% if content['adwPhase1'] %}
+              <input type="hidden" name="content_id" value="{{content['adwPhase1'].key.id()}}">
+            {% endif %}
+            <input type="hidden" name="label" value="adwPhase1">
+
+            <div class="row">
+              <div class="input-field col s12">
+                <button class="btn">
+                  <div class="loader-icon hide transition">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <div class="loader-success hide transition">
+                    <i class="fa fa-check icon-green"></i>
+                  </div>
+                  <div class="loader-error hide transition">
+                    <i class="fa fa-exclamation icon-red"></i>
+                  </div>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </li>
+
+  </ul>
+
+</div>
+
+
+{% endblock %}
+

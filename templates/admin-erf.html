@@ -4,6 +4,12 @@
 
 <div class="row">
 	<div class="col s12">
+		<h2>Erven / Prices</h2>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col s12">
 
 		<table>
         <thead>
@@ -11,46 +17,106 @@
               <th data-field="erf_number">Stand Number</th>
               <th data-field="size">Size</th>
               <th data-field="price">Price</th>
+              <th data-field="turn-key-price">Package Price</th>
               <th data-field="type">Type</th>
+              <th data-field="status">Status</th>
           </tr>
         </thead>
 
         <tbody>
           {% for e in erfs %}
-          <form method="post" action="/admin/erf/{{e.key.id()}}" name="multipleForm">
-	          <tr>
+	          <tr data-action="/admin/erf/{{e.key.id()}}" data-changed="no" data-id="{{e.key.id()}}" class="tr-form form-{{e.key.id()}}">
 	            <td>{{e.erf_number}}</td>
 	            <td>
 	            	<!-- {{e.size}} -->
 	            	<div class="input-field">
-			          <input placeholder="eg. 200" type="number" class="validate" name="size" value="{{e.size|check_none}}">
+			          <input id="size_{{e.key.id()}}" placeholder="eg. 200" type="number" class="erf-input validate" name="size" value="{{e.size|check_none}}">
 			        </div>
 	            </td>
 	            <td>
 	            	<!-- {{e.price}} -->
 	            	<div class="input-field">
-			          <input placeholder="eg. 1250000" type="number" class="validate" name="price" value="{{e.price|check_none}}">
+			          <input  id="price_{{e.key.id()}}" placeholder="eg. 1250000" type="number" class="erf-input validate" name="price" value="{{e.price|check_none}}">
+			        </div>
+	            </td>
+	            <td>
+	            	<!-- {{e.turnkey_price}} -->
+	            	<div class="input-field">
+			          <input  id="turnkey_price_{{e.key.id()}}" placeholder="eg. 1250000" type="number" class="erf-input validate" name="turnkey_price" value="{{e.turnkey_price|check_none}}">
 			        </div>
 	            </td>
 	            <td>
 	            	<!-- {{e.plan_type}} -->
-	            	<div class="input-field">
+	            	<!-- <div class="input-field">
 			          <input placeholder="eg. A" type="text" class="validate" name="plan_type" value="{{e.plan_type|check_none}}">
+			        </div> -->
+			        <div class="input-field col s12">
+					    <select  id="plan_type_{{e.key.id()}}" name="plan_type" class="erf-input">
+					      <option value="" disabled selected>Choose</option>
+					      {% if e.plan_type %}
+					      	<option value="{{e.plan_type.get().key.id()}}" selected>Plan {{e.plan_type.get().name}}</option>
+					      {% endif %}
+					      {% for p in plans %}
+					      	<option value="{{p.key.id()}}">Plan {{p.name}}</option>
+					      {% endfor %}
+					    </select>
+					    <label>Plan Type</label>
+				  	</div>
+	            </td>
+
+	            <td>
+	            	<!-- {{e.status}} -->
+	            	<div class="input-field">
+			          	<p id="status_{{e.key.id()}}">
+		          			{% if e.status == 'available' %}
+			          			<input name="status_{{e.key.id()}}" type="radio" id="available_{{e.key.id()}}" class="erf-input" value="available" checked="checked"/>
+						      	<label for="available_{{e.key.id()}}">Available</label>
+		          			{% else %}
+						      	<input name="status_{{e.key.id()}}" type="radio" id="available_{{e.key.id()}}" class="erf-input" value="available" />
+						      	<label for="available_{{e.key.id()}}">Available</label>
+					      	{% endif %}
+					      	<br>
+					      	{% if e.status == 'reserved' %}
+			          			<input name="status_{{e.key.id()}}" type="radio" id="reserved_{{e.key.id()}}" class="erf-input" value="reserved" checked="checked"/>
+					      		<label for="reserved_{{e.key.id()}}">Reserved</label>
+		          			{% else %}
+						      	<input name="status_{{e.key.id()}}" type="radio" id="reserved_{{e.key.id()}}" class="erf-input" value="reserved" />
+					      		<label for="reserved_{{e.key.id()}}">Reserved</label>
+					      	{% endif %}
+					      	<br>
+					      	{% if e.status == 'sold' %}
+			          			<input name="status_{{e.key.id()}}" type="radio" id="sold_{{e.key.id()}}" class="erf-input" value="sold" checked="checked"/>
+					      		<label for="sold_{{e.key.id()}}">Sold</label>
+		          			{% else %}
+						      	<input name="status_{{e.key.id()}}" type="radio" id="sold_{{e.key.id()}}" class="erf-input" value="sold" />
+					      		<label for="sold_{{e.key.id()}}">Sold</label>
+					      	{% endif %}
+					    </p>
 			        </div>
 	            </td>
 	          </tr>
-	      </form>
           {% endfor %}
         </tbody>
       </table>
 
       <div class="row">
       	<div class="col s12 center">
-      		<button id="multipleFormSubmit" class="btn">Save All</button>
+      		<button class="btn multipleFormSubmit">Save All</button>
       	</div>
       </div>
 
 	</div>
+</div>
+
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+  <a class="btn-floating btn-large red multipleFormSubmit">
+    <i class="loader-icon hide fa fa-spinner fa-spin"></i>
+    <i class="normal-icon large material-icons">save</i>
+  </a>
+  <!-- <ul>
+    <li><a class="btn-floating red lighten-1"><i class="material-icons">phone</i></i></a></li>
+    <li><a class="btn-floating red lighten-1"><i class="material-icons">email</i></a></li>
+  </ul> -->
 </div>
 
 {% endblock %}
@@ -60,18 +126,76 @@
 
 <script type="text/javascript">
 	
-	$("body").on("click", "#multipleFormSubmit", function(){
+// can play around with adding a "has_changed" flag so that unnecessary writes are avoided
+
+	$("body").on("click", ".erf-input", function(){
+		$(this).closest("tr").data("changed", "yes");
+		//alert($(this).closest("tr").data("changed"));
+	});
+
+	$("body").on("click", ".multipleFormSubmit", function(){
+
+		$(".loader-icon").removeClass("hide");
+		$(".normal-icon").addClass("hide");
+
+		//var count = 1;
+		$('tr.tr-form').each(function () {
+	        var $form = $(this);
+
+	        var changed = $form.data("changed");
+
+	        if ( changed == "yes" ){
+	        	var id = $form.data("id");
+
+		        var size = $("#size_"+id).val();
+		        var price = $("#price_"+id).val();
+		        var turnkey_price = $("#turnkey_price_"+id).val();
+		        var plan_type = $("#plan_type_"+id).val();
+		        /*var status = $("#status_"+id+" input[type='radio']:checked").val();*/
+		        var status = $("input[type='radio'][name='status_"+id+"']:checked").val();
+
+		        $.post($form.data("action"), {"plan_type": plan_type, "price": price, "size": size, "turnkey_price": turnkey_price, "status":status}, function () {
+		        	$(".loader-icon").addClass("hide");
+					$(".normal-icon").removeClass("hide");
+		        	/*count += 1;
+		        	if ( count >= 103 ){
+		        		$(".loader-icon").addClass("hide");
+						$(".normal-icon").removeClass("hide");
+		        	};*/
+		            //console.log("Form "+count+" posted");
+		        });
+	        };
+	    });
+
+	});
+
+
+	/*$("body").on("click", ".multipleFormSubmit", function(){
+
+		$(".loader-icon").removeClass("hide");
+		$(".normal-icon").addClass("hide");
 
 		var count = 1;
 		$('form[name="multipleForm"]').each(function () {
 	        var $form = $(this);
-	        $.post($form.attr("action"), $form.serialize(), function () {
+
+	        var id = $form.data("id");
+
+	        var size = $("#size_"+id).val()
+	        var price = $("#price_"+id).val()
+	        var plan_type = $("#plan_type_"+id).val()
+
+	        $.post($form.attr("action"), {"plan_type": plan_type, "price": price, "size": size}, function () {
 	        	count += 1;
-	            console.log("Form "+count+" posted");
+	        	if ( count >= 103 ){
+	        		$(".loader-icon").addClass("hide");
+					$(".normal-icon").removeClass("hide");
+	        	};
+	            //console.log("Form "+count+" posted");
 	        });
 	    });
 
-	});
+	});*/
 </script>
 
 {% endblock %}

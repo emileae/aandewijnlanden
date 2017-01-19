@@ -113,6 +113,10 @@ def save_gcs_to_audio(gcs_filename):
     audio.put()
     return audio
 
+def save_gcs_to_file(gcs_filename, content_type, filename):
+    file_obj = model.File(gcs_filename=gcs_filename, content_type=content_type, filename=filename, download_link="http://storage.googleapis.com%s" % gcs_filename[3:])
+    file_obj.put()
+    return file_obj
 
 def delete_media(gcs_filename):
     images.delete_serving_url(blobstore.create_gs_key(gcs_filename))
@@ -124,7 +128,12 @@ def delete_from_gcs(gcs_filename):
         images.delete_serving_url(blobstore.create_gs_key(gcs_filename))
         gcs.delete(gcs_filename[3:])
 
+def delete_file_from_gcs(gcs_filename):
+    if gcs_filename:
+        gcs.delete(gcs_filename[3:])
+
 def save_to_gcs(file_obj):
+    logging.error(" . . . . . . . .  trying to save file...")
     serving_url = ''#just assign it adn reassign later
 
     time_stamp = int(time.time())
@@ -137,7 +146,7 @@ def save_to_gcs(file_obj):
     # audio/mpeg
     # image/jpeg
 
-    gcs_file = gcs.open(fname, 'w', content_type="image/jpeg")
+    gcs_file = gcs.open(fname, 'w', content_type="image/*")
     gcs_file.write(file_obj)
     gcs_file.close()
 
@@ -150,6 +159,32 @@ def save_to_gcs(file_obj):
 
     return media_obj
 
+def save_file_to_gcs(file_req):
+
+    logging.error(" . . . . . .  in save to gcs")
+    logging.error(file_req)
+
+    filename = file_req.filename
+    content_type = file_req.type
+    file_data = file_req.value
+
+    time_stamp = int(time.time())
+    app_id = app_identity.get_application_id()
+
+    fname = '/%s.appspot.com/file_%s%s' % (app_id, time_stamp, filename)
+
+    if content_type:
+        gcs_file = gcs.open(fname, 'w', content_type=content_type)
+    else:
+        gcs_file = gcs.open(fname, 'w')# reverts to default "binary/octet-stream"
+    gcs_file.write(file_data)
+    gcs_file.close()
+
+    gcs_filename = "/gs%s" % fname
+    file_obj = save_gcs_to_file(gcs_filename, content_type, filename)
+
+    return file_obj
+
 def upload_image(image):
     media_obj = save_to_gcs(image)
 
@@ -161,11 +196,35 @@ def upload_image(image):
 
     return json_obj
 
+# ==================================
+#  Ordering
+# ==================================
 
+def order_documents(order):
+    #not doing anything here yet...s
+    return True
+
+# ==================================
+#  Aan de Wijnlanden
+# ==================================
+
+def track_erf_click(erf_number):
+    try:
+        erf_number = int(erf_number)
+        erf_click = model.ErfClick.query(model.ErfClick.erf_number == erf_number).get()
+        if erf_click:
+            erf_click.clicks += 1
+            erf_click.put()
+        else:
+            erf_click = model.ErfClick(erf_number = erf_number, clicks=1)
+            erf_click.put()
+    except:
+        logging.error("erf click tracking... no dice.")
 
 # ==================================
 #  CMS utils
 # ==================================
+
 
 def save_content(request):
     label = request.get("label")
@@ -258,20 +317,79 @@ def save_list_content(request):
     content_id = request.get("content_id")
 
     titles = request.get_all("title")
+    l_titles = len(titles)
     subtitles = request.get_all("subtitle")
+    l_subtitles = len(subtitles)
     texts = request.get_all("text")
+    l_texts = len(texts)
     images = request.get_all("image")
+    l_images = len(images)
     phones = request.get_all("phone")
+    l_phones = len(phones)
     emails = request.get_all("email")
+    l_emails = len(emails)
     contact_names = request.get_all("contact_name")
+    l_contact_names = len(contact_names)
     address_1s = request.get_all("address_1")
+    l_address_1s = len(address_1s)
     address_2s = request.get_all("address_2")
+    l_address_2s = len(address_2s)
     address_3s = request.get_all("address_3")
+    l_address_3s = len(address_3s)
 
     cta_texts = request.get_all("cta_text")
+    l_cta_texts = len(cta_texts)
     cta_links = request.get_all("cta_link")
+    l_cta_links = len(cta_links)
+
+    # list_index = request.get("list_index")
+
+    length_of_lists = [ l_titles, l_subtitles, l_texts, l_images, l_phones, l_emails, l_contact_names, l_address_1s, l_address_2s, l_address_3s, l_cta_texts, l_cta_links ]
+
+    max_length = max(length_of_lists)
+
+    logging.error("content_id . .  . . . . .")
+    logging.error(content_id)
 
     if content_id:
+
+        # if list_index:
+        #     content = model.Content.get_by_id(int(content_id))
+        #     content.titles[list_index] = titles
+        #     content.subtitles[list_index] = subtitles
+        #     content.texts[list_index] = texts
+        #     content.label = label
+
+        #     content.cta_texts[list_index] = cta_texts
+        #     content.cta_links[list_index] = cta_links
+
+        #     content.phones[list_index] = phones
+        #     content.emails[list_index] = emails
+        #     content.contact_names[list_index] = contact_names
+        #     content.address_1s[list_index] = address_1s
+        #     content.address_2s[list_index] = address_2s
+        #     content.address_3s[list_index] = address_3s
+
+        #     content.num_items = max_length
+
+        #     if len(content.images) == len(images):
+        #         for idx, image in enumerate(images):
+        #             if image:
+        #                 time.sleep(1)
+        #                 # new iamge
+        #                 new_media_obj = save_to_gcs(image)
+
+        #                 #old image
+        #                 old_media_id = content.media_ids[idx]
+        #                 if len(old_media_id) > 0:
+        #                     old_media_obj = model.Media.get_by_id(int(old_media_id))
+        #                     if old_media_obj:
+        #                         delete_from_gcs(old_media_obj.gcs_filename)
+        #                         old_media_obj.key.delete()
+
+        #                 content.images[idx] = new_media_obj.serving_url
+        #                 content.media_ids[idx] = str( new_media_obj.key.id() )
+        # else:
         content = model.Content.get_by_id(int(content_id))
         content.titles = titles
         content.subtitles = subtitles
@@ -287,6 +405,8 @@ def save_list_content(request):
         content.address_1s = address_1s
         content.address_2s = address_2s
         content.address_3s = address_3s
+
+        content.num_items = max_length
 
         if len(content.images) == len(images):
             for idx, image in enumerate(images):
@@ -335,7 +455,8 @@ def save_list_content(request):
             images=image_list, 
             media_ids=media_id_list,
             cta_links=cta_links,
-            cta_texts=cta_texts
+            cta_texts=cta_texts,
+            num_items=max_length
             )
         content.put()
 
