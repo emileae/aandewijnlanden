@@ -3,16 +3,16 @@ import utils
 
 def users_key(group='default'):
     return ndb.Key('users', group)
-    
+
 class User(ndb.Model):
     name = ndb.StringProperty()
     email = ndb.StringProperty()
     pw_hash = ndb.StringProperty()
-    
+
     @classmethod
     def by_id(cls, uid):
         return cls.get_by_id(uid, parent = users_key())
-    
+
     @classmethod
     def login(cls, email, pw):
         u = cls.by_email(email)
@@ -20,13 +20,23 @@ class User(ndb.Model):
             name = u.name
         if u and utils.valid_pw(name, pw, u.pw_hash):
             return u
-            
+
     @classmethod
     def by_email(cls, email):
         u = User.query(User.email == email).get()
         return u
 
 class Erf(ndb.Model):
+    erf_number = ndb.IntegerProperty()
+    price = ndb.IntegerProperty()
+    turnkey_price = ndb.IntegerProperty()
+    size = ndb.IntegerProperty()
+    plan_type = ndb.KeyProperty(kind="PlanType")
+    plan_name = ndb.StringProperty()
+    status = ndb.StringProperty(default="available")
+    created = ndb.DateTimeProperty(auto_now_add=True)
+
+class ErfP2(ndb.Model):
     erf_number = ndb.IntegerProperty()
     price = ndb.IntegerProperty()
     turnkey_price = ndb.IntegerProperty()
@@ -69,6 +79,17 @@ class Document(ndb.Model):
 
 class PlanType(ndb.Model):
     name = ndb.StringProperty()
+    image = ndb.StringProperty()
+    media_obj = ndb.KeyProperty(kind="Media")
+    file_key = ndb.KeyProperty(kind="File")
+    download_link = ndb.StringProperty()
+    description = ndb.TextProperty()
+    approved = ndb.BooleanProperty(default=True)
+    created = ndb.DateTimeProperty(auto_now_add=True)
+
+class PlanTypeP2(ndb.Model):
+    name = ndb.StringProperty()
+    price = ndb.IntegerProperty()
     image = ndb.StringProperty()
     media_obj = ndb.KeyProperty(kind="Media")
     file_key = ndb.KeyProperty(kind="File")
@@ -202,9 +223,3 @@ class File(ndb.Model):
     content_type = ndb.StringProperty(default = None)
     download_link = ndb.StringProperty()
     created = ndb.DateTimeProperty(auto_now_add=True)
-
-
-    
-    
-
-    

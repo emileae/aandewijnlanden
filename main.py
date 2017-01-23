@@ -77,18 +77,18 @@ jinja_env.filters['get_val'] = get_val
 
 class MainHandler(webapp2.RequestHandler):
 
-#TEMPLATE FUNCTIONS    
+#TEMPLATE FUNCTIONS
     def write(self, *a, **kw):
         self.response.headers['Host'] = 'localhost'
         self.response.headers['Content-Type'] = 'text/html'
         self.response.out.write(*a, **kw)
-        
+
     def render_str(self, template, **params):
         params['user'] = self.user
         #params['buyer'] = self.buyer
         t = jinja_env.get_template(template)
         return t.render(params)
-        
+
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
 
@@ -98,37 +98,37 @@ class MainHandler(webapp2.RequestHandler):
         self.response.headers['Host'] = 'localhost'
         self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.out.write(json.dumps(obj))
-   
+
     #COOKIE FUNCTIONS
-    # sets a cookie in the header with name, val , Set-Cookie and the Path---not blog    
+    # sets a cookie in the header with name, val , Set-Cookie and the Path---not blog
     def set_secure_cookie(self, name, val):
         cookie_val = utils.make_secure_val(val)
         self.response.headers.add_header('Set-Cookie', '%s=%s; Path=/' % (name, cookie_val))# consider imcluding an expire time in cookie(now it closes with browser), see docs
-    # reads the cookie from the request and then checks to see if its true/secure(fits our hmac)    
+    # reads the cookie from the request and then checks to see if its true/secure(fits our hmac)
     def read_secure_cookie(self, name):
         cookie_val = self.request.cookies.get(name)
         if cookie_val:
             cookie_val = urllib.unquote(cookie_val)
         return cookie_val and utils.check_secure_val(cookie_val)
-    
+
     def login(self, user):
         self.set_secure_cookie('nic_estappspotcom', str(user.key.id()))
 
     def logout(self):
         self.response.headers.add_header('Set-Cookie', 'nic_estappspotcom=; Path=/')
-    
+
     def initialize(self, *a, **kw):
         webapp2.RequestHandler.initialize(self, *a, **kw)
         uid = self.read_secure_cookie('nic_estappspotcom')
 
         self.user = uid and model.User.by_id(int(uid))
-        
-        
-        
+
+
+
 # ==============================
 # Client Facing
 # ==============================
-        
+
 class Home(MainHandler):
     def get(self):
         contacts = model.Contact.query().order(-model.Contact.created).fetch()
@@ -284,7 +284,7 @@ class PlanForErf(MainHandler):
 class TrackErfClick(MainHandler):
     def get(self, erf_number):
         utils.track_erf_click(erf_number)
-        
+
 
 class Contact(MainHandler):
     def get(self):
@@ -500,6 +500,21 @@ class AdminErf(MainHandler):
 
         self.render('admin-erf.html', erfs=erfs, plans=plans)
 
+class AdminErfP2(MainHandler):
+    def get(self):
+
+        erfs = model.ErfP2.query().order(model.ErfP2.erf_number).fetch()
+        plans = model.PlanTypeP2.query().order(model.PlanTypeP2.name).fetch()
+
+        if not erfs:
+            for i in range(1,10):
+                e = model.ErfP2(erf_number=i)
+                e.put()
+
+            erfs = model.ErfP2.query().order(model.ErfP2.erf_number).fetch()
+
+        self.render('admin-erf.html', erfs=erfs, plans=plans, phase2=True)
+
 class AdminSaveErf(MainHandler):
     def post(self, erf_id):
         erf = model.Erf.get_by_id(int(erf_id))
@@ -668,6 +683,97 @@ class AdminPlanTypes(MainHandler):
 
         self.redirect("/admin/plan_types")
 
+class AdminPlanTypesP2(MainHandler):
+    def get(self):
+
+        plan_id = self.request.get("plan_id")
+
+        plans = model.PlanTypeP2.query().order(model.PlanTypeP2.name).fetch()
+
+        if plan_id:
+            plan = model.PlanTypeP2.get_by_id(int(plan_id))
+        else:
+            plan = None
+
+        self.render("admin-plan-types.html", plans=plans, plan=plan, phase2=True)
+
+    def post(self):
+        image = self.request.get("image")
+        pdf = self.request.get("pdf")
+        file_req = self.request.POST["file"]
+
+        name = self.request.get("name")
+        price = int(self.request.get("price"))
+        description = self.request.get("description")
+        plan_id = self.request.get("plan_id")
+        content_type = self.request.get("content_type")
+
+        if plan_id:
+            plan = model.PlanTypeP2.get_by_id(int(plan_id))
+
+            plan.name = name
+            plan.price = price
+            plan.description = description
+            if image and plan.image:
+                utils.delete_from_gcs(plan.media_obj.get().gcs_filename)
+                plan.media_obj.delete()
+
+                media_obj = utils.save_to_gcs(image)
+                plan.image = media_obj.serving_url
+
+            # if pdf and plan.file_key:
+            #     utils.delete_file_from_gcs(plan.file_media_key.get().gcs_filename)
+            #     plan.file_media_key.delete()
+
+            #     file_media_obj = utils.save_file_to_gcs(pdf, content_type)
+            #     plan.file_media_key = file_media_obj.key
+            try:
+                if file_req.value and plan.file_key:
+                    utils.delete_file_from_gcs(plan.file_key.get().gcs_filename)
+                    plan.file_key.delete()
+
+                    file_obj = utils.save_file_to_gcs(file_req)
+                    plan.file_key = file_obj.key
+                    plan.download_link = file_obj.download_link
+                else:
+                    file_obj = utils.save_file_to_gcs(file_req)
+                    plan.file_key = file_obj.key
+                    plan.download_link = file_obj.download_link
+            except:
+                logging.error("something happened error-wise with the file upload for an existing file")
+
+
+            plan.put()
+
+        else:
+            logging.error("hello? again?")
+            if image:
+                media_obj = utils.save_to_gcs(image)
+                media_key = media_obj.key
+                serving_url = media_obj.serving_url
+            else:
+                serving_url = None
+                media_key = None
+
+            try:
+                if file_req.value:
+                    logging.error("hello?")
+                    file_obj = utils.save_file_to_gcs(file_req)
+                    file_key = file_obj.key
+                    download_link = file_obj.download_link
+                else:
+                    file_key = None
+                    download_link = None
+            except:
+                logging.error("something happened error-wise with the file upload for a new file")
+                file_key = None
+                download_link = None
+
+            plan = model.PlanTypeP2(name=name, price=price, description=description, image=serving_url, media_obj=media_key, file_key=file_key, download_link=download_link)
+            plan.put()
+
+        self.redirect("/admin/p2/plan_types")
+
 class AdminErfClicks(MainHandler):
     def get(self):
         erf_clicks = model.ErfClick.query().order(-model.ErfClick.clicks).fetch()
@@ -760,7 +866,7 @@ class AdminInformation(MainHandler):
 #             utils.delete_file_from_gcs(plan.file_key.get().gcs_filename)
 #         if plan.media_obj:
 #             utils.delete_from_gcs(plan.media_obj.get().gcs_filename)
-        
+
 #         plan.key.delete()
 #         self.redirect("/admin/plan_types")
 
@@ -1015,11 +1121,13 @@ app = webapp2.WSGIApplication([
     ('/admin/documentation', AdminDocumentation),
     ('/client_contact', ContactForm),
     ('/admin/erf', AdminErf),
+    ('/admin/p2/erf', AdminErfP2),
     ('/admin/erf/(\w+)', AdminSaveErf),
     ('/admin/client_contacts', AdminClientContacts),
     ('/admin/contacted_client', AdminContactedClient),
     ('/admin/approved_client', AdminApprovedClient),
     ('/admin/plan_types', AdminPlanTypes),
+    ('/admin/p2/plan_types', AdminPlanTypesP2),
     ('/admin/erf_clicks', AdminErfClicks),
     ('/admin/information', AdminInformation),
     # ('/admin/plan/delete/(\w+)', AdminDeletePlan),
