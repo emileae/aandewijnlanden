@@ -1,10 +1,8 @@
 {% extends "cms.html" %}
 
-<!-- {% block head %}
-	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js"></script>
-{% endblock %} -->
+{% block head %}
+	<!-- <link rel="stylesheet" href="/static/js/multiple-select/multiple-select.css"> -->
+{% endblock %}
 
 {% block main %}
 
@@ -23,7 +21,11 @@
               <th data-field="erf_number">Stand Number</th>
               <th data-field="size">Size</th>
               <th data-field="price">Price</th>
-              <th data-field="turn-key-price">Package Price</th>
+							{% if phase2 %}
+								<!-- No package price -->
+							{% else %}
+              	<th data-field="turn-key-price">Package Price</th>
+							{% endif %}
               <th data-field="type">Type</th>
               <th data-field="status">Status</th>
           </tr>
@@ -49,48 +51,61 @@
 			          <input  id="price_{{e.key.id()}}" placeholder="eg. 1250000" type="number" class="erf-input validate" name="price" value="{{e.price|check_none}}">
 			        </div>
 	            </td>
-	            <td>
-	            	<!-- {{e.turnkey_price}} -->
-	            	<div class="input-field">
-			          <input  id="turnkey_price_{{e.key.id()}}" placeholder="eg. 1250000" type="number" class="erf-input validate" name="turnkey_price" value="{{e.turnkey_price|check_none}}">
-			        </div>
-	            </td>
+							{% if phase2 %}
+								<!-- No package price for phase 2 -->
+							{% else %}
+		            <td>
+		            	<!-- {{e.turnkey_price}} -->
+		            	<div class="input-field">
+				          <input  id="turnkey_price_{{e.key.id()}}" placeholder="eg. 1250000" type="number" class="erf-input validate" name="turnkey_price" value="{{e.turnkey_price|check_none}}">
+				        </div>
+		            </td>
+							{% endif %}
 	            <td>
 	            	<!-- {{e.plan_type}} -->
 	            	<!-- <div class="input-field">
 			          <input placeholder="eg. A" type="text" class="validate" name="plan_type" value="{{e.plan_type|check_none}}">
 			        </div> -->
-			        <div class="input-field col s12">
 								{% if phase2 %}
-							    <select multiple>
-							      <option value="" disabled selected>Choose your option</option>
-							      <option value="1">Option 1</option>
-							      <option value="2">Option 2</option>
-							      <option value="3">Option 3</option>
-							    </select>
-								<!-- <select  id="plan_type_{{e.key.id()}}" name="plan_types" class="erf-input" multiple>
-									<option value="" disabled selected>Choose</option>
-									{% for p in plans %}
-										{% if p.key.id() in e.plan_ids %}
-											<option value="{{p.key.id()}}" selected>Plan {{p.name}}</option>
-										{% else %}
-											<option value="{{p.key.id()}}">Plan {{p.name}}</option>
-										{% endif %}
-									{% endfor %}
-								</select> -->
+									<div class="col s12">
+
+										<a class='dropdown-button btn erf-input' href='#' data-activates='dropdown-{{e.key.id()}}' data-stoppropagation="true">Choose</a>
+										<!-- Dropdown Structure -->
+									  <ul id='dropdown-{{e.key.id()}}' class='dropdown-content'>
+
+											{% for p in plans %}
+												{% if p.key.id() in e.plan_ids %}
+												<li>
+													<a href="#!">
+														<input type="checkbox" name="plan_types" id="plan_type_{{p.key.id()}}_{{e.key.id()}}" class="erf-input plan_type_{{e.key.id()}}" value="{{p.key.id()}}" checked="checked"/>
+														<label for="plan_type_{{p.key.id()}}_{{e.key.id()}}">{{p.name}}</label>
+													</a>
+												</li>
+												{% else %}
+												<li>
+													<a href="#!" class="erf-input">
+														<input type="checkbox" name="plan_types" id="plan_type_{{p.key.id()}}_{{e.key.id()}}" class="erf-input plan_type_{{e.key.id()}}" value="{{p.key.id()}}" />
+														<label for="plan_type_{{p.key.id()}}_{{e.key.id()}}">{{p.name}}</label>
+													</a>
+												</li>
+												{% endif %}
+											{% endfor %}
+									  </ul>
+									</div>
 								{% else %}
-							    <select  id="plan_type_{{e.key.id()}}" name="plan_type" class="erf-input">
-							      <option value="" disabled selected>Choose</option>
-							      {% if e.plan_type %}
-							      	<option value="{{e.plan_type.get().key.id()}}" selected>Plan {{e.plan_type.get().name}}</option>
-							      {% endif %}
-							      {% for p in plans %}
-							      	<option value="{{p.key.id()}}">Plan {{p.name}}</option>
-							      {% endfor %}
-							    </select>
+								  <div class="input-field col s12">
+								    <select  id="plan_type_{{e.key.id()}}" name="plan_type" class="erf-input">
+								      <option value="" disabled selected>Choose</option>
+								      {% if e.plan_type %}
+								      	<option value="{{e.plan_type.get().key.id()}}" selected>Plan {{e.plan_type.get().name}}</option>
+								      {% endif %}
+								      {% for p in plans %}
+								      	<option value="{{p.key.id()}}">Plan {{p.name}}</option>
+								      {% endfor %}
+								    </select>
+										<label>Plan Type</label>
+						  		</div>
 								{% endif %}
-					    <label>Plan Type</label>
-				  	</div>
 	            </td>
 
 	            <td>
@@ -164,6 +179,8 @@
 
 	$("body").on("click", ".multipleFormSubmit", function(){
 
+		console.log("ola");
+
 		$(".loader-icon").removeClass("hide");
 		$(".normal-icon").addClass("hide");
 
@@ -180,54 +197,36 @@
 		        var price = $("#price_"+id).val();
 		        var turnkey_price = $("#turnkey_price_"+id).val();
 		        var plan_type = $("#plan_type_"+id).val();
-						console.log("plan_type: " + plan_type);
+						// phase 2
+						var plan_type_checkboxes = $(".plan_type_"+id);
+						var plan_ids = [];
+						for(var i=0; i< plan_type_checkboxes.length; i++){
+							if($(plan_type_checkboxes[i]).is(":checked")){
+								plan_ids.push($(plan_type_checkboxes[i]).val());
+							}
+						}
+						plan_ids = plan_ids.join();
 		        /*var status = $("#status_"+id+" input[type='radio']:checked").val();*/
 		        var status = $("input[type='radio'][name='status_"+id+"']:checked").val();
 
 
 						// double plan_type inputs here one for Phase 1 ->single value and another for Phase 2 -> array
-		        $.post($form.data("action"), {"plan_type": plan_type, "plan_types": plan_type, "price": price, "size": size, "turnkey_price": turnkey_price, "status":status}, function () {
+		        $.post($form.data("action"), {"plan_ids": plan_ids, "plan_type": plan_type, "price": price, "size": size, "turnkey_price": turnkey_price, "status":status}, function () {
 		        	$(".loader-icon").addClass("hide");
 							$(".normal-icon").removeClass("hide");
-		        	/*count += 1;
-		        	if ( count >= 103 ){
-		        		$(".loader-icon").addClass("hide");
-						$(".normal-icon").removeClass("hide");
-		        	};*/
-		            //console.log("Form "+count+" posted");
 		        });
 	        };
 	    });
 
 	});
 
+</script>
 
-	/*$("body").on("click", ".multipleFormSubmit", function(){
-
-		$(".loader-icon").removeClass("hide");
-		$(".normal-icon").addClass("hide");
-
-		var count = 1;
-		$('form[name="multipleForm"]').each(function () {
-	        var $form = $(this);
-
-	        var id = $form.data("id");
-
-	        var size = $("#size_"+id).val()
-	        var price = $("#price_"+id).val()
-	        var plan_type = $("#plan_type_"+id).val()
-
-	        $.post($form.attr("action"), {"plan_type": plan_type, "price": price, "size": size}, function () {
-	        	count += 1;
-	        	if ( count >= 103 ){
-	        		$(".loader-icon").addClass("hide");
-					$(".normal-icon").removeClass("hide");
-	        	};
-	            //console.log("Form "+count+" posted");
-	        });
-	    });
-
-	});*/
+<!-- Prevent dropdown form closing on click -->
+<script>
+$('.dropdown-content').on('click', function(event) {
+  event.stopPropagation();
+});
 </script>
 
 {% endblock %}

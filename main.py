@@ -574,14 +574,19 @@ class AdminSaveErfP2(MainHandler):
     def post(self, erf_id):
         erf = model.ErfP2.get_by_id(int(erf_id))
 
-        plan_types = self.request.get_all("plan_types")
+        plan_ids = self.request.get("plan_ids")
+
         size = self.request.get("size")
         price = self.request.get("price")
         turnkey_price = self.request.get("turnkey_price")
         status = self.request.get("status")
 
-        logging.error("plan_types......")
-        logging.error(plan_types)
+        logging.error("plan_ids......")
+        logging.error(plan_ids)
+
+        plan_ids = plan_ids.split(",")
+        logging.error("plan_ids, list?")
+        logging.error(plan_ids)
 
         if size:
             try:
@@ -601,18 +606,19 @@ class AdminSaveErfP2(MainHandler):
         if status:
             erf.status = status
 
-        if plan_types:
+        if len(plan_ids) > 0:
             plan_keys = []
-            plan_ids = []
+            new_plan_ids = []
             plan_names = []
-            for plan_id in plan_types:
-                plan_obj = model.PlanTypeP2.get_by_id(int(plan_type))
+            for plan_id in plan_ids:
+                plan_obj = model.PlanTypeP2.get_by_id(int(plan_id))
                 plan_keys.append(plan_obj.key)
-                plan_ids.append(plan_obj.key.id())
                 plan_names.append(plan_obj.name)
+                new_plan_ids.append(int(plan_id))
+                logging.error(" - - - - " + plan_obj.name)
 
             erf.plan_types = plan_keys
-            erf.plan_ids = plan_ids
+            erf.plan_ids = new_plan_ids
             erf.plan_names = plan_names
 
         erf.put()
