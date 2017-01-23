@@ -18,10 +18,10 @@
     </nav> -->
     <nav>
     <div class="nav-wrapper">
-      <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <span class="hide-on-med-and-down">Aan de Wijnlanden</span></a>
+      <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <!--<span class="hide-on-med-and-down">Aan de Wijnlanden</span>--></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-          <li class="active"><a href="/plans_prices">Prices & Plans</a></li>
+          <li class="active"><a href="/p2/plans_prices">Prices & Plans</a></li>
           <li><a href="/location">Location</a></li>
           <li><a href="/progress">Progress</a></li>
           <li><a href="/information">Information</a></li>
@@ -30,7 +30,7 @@
           <li><a href="/contact">Contact</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
-          <li class="active"><a href="/plans_prices">Prices & Plans</a></li>
+          <li class="active"><a href="/p2/plans_prices">Prices & Plans</a></li>
           <li><a href="/location">Location</a></li>
           <li><a href="/progress">Progress</a></li>
           <li><a href="/information">Information</a></li>
@@ -171,7 +171,11 @@
 	<div class="row container">
 		<div class="col s12 center">
 			<h2>Stand and Package Prices</h2>
-			<p>or see an <a class="animate-scroll" href="#list_of_plans">overview of all plans</a></p>
+      {% if phase2 %}
+        <p>Click on an erf to view a list of plans that have been custom designed to suit each erf.</p>
+      {% else %}
+			   <p>or see an <a class="animate-scroll" href="#list_of_plans">overview of all plans</a></p>
+      {% endif %}
 		</div>
 	</div>
 
@@ -184,8 +188,11 @@
 		              <th data-field="erf_number">Stand Number</th>
 		              <th data-field="size">Stand Size</th>
 		              <th data-field="price">Stand Price</th>
-		              <th data-field="type">Plan Type</th>
-		              <th data-field="package_price">Total Package Price</th>
+		              <th data-field="view_plans"></th>
+                  {% if phase2 %}
+                  {% else %}
+		                <th data-field="package_price">Total Package Price</th>
+                  {% endif %}
 		          </tr>
 		        </thead>
 
@@ -199,17 +206,23 @@
 			            <td>
 			            	{{e.price|check_none}}
 			            </td>
-			            <td>
-			            	{% if e.plan_type %}
-			            		<!-- <a class="modal-trigger" href="#modal_{{e.plan_type.id()}}">{{e.plan_name|check_none}}</a> -->
-			            		<button data-target="modal_{{e.plan_type.id()}}" class="btn modal-trigger track-erf-click" data-erf-number="{{e.erf_number|check_none}}">{{e.plan_name|check_none}}</button>
-			            	{% else %}
-			            		-
-			            	{% endif %}
-			            </td>
-			            <td>
-			            	{{e.turnkey_price|check_none}}
-			            </td>
+                  {% if phase2 %}
+                    <td>
+                      <a class="btn" href="/p2/erf/{{e.key.id()}}">View Plans</a>
+                    </td>
+                  {% else %}
+  			            <td>
+  			            	{% if e.plan_type %}
+  			            		<!-- <a class="modal-trigger" href="#modal_{{e.plan_type.id()}}">{{e.plan_name|check_none}}</a> -->
+  			            		<button data-target="modal_{{e.plan_type.id()}}" class="btn modal-trigger track-erf-click" data-erf-number="{{e.erf_number|check_none}}">{{e.plan_name|check_none}}</button>
+  			            	{% else %}
+  			            		-
+  			            	{% endif %}
+  			            </td>
+  			            <td>
+  			            	{{e.turnkey_price|check_none}}
+  			            </td>
+                  {% endif %}
 			          </tr>
 		          {% endfor %}
 		        </tbody>
@@ -262,7 +275,7 @@
 
 
 {% block script %}
-	
+
 	<script type="text/javascript">
 		/* call iamge map resizer */
 		$(document).ready(function() {
@@ -371,13 +384,3 @@
 	</script>
 
 {% endblock %}
-
-
-
-
-
-
-
-
-
-

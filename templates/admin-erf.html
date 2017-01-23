@@ -1,5 +1,11 @@
 {% extends "cms.html" %}
 
+<!-- {% block head %}
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js"></script>
+{% endblock %} -->
+
 {% block main %}
 
 <div class="row">
@@ -25,7 +31,11 @@
 
         <tbody>
           {% for e in erfs %}
-	          <tr data-action="/admin/erf/{{e.key.id()}}" data-changed="no" data-id="{{e.key.id()}}" class="tr-form form-{{e.key.id()}}">
+						{% if phase2 %}
+							<tr data-action="/admin/p2/erf/{{e.key.id()}}" data-changed="no" data-id="{{e.key.id()}}" class="tr-form form-{{e.key.id()}}">
+						{% else %}
+	          	<tr data-action="/admin/erf/{{e.key.id()}}" data-changed="no" data-id="{{e.key.id()}}" class="tr-form form-{{e.key.id()}}">
+						{% endif %}
 	            <td>{{e.erf_number}}</td>
 	            <td>
 	            	<!-- {{e.size}} -->
@@ -51,15 +61,34 @@
 			          <input placeholder="eg. A" type="text" class="validate" name="plan_type" value="{{e.plan_type|check_none}}">
 			        </div> -->
 			        <div class="input-field col s12">
-					    <select  id="plan_type_{{e.key.id()}}" name="plan_type" class="erf-input">
-					      <option value="" disabled selected>Choose</option>
-					      {% if e.plan_type %}
-					      	<option value="{{e.plan_type.get().key.id()}}" selected>Plan {{e.plan_type.get().name}}</option>
-					      {% endif %}
-					      {% for p in plans %}
-					      	<option value="{{p.key.id()}}">Plan {{p.name}}</option>
-					      {% endfor %}
-					    </select>
+								{% if phase2 %}
+							    <select multiple>
+							      <option value="" disabled selected>Choose your option</option>
+							      <option value="1">Option 1</option>
+							      <option value="2">Option 2</option>
+							      <option value="3">Option 3</option>
+							    </select>
+								<!-- <select  id="plan_type_{{e.key.id()}}" name="plan_types" class="erf-input" multiple>
+									<option value="" disabled selected>Choose</option>
+									{% for p in plans %}
+										{% if p.key.id() in e.plan_ids %}
+											<option value="{{p.key.id()}}" selected>Plan {{p.name}}</option>
+										{% else %}
+											<option value="{{p.key.id()}}">Plan {{p.name}}</option>
+										{% endif %}
+									{% endfor %}
+								</select> -->
+								{% else %}
+							    <select  id="plan_type_{{e.key.id()}}" name="plan_type" class="erf-input">
+							      <option value="" disabled selected>Choose</option>
+							      {% if e.plan_type %}
+							      	<option value="{{e.plan_type.get().key.id()}}" selected>Plan {{e.plan_type.get().name}}</option>
+							      {% endif %}
+							      {% for p in plans %}
+							      	<option value="{{p.key.id()}}">Plan {{p.name}}</option>
+							      {% endfor %}
+							    </select>
+								{% endif %}
 					    <label>Plan Type</label>
 				  	</div>
 	            </td>
@@ -151,12 +180,15 @@
 		        var price = $("#price_"+id).val();
 		        var turnkey_price = $("#turnkey_price_"+id).val();
 		        var plan_type = $("#plan_type_"+id).val();
+						console.log("plan_type: " + plan_type);
 		        /*var status = $("#status_"+id+" input[type='radio']:checked").val();*/
 		        var status = $("input[type='radio'][name='status_"+id+"']:checked").val();
 
-		        $.post($form.data("action"), {"plan_type": plan_type, "price": price, "size": size, "turnkey_price": turnkey_price, "status":status}, function () {
+
+						// double plan_type inputs here one for Phase 1 ->single value and another for Phase 2 -> array
+		        $.post($form.data("action"), {"plan_type": plan_type, "plan_types": plan_type, "price": price, "size": size, "turnkey_price": turnkey_price, "status":status}, function () {
 		        	$(".loader-icon").addClass("hide");
-					$(".normal-icon").removeClass("hide");
+							$(".normal-icon").removeClass("hide");
 		        	/*count += 1;
 		        	if ( count >= 103 ){
 		        		$(".loader-icon").addClass("hide");

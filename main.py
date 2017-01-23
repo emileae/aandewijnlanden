@@ -152,6 +152,21 @@ class PlansPrices(MainHandler):
 
         self.render("plans-prices.html", erfs=erfs, plan_types=plan_types, contacts=contacts)
 
+class PlansPricesP2(MainHandler):
+    def get(self):
+        contacts = model.Contact.query().order(-model.Contact.created).fetch()
+        plan_types = model.PlanTypeP2.query().order(model.PlanTypeP2.name).fetch()
+        erfs = model.ErfP2.query().order(model.ErfP2.erf_number).fetch()
+
+        self.render("plans-prices.html", erfs=erfs, plan_types=plan_types, contacts=contacts, phase2=True)
+
+# TODO
+# finish this class it is supposed to display plan options for a particular erf
+class ErfPlansP2(MainHandler):
+    def get(self, erfID):
+        erf = model.ErfP2.get_by_id(int(erfID))
+        logging.error("DISPLAY THE PLANS FOR AN ERF....");
+
 class Location(MainHandler):
     def get(self):
         contacts = model.Contact.query().order(-model.Contact.created).fetch()
@@ -547,6 +562,58 @@ class AdminSaveErf(MainHandler):
             plan_obj = model.PlanType.get_by_id(int(plan_type))
             erf.plan_type = plan_obj.key
             erf.plan_name = plan_obj.name
+
+        erf.put()
+
+        self.render_json({
+            "message": "success",
+            "erf_id": erf_id
+            })
+
+class AdminSaveErfP2(MainHandler):
+    def post(self, erf_id):
+        erf = model.ErfP2.get_by_id(int(erf_id))
+
+        plan_types = self.request.get_all("plan_types")
+        size = self.request.get("size")
+        price = self.request.get("price")
+        turnkey_price = self.request.get("turnkey_price")
+        status = self.request.get("status")
+
+        logging.error("plan_types......")
+        logging.error(plan_types)
+
+        if size:
+            try:
+                erf.size = int(size)
+            except:
+                logging.error("size - probably int error for %s" % erf_id)
+        if price:
+            try:
+                erf.price = int(price)
+            except:
+                logging.error("price - probably int error for %s" % erf_id)
+        if turnkey_price:
+            try:
+                erf.turnkey_price = int(turnkey_price)
+            except:
+                logging.error("turnkey_price - probably int error for %s" % erf_id)
+        if status:
+            erf.status = status
+
+        if plan_types:
+            plan_keys = []
+            plan_ids = []
+            plan_names = []
+            for plan_id in plan_types:
+                plan_obj = model.PlanTypeP2.get_by_id(int(plan_type))
+                plan_keys.append(plan_obj.key)
+                plan_ids.append(plan_obj.key.id())
+                plan_names.append(plan_obj.name)
+
+            erf.plan_types = plan_keys
+            erf.plan_ids = plan_ids
+            erf.plan_names = plan_names
 
         erf.put()
 
@@ -1097,6 +1164,8 @@ class TestAjax(MainHandler):
 app = webapp2.WSGIApplication([
     ('/', Home),
     ('/plans_prices', PlansPrices),
+    ('/p2/plans_prices', PlansPricesP2),
+    ('/p2/erf/(\w+)', ErfPlansP2),
     ('/location', Location),
     ('/progress', Progress),
     ('/information', Information),
@@ -1123,6 +1192,7 @@ app = webapp2.WSGIApplication([
     ('/admin/erf', AdminErf),
     ('/admin/p2/erf', AdminErfP2),
     ('/admin/erf/(\w+)', AdminSaveErf),
+    ('/admin/p2/erf/(\w+)', AdminSaveErfP2),
     ('/admin/client_contacts', AdminClientContacts),
     ('/admin/contacted_client', AdminContactedClient),
     ('/admin/approved_client', AdminApprovedClient),

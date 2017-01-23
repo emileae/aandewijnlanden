@@ -41,8 +41,9 @@ class ErfP2(ndb.Model):
     price = ndb.IntegerProperty()
     turnkey_price = ndb.IntegerProperty()
     size = ndb.IntegerProperty()
-    plan_type = ndb.KeyProperty(kind="PlanType")
-    plan_name = ndb.StringProperty()
+    plan_types = ndb.KeyProperty(kind="PlanType", repeated=True)
+    plan_ids = ndb.IntegerProperty(repeated=True)
+    plan_names = ndb.StringProperty(repeated=True)
     status = ndb.StringProperty(default="available")
     created = ndb.DateTimeProperty(auto_now_add=True)
 
