@@ -9,21 +9,21 @@
       <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <span class="hide-on-med-and-down">Aan de Wijnlanden</span></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-          <li><a href="/plans_prices">Prices & Plans</a></li>
+          <li><a href="/p2/plans_prices">Prices & Plans</a></li>
           <li><a href="/location">Location</a></li>
-          <li  class="active"><a href="/progress">Progress</a></li>
-          <li><a href="/information">Information</a></li>
+          <li  class="active"><a href="/p2/progress">Progress</a></li>
+          <!-- <li><a href="/information">Information</a></li>
           <li><a href="/client_choices">Client Choices</a></li>
-          <li><a href="/documentation">Documentation</a></li>
+          <li><a href="/documentation">Documentation</a></li> -->
           <li><a href="/contact">Contact</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
-          <li><a href="/plans_prices">Prices & Plans</a></li>
+          <li><a href="/p2/plans_prices">Prices & Plans</a></li>
           <li><a href="/location">Location</a></li>
-          <li  class="active"><a href="/progress">Progress</a></li>
-          <li><a href="/information">Information</a></li>
+          <li  class="active"><a href="/p2/progress">Progress</a></li>
+          <!-- <li><a href="/information">Information</a></li>
           <li><a href="/client_choices">Client Choices</a></li>
-          <li class="active"><a href="/documentation">Documentation</a></li>
+          <li class="active"><a href="/documentation">Documentation</a></li> -->
           <li><a href="/contact">Contact</a></li>
       </ul>
     </div>
@@ -38,9 +38,14 @@
 <div class="row container">
 	<div class="col s12 ">
 		<h2>Development Progress</h2>
-		<p>	
-			Follow along with Aan De Wijnlanden's progress.
+		<p>
+			Follow along with <u>Aan De Wijnlanden Phase 2's</u> progress.
 		</p>
+    {% if phase2 %}
+    <p>
+      <a class="btn" href="/progress" target="_blank">Phase 1 Progress</a>
+    </p>
+    {% endif %}
 	</div>
 </div>
 
@@ -71,7 +76,7 @@
 
   <div class="row container center">
     <div class="col s12">
-      <p>Progress reports coming soon...</p>
+      <p>Progress reports for Aan De Wijnlanden Phase 2 coming soon...</p>
     </div>
   </div>
 
@@ -80,10 +85,9 @@
 {% if next_curs %}
   <div class="row">
     <div class="col s12">
-      <a href="/progress?cursor={{next_curs}}">Read more</a>
+      <a href="/p2/progress?cursor={{next_curs}}">Read more</a>
     </div>
   </div>
 {% endif %}
 
 {% endblock %}
-

@@ -116,6 +116,13 @@ class Progress(ndb.Model):
     file_key = ndb.KeyProperty(kind="Media")
     created = ndb.DateTimeProperty(auto_now_add=True)
 
+class ProgressP2(ndb.Model):
+    title = ndb.StringProperty()
+    body = ndb.TextProperty()
+    image_url = ndb.StringProperty()
+    file_key = ndb.KeyProperty(kind="Media")
+    created = ndb.DateTimeProperty(auto_now_add=True)
+
 # ============================
 # CMS --> should be along these lines
 # ============================

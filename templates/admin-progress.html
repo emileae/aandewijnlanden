@@ -3,7 +3,7 @@
 {% block main %}
 <div class="row">
 	<div class="col s12">
-		<h2>Progress</h2>
+		<h2>Progress {% if phase2 %}- Phase 2{% else %}- Phase 1{% endif %}</h2>
 	</div>
 </div>
 
@@ -13,7 +13,11 @@
 		<div class="row">
 			<div class="col s12">
 				{% if post %}
-					<form action="/admin/progress" enctype="multipart/form-data" method="post">
+					{% if phase2 %}
+						<form action="/admin/p2/progress" enctype="multipart/form-data" method="post">
+					{% else %}
+						<form action="/admin/progress" enctype="multipart/form-data" method="post">
+					{% endif %}
 
 						<div class="row">
 				          <div class="col s12">
@@ -74,7 +78,11 @@
 					</div>
 
 				{% else %}
-					<form action="/admin/progress" enctype="multipart/form-data" method="post">
+					{% if phase2 %}
+						<form action="/admin/p2/progress" enctype="multipart/form-data" method="post">
+					{% else %}
+						<form action="/admin/progress" enctype="multipart/form-data" method="post">
+					{% endif %}
 
 						<div class="row">
 				          <div class="col s12">
@@ -127,7 +135,11 @@
 	<div class="col s12">
 		{% for post in posts %}
 			<div>
-				<p>{{post.title}} - <a href="/admin/progress?post_id={{post.key.id()}}">Edit</a></p>
+				{% if phase2 %}
+					<p>{{post.title}} - <a href="/admin/p2/progress?post_id={{post.key.id()}}">Edit</a></p>
+				{% else %}
+					<p>{{post.title}} - <a href="/admin/progress?post_id={{post.key.id()}}">Edit</a></p>
+				{% endif %}
 			</div>
 		{% endfor %}
 	</div>
@@ -140,6 +152,3 @@
 {% block script %}
 
 {% endblock %}
-
-
-

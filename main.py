@@ -55,6 +55,10 @@ def check_none(value):
         return ""
 jinja_env.filters['check_none'] = check_none
 
+def jinjaAdd(value1, value2):
+    return value1 + value2
+jinja_env.filters['jinjaAdd'] = jinjaAdd
+
 def format_phone(value):
     value = re.sub('[^0-9]','', value)
     return value
@@ -167,6 +171,12 @@ class ErfPlansP2(MainHandler):
         erf = model.ErfP2.get_by_id(int(erfID))
         logging.error("DISPLAY THE PLANS FOR AN ERF....");
 
+        plans = []
+        for plan in erf.plan_types:
+            plans.append(plan.get())
+
+        self.render("erf-plans.html", erf=erf, plans=plans, phase2=True)
+
 class Location(MainHandler):
     def get(self):
         contacts = model.Contact.query().order(-model.Contact.created).fetch()
@@ -192,6 +202,17 @@ class Progress(MainHandler):
             next_curs = False
 
         self.render("progress.html", posts=posts, next_curs=next_curs)
+
+class ProgressP2(MainHandler):
+    def get(self):
+        curs = Cursor(urlsafe=self.request.get('cursor'))
+        posts, next_curs, more = model.ProgressP2.query().order(-model.ProgressP2.created).fetch_page(20, start_cursor=curs)
+        if more and next_curs:
+            next_curs = next_curs.urlsafe()
+        else:
+            next_curs = False
+
+        self.render("progress.html", posts=posts, next_curs=next_curs, phase2=True)
 
 class Information(MainHandler):
     def get(self):
@@ -403,6 +424,70 @@ class AdminProgress(MainHandler):
             post.put()
 
         self.redirect("/admin/progress")
+
+class AdminProgressP2(MainHandler):
+    def get(self):
+        post_id = self.request.get("post_id")
+        posts = model.ProgressP2.query().fetch()
+        if post_id:
+            post = model.ProgressP2.get_by_id(int(post_id))
+        else:
+            post = None
+        self.render("admin-progress.html", post=post, posts=posts, phase2=True)
+
+    def post(self):
+        #file_req = self.request.POST["file"]
+        image = self.request.get("image")
+        title = self.request.get("title")
+        body = self.request.get("body")
+        post_id = self.request.get("post_id")
+
+        if post_id:
+            post = model.ProgressP2.get_by_id(int(post_id))
+
+            post.title = title
+            post.body = body
+            try:
+                #if file_req.value and post.file_key:
+                if image and post.file_key:
+                    utils.delete_file_from_gcs(post.file_key.get().gcs_filename)
+                    post.file_key.delete()
+
+                    #file_obj = utils.save_to_gcs(file_req)
+                    file_obj = utils.save_to_gcs(image)
+                    post.file_key = file_obj.key
+                    post.image_url = file_obj.serving_url
+                else:
+                    #file_obj = utils.save_to_gcs(file_req)
+                    file_obj = utils.save_to_gcs(image)
+                    post.file_key = file_obj.key
+                    post.image_url = file_obj.serving_url
+            except:
+                logging.error("something happened error-wise with the file upload for an existing file")
+
+
+            post.put()
+
+        else:
+            #try:
+            #if file_req.value:
+            if image:
+                #file_obj = utils.save_to_gcs(file_req)
+                file_obj = utils.save_to_gcs(image)
+                file_key = file_obj.key
+                image_url = file_obj.serving_url
+            else:
+                file_key = None
+                image_url = None
+            # except:
+            #     logging.error("something happened error-wise with the file upload for a new file")
+            #     file_key = None
+            #     image_url = None
+
+            post = model.ProgressP2(title=title, body=body, file_key=file_key, image_url=image_url)
+            post.put()
+
+        self.redirect("/admin/p2/progress")
 
 class AdminInformation(MainHandler):
     pass
@@ -1174,6 +1259,7 @@ app = webapp2.WSGIApplication([
     ('/p2/erf/(\w+)', ErfPlansP2),
     ('/location', Location),
     ('/progress', Progress),
+    ('/p2/progress', ProgressP2),
     ('/information', Information),
     ('/client_choices', ClientChoices),
     ('/documentation', Documentation),
@@ -1193,6 +1279,7 @@ app = webapp2.WSGIApplication([
     ('/admin/location', AdminLocation),
     ('/admin/information', AdminInformation),
     ('/admin/progress', AdminProgress),
+    ('/admin/p2/progress', AdminProgressP2),
     ('/admin/documentation', AdminDocumentation),
     ('/client_contact', ContactForm),
     ('/admin/erf', AdminErf),

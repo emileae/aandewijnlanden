@@ -21,21 +21,21 @@
       <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <span class="hide-on-med-and-down">Aan de Wijnlanden</span></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-          <li><a href="/plans_prices">Prices & Plans</a></li>
+          <li><a href="/p2/plans_prices">Prices & Plans</a></li>
           <li class="active"><a href="/location">Location</a></li>
-          <li><a href="/progress">Progress</a></li>
-          <li><a href="/information">Information</a></li>
+          <li><a href="/p2/progress">Progress</a></li>
+          <!-- <li><a href="/information">Information</a></li>
           <li><a href="/client_choices">Client Choices</a></li>
-          <li><a href="/documentation">Documentation</a></li>
+          <li><a href="/documentation">Documentation</a></li> -->
           <li><a href="/contact">Contact</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
-          <li><a href="/plans_prices">Prices & Plans</a></li>
+          <li><a href="/p2/plans_prices">Prices & Plans</a></li>
           <li class="active"><a href="/location">Location</a></li>
-          <li><a href="/progress">Progress</a></li>
-          <li><a href="/information">Information</a></li>
+          <li><a href="/p2/progress">Progress</a></li>
+          <!-- <li><a href="/information">Information</a></li>
           <li><a href="/client_choices">Client Choices</a></li>
-          <li><a href="/documentation">Documentation</a></li>
+          <li><a href="/documentation">Documentation</a></li> -->
           <li><a href="/contact">Contact</a></li>
       </ul>
     </div>
@@ -50,7 +50,7 @@
 <div class="row container">
 	<div class="col s12 center">
 		<h2>{{content['location_intro'].title|check_none}}</h2><!-- Location & Surroundings -->
-		<p>	
+		<p>
 			{{content['location_intro'].text|check_none|safe}}<!-- Aan De Wijnlanden is situated at the gateway to the Stellenbosch Winelands and is the perfect place to etc... -->
 		</p>
 	</div>
@@ -72,7 +72,7 @@
 		</div>
 		<div class="card-content">
 			<h3>{{content['locality'].title|check_none}}</h3>
-			<p>	
+			<p>
 				{{content['locality'].text|check_none|safe}}
 			</p>
 		</div>
@@ -87,7 +87,7 @@
 		</div>
 		<div class="card-content">
 			<h3>{{content['adwEstate'].title|check_none}}</h3>
-			<p>	
+			<p>
 				{{content['adwEstate'].text|check_none|safe}}
 			</p>
 		</div>
@@ -101,7 +101,7 @@
 		</div>
 		<div class="card-content">
 			<h3>{{content['adwPhase1'].title|check_none}}</h3>
-			<p>	
+			<p>
 				{{content['adwPhase1'].text|check_none|safe}}
 			</p>
 		</div>
@@ -112,7 +112,7 @@
 	<div class="col s12 center">
 		<h3>Lifestyle Estate</h3>
 		<img src="/static/img/master_plan.jpg" class="responsive-img materialboxed">
-		<p>	
+		<p>
 			Some text about the above image...
 		</p>
 	</div>
@@ -122,7 +122,7 @@
 	<div class="col s12 center">
 		<h3>Phase 1</h3>
 		<img src="/static/img/slider/slide_07.jpg" class="responsive-img materialboxed">
-		<p>	
+		<p>
 			Some text about the above image...
 		</p>
 	</div>
@@ -135,4 +135,3 @@
 </div>
 
 {% endblock %}
-

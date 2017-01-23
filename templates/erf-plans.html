@@ -1,0 +1,132 @@
+{% extends "index.html" %}
+
+
+{% block header %}
+<header>
+
+  <div class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper">
+        <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <!--<span class="hide-on-med-and-down">Aan de Wijnlanden</span>--></a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            <li class="active"><a href="/p2/plans_prices">Prices & Plans</a></li>
+            <li><a href="/location">Location</a></li>
+            <li><a href="/p2/progress">Progress</a></li>
+            <!-- <li><a href="/information">Information</a></li>
+            <li><a href="/client_choices">Client Choices</a></li>
+            <li><a href="/documentation">Documentation</a></li> -->
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+            <li class="active"><a href="/p2/plans_prices">Prices & Plans</a></li>
+            <li><a href="/location">Location</a></li>
+            <li><a href="/p2/progress">Progress</a></li>
+            <!-- <li><a href="/information">Information</a></li>
+            <li><a href="/client_choices">Client Choices</a></li>
+            <li><a href="/documentation">Documentation</a></li> -->
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</header>
+{% endblock %}
+
+{% block main %}
+
+<div class="row container">
+		<div class="col s12 center">
+			<h2>Plans & Prices for Erf {{erf.erf_number}}</h2>
+		</div>
+</div>
+
+<div class="row container">
+		<div class="col s12 center">
+      {% if plans %}
+        <h2 id="plan_name"> {{plans[0].name}} </h2>
+        <p>Plan price: R <span id="plan_price">{{plans[0].price}}</span></p>
+        <p>Erf price: R <span id="erf_price">{{erf.price}}</span></p>
+        <p>Total rrice: R <span id="total_price">{{plans[0].price|jinjaAdd(erf.price)}}</span></p>
+        <p id="plan_description"> {{plans[0].description}} </p>
+      {% else %}
+  			<h2 id="plan_name"> - </h2>
+        <p>Plan price: R <span id="plan_price"></span></p>
+        <p>Erf price: R <span id="erf_price"></span></p>
+        <p>Total price: R <span id="total_price"></span></p>
+        <p id="plan_description"> - </p>
+      {% endif %}
+		</div>
+</div>
+
+<div class="row container">
+<style>
+  .underline-hover:hover{
+    border-bottom: 1px solid #000;
+  }
+</style>
+  <table class="highlight">
+    <thead>
+      <tr>
+          <th data-field="id">Plan Name</th>
+          <th data-field="price">Plan Price</th>
+          <th data-field="pdf">PDF</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for plan in plans %}
+        <tr class="hover underline-hover" data-price="{{plan.price}}" data-erfprice="{{erf.price}}" data-name="{{plan.name}}" data-description="{{plan.description}}">
+          <td>{{plan.name}}</td>
+          <td>R {{plan.price}}</td>
+          <td>
+            <a href="{{plan.download_link}}">Download PDF</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="row container">
+    {% for plan in plans %}
+      <div class="col s12 m6 l4">
+        <div class="card">
+          <div class="card-image">
+            <img src="{{plan.image}}">
+          </div>
+          <div class="card-content">
+            <span class="card-title">{{plan.name}}</span>
+            <p>{{plan.description}}</p>
+          </div>
+          <div class="card-action">
+            {% if plan.download_link %}
+              <a href="{{plan.download_link}}">Download PDF</a>
+            {% endif %}
+          </div>
+        </div>
+		</div>
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}
+
+{% block script %}
+  <script>
+    $('tr.hover').hover(function(){
+      var $this = $(this);
+      var name = $this.data("name");
+      var description = $this.data("description");
+      var price = $this.data("price");
+      var erfPrice = $this.data("erfprice");
+      $("#plan_name").text(name);
+      $("#plan_description").text(description);
+      $("#plan_price").text(price);
+      $("#erf_price").text(erfPrice);
+      $("#total_price").text(parseInt(price) + parseInt(erfPrice));
+    });
+  </script>
+{% endblock %}
