@@ -267,6 +267,28 @@ nav .button-collapse i {
 	margin-bottom: 0.5rem;
 }
 
+#phase-2-coming-soon {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	margin:auto;
+	height:6rem;
+	width: 80%;
+	font-size: 1.2rem;
+  z-index: 3;
+	background-color: #ddd;
+	padding: 1rem;
+	text-align:center;
+}
+@media #{$small-and-down} {
+    #phase-2-coming-soon {
+		height: 100%;
+		width: 100%;
+	}
+}
+
 #slider-overlay-caption {
 	position: absolute;
 	bottom: 20px;
@@ -510,8 +532,3 @@ footer .col {
 /*=========================*/
 /* helpers */
 /*=========================*/
-
-
-
-
-
