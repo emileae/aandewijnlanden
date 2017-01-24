@@ -14,15 +14,15 @@
       <li>
         <div class="collapsible-header center">Slideshow Images</div>
         <div class="collapsible-body">
-          
+
           <form id="image_gallery_form" class="ajax-form-image-gallery image-gallery-form" method="post" action="/admin/save_single_image/new" enctype="multipart/form-data">
 
             <div class="row">
                 <div class="col s12 center preview-image-container">
-                  
+
                 </div>
             </div>
-            
+
             <div id="image_gallery_form_section">
               <div class="row">
 
@@ -80,7 +80,7 @@
           {% for g in gallery_images %}
 
             <form id="gallery_image_{{g.key.id()}}" class="ajax-form-image-gallery image-gallery-form" method="post" action="/admin/save_single_image/{{g.key.id()}}" enctype="multipart/form-data" style="margin-top: 3rem;">
-              
+
               <div class="row">
                 <div class="col s12 center preview-image-container">
                   <img src="{{g.image}}" class="preview-image">
@@ -90,7 +90,7 @@
 
               <div id="image_gallery_form_section">
                 <div class="row">
-                
+
                   <input type="hidden" name="label" value="home_banner">
 
                 <div class="input-field col s12">
@@ -146,12 +146,15 @@
 
               <div class="row">
                 <div class="col s12 right-align">
-                  <div class="btn" onclick="confirmDelete({{g.key.id()}})">
+                  <div class="btn delete-image" data-imageid="{{g.key.id()}}">
+                    Delete
+                  </div>
+                  <!-- <div class="btn" onclick="confirmDelete({{g.key.id()}})">
                     Delete
                   </div>
                   <div id="confirm_{{g.key.id()}}" class="confirm button-fold-in overflow-hidden">
                     <span data-delete-id="{{g.key.id()}}" class="btn delete">Yes, I'm sure</span> <span class="btn" onclick="cancelDelete({{g.key.id()}})">Cancel</span>
-                  </div>
+                  </div> -->
                 </div>
               </div>
 
@@ -166,7 +169,7 @@
         <div class="collapsible-header center">Content Section 1</div>
         <div class="collapsible-body">
           <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
-            
+
             <div class="row">
               <div class="input-field col s12">
                 <input id="title" type="text" name="title" class="validate" value="{{content['homeColumn1'].title|check_none}}">
@@ -211,7 +214,7 @@
         <div class="collapsible-header center">Content Section 2</div>
         <div class="collapsible-body">
           <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
-            
+
             <div class="row">
               <div class="input-field col s12">
                 <input id="title" type="text" name="title" class="validate" value="{{content['homeColumn2'].title|check_none}}">
@@ -256,7 +259,7 @@
         <div class="collapsible-header center">Content Section 3</div>
         <div class="collapsible-body">
           <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
-            
+
             <div class="row">
               <div class="input-field col s12">
                 <input id="title" type="text" name="title" class="validate" value="{{content['homeColumn3'].title|check_none}}">
@@ -301,7 +304,7 @@
         <div class="collapsible-header center">Content Section 4</div>
         <div class="collapsible-body">
           <form class="ajax-form-content" method="post" action="/admin/save_content" enctype="multipart/form-data">
-            
+
             <div class="row">
               <div class="input-field col s12">
                 <input id="title" type="text" name="title" class="validate" value="{{content['homeColumn4'].title|check_none}}">
@@ -349,3 +352,24 @@
 
 {% endblock %}
 
+{% block script %}
+<script>
+  $('body').on('click', '.delete-image', function(){
+    var $this = $(this);
+    var imageID = $this.data('imageid');
+
+    function success(){
+      $('#gallery_image_'+imageID).remove();
+    }
+
+    console.log("imageID: " + imageID);
+    $.ajax({
+      type: 'post',
+      url: '/admin/delete_single_image/'+imageID,
+      success: success
+    }).fail(function(){
+      alert('could not delete image');
+    })
+  });
+</script>
+{% endblock %}

@@ -79,6 +79,13 @@ def get_val(value, dict_key, attribute):
         return ""
 jinja_env.filters['get_val'] = get_val
 
+def RepresentsInt(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
 class MainHandler(webapp2.RequestHandler):
 
 #TEMPLATE FUNCTIONS
@@ -181,7 +188,7 @@ class Location(MainHandler):
     def get(self):
         contacts = model.Contact.query().order(-model.Contact.created).fetch()
 
-        labels = ["location_intro", "locality", "adwEstate", "adwPhase1"]
+        labels = ["location_intro", "locality", "adwEstate", "adwPhase1", "adwPhase2"]
         content = {}
         for label in labels:
             content[label] = model.Content.query(model.Content.label == label).get()
@@ -353,7 +360,7 @@ class AdminHome(MainHandler):
 
 class AdminLocation(MainHandler):
     def get(self):
-        labels = ["location_intro", "locality", "adwEstate", "adwPhase1"]
+        labels = ["location_intro", "locality", "adwEstate", "adwPhase1", "adwPhase2"]
         content = {}
         for label in labels:
             content[label] = model.Content.query(model.Content.label == label).get()
@@ -607,7 +614,7 @@ class AdminErfP2(MainHandler):
         plans = model.PlanTypeP2.query().order(model.PlanTypeP2.name).fetch()
 
         if not erfs:
-            for i in range(1,10):
+            for i in range(1,198):
                 e = model.ErfP2(erf_number=i)
                 e.put()
 
@@ -696,11 +703,12 @@ class AdminSaveErfP2(MainHandler):
             new_plan_ids = []
             plan_names = []
             for plan_id in plan_ids:
-                plan_obj = model.PlanTypeP2.get_by_id(int(plan_id))
-                plan_keys.append(plan_obj.key)
-                plan_names.append(plan_obj.name)
-                new_plan_ids.append(int(plan_id))
-                logging.error(" - - - - " + plan_obj.name)
+                if RepresentsInt(plan_id):
+                    plan_obj = model.PlanTypeP2.get_by_id(int(plan_id))
+                    plan_keys.append(plan_obj.key)
+                    plan_names.append(plan_obj.name)
+                    new_plan_ids.append(int(plan_id))
+                    logging.error(" - - - - " + plan_obj.name)
 
             erf.plan_types = plan_keys
             erf.plan_ids = new_plan_ids
