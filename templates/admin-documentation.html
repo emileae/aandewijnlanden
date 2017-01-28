@@ -13,7 +13,11 @@
 		<div class="row">
 			<div class="col s12">
 				{% if document %}
-					<form action="/admin/documentation" enctype="multipart/form-data" method="post">
+					{% if phase2 %}
+						<form action="/admin/p2/documentation" enctype="multipart/form-data" method="post">
+					{% else %}
+						<form action="/admin/documentation" enctype="multipart/form-data" method="post">
+					{% endif %}
 
 						<div class="row">
 				          <div class="col s12 input-field">
@@ -90,8 +94,11 @@
 
 					<div class="row">
 						<div class="col s12 right-align">
-
-							<form method="post" action="/admin/document/delete/{{document.key.id()}}">
+							{% if phase2 %}
+								<form method="post" action="/admin/p2/document/delete/{{document.key.id()}}">
+							{% else %}
+								<form method="post" action="/admin/document/delete/{{document.key.id()}}">
+							{% endif %}
 								<button class="btn red darken-2">Delete</button>
 							</form>
 
@@ -99,7 +106,11 @@
 					</div>
 
 				{% else %}
+				{% if phase2 %}
+					<form action="/admin/p2/documentation" enctype="multipart/form-data" method="post">
+				{% else %}
 					<form action="/admin/documentation" enctype="multipart/form-data" method="post">
+				{% endif %}
 
 						<div class="row">
 				          <div class="col s12 input-field">
@@ -180,7 +191,11 @@
 			          {% endif %}
 			      	</p>
 		      		<div class="row right-align">
-				      	<a href="/admin/documentation?document_id={{d.key.id()}}" class="btn red darken-2">Edit Document</a>
+								{% if phase2 %}
+									<a href="/admin/p2/documentation?document_id={{d.key.id()}}" class="btn red darken-2">Edit Document</a>
+								{% else %}
+				      		<a href="/admin/documentation?document_id={{d.key.id()}}" class="btn red darken-2">Edit Document</a>
+								{% endif %}
 			      	</div>
 		        </div>
 	      	</div>
@@ -196,6 +211,3 @@
 {% block script %}
 
 {% endblock %}
-
-
-

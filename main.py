@@ -239,6 +239,12 @@ class Documentation(MainHandler):
         documents = model.Document.query().order(model.Document.order).fetch()
         self.render("documentation.html", documents=documents, contacts=contacts)
 
+class DocumentationP2(MainHandler):
+    def get(self):
+        contacts = model.Contact.query().order(-model.Contact.created).fetch()
+        documents = model.DocumentP2.query().order(model.Document.order).fetch()
+        self.render("documentation.html", documents=documents, contacts=contacts, phase2=True)
+
 class ContactForm(MainHandler):
     def post(self):
         name = self.request.get("name")
@@ -272,7 +278,7 @@ class ContactForm(MainHandler):
 
 class Contact(MainHandler):
     def get(self):
-        contacts = model.Contact.query().order(-model.Contact.created).fetch()
+        contacts = model.Contact.query().order(model.Contact.created).fetch()
         self.render("contact.html", contacts=contacts)
 
 
@@ -592,6 +598,99 @@ class AdminDocumentation(MainHandler):
 
         self.redirect("/admin/documentation")
 
+class AdminDocumentationP2(MainHandler):
+    def get(self):
+
+        document_id = self.request.get("document_id")
+        if document_id:
+            document = model.DocumentP2.get_by_id(int(document_id))
+        else:
+            document = None
+
+        documents = model.DocumentP2.query().order(model.DocumentP2.order).fetch()
+
+        if document:
+            # can only choose from an existing order
+            order_len = len(documents) + 1
+        else:
+            # can choose to be the next item / default
+            order_len = len(documents) + 2
+
+        self.render("admin-documentation.html", documents=documents, order_len=order_len, document=document, phase2=True)
+
+    def post(self):
+        file_req = self.request.POST["file"]
+        name = self.request.get("name")
+        description = self.request.get("description")
+        document_id = self.request.get("document_id")
+        order = self.request.get("order")
+        isClientChoice = self.request.get("isClientChoice")
+        if isClientChoice:
+            isClientChoice = True
+        else:
+            isClientChoice = False
+
+        try:
+            order = int(order)
+        except:
+            logging.error("something wrong with getting document order to be an integer")
+            order = False
+
+        if not order:
+            last_document = model.DocumentP2.query().order(-model.DocumentP2.order).get()
+            if last_document:
+                last_order = last_document.order
+                order = last_order + 1
+            else:
+                order = 1
+
+        # reset order
+        utils.order_documents(order)
+
+        if document_id:
+            document = model.DocumentP2.get_by_id(int(document_id))
+
+            document.name = name
+            document.description = description
+            document.order = order
+            document.isClientChoice = isClientChoice
+            try:
+                if file_req.value and document.file_key:
+                    utils.delete_file_from_gcs(document.file_key.get().gcs_filename)
+                    document.file_key.delete()
+
+                    file_obj = utils.save_file_to_gcs(file_req)
+                    document.file_key = file_obj.key
+                    document.download_link = file_obj.download_link
+                else:
+                    file_obj = utils.save_file_to_gcs(file_req)
+                    document.file_key = file_obj.key
+                    document.download_link = file_obj.download_link
+            except:
+                logging.error("something happened error-wise with the file upload for an existing file")
+
+
+            document.put()
+
+        else:
+            try:
+                if file_req.value:
+                    file_obj = utils.save_file_to_gcs(file_req)
+                    file_key = file_obj.key
+                    download_link = file_obj.download_link
+                else:
+                    file_key = None
+                    download_link = None
+            except:
+                logging.error("something happened error-wise with the file upload for a new file")
+                file_key = None
+                download_link = None
+
+            document = model.DocumentP2(name=name, description=description, file_key=file_key, download_link=download_link, order=order, isClientChoice=isClientChoice)
+            document.put()
+
+        self.redirect("/admin/p2/documentation")
+
 class AdminErf(MainHandler):
     def get(self):
 
@@ -614,7 +713,7 @@ class AdminErfP2(MainHandler):
         plans = model.PlanTypeP2.query().order(model.PlanTypeP2.name).fetch()
 
         if not erfs:
-            for i in range(1,198):
+            for i in range(1,199):
                 e = model.ErfP2(erf_number=i)
                 e.put()
 
@@ -1047,6 +1146,16 @@ class AdminDeleteDocument(MainHandler):
 
         self.redirect("/admin/documentation")
 
+class AdminDeleteDocumentP2(MainHandler):
+    def post(self, document_id):
+
+        document = model.DocumentP2.get_by_id(int(document_id))
+
+        utils.delete_file_from_gcs(document.file_key.get().gcs_filename)
+
+        document.key.delete()
+
+        self.redirect("/admin/p2/documentation")
 
 
 class AdminContact(MainHandler):
@@ -1271,6 +1380,7 @@ app = webapp2.WSGIApplication([
     ('/information', Information),
     ('/client_choices', ClientChoices),
     ('/documentation', Documentation),
+    ('/p2/documentation', DocumentationP2),
     ('/client_contact', ContactForm),
     ('/contact', Contact),
 
@@ -1289,6 +1399,7 @@ app = webapp2.WSGIApplication([
     ('/admin/progress', AdminProgress),
     ('/admin/p2/progress', AdminProgressP2),
     ('/admin/documentation', AdminDocumentation),
+    ('/admin/p2/documentation', AdminDocumentationP2),
     ('/client_contact', ContactForm),
     ('/admin/erf', AdminErf),
     ('/admin/p2/erf', AdminErfP2),
@@ -1303,6 +1414,7 @@ app = webapp2.WSGIApplication([
     ('/admin/information', AdminInformation),
     # ('/admin/plan/delete/(\w+)', AdminDeletePlan),
     ('/admin/document/delete/(\w+)', AdminDeleteDocument),
+    ('/admin/p2/document/delete/(\w+)', AdminDeleteDocumentP2),
 
     ('/admin/contact', AdminContact),
 

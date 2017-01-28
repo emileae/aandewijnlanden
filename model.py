@@ -78,6 +78,16 @@ class Document(ndb.Model):
     isClientChoice = ndb.BooleanProperty(default=False)
     created = ndb.DateTimeProperty(auto_now_add=True)
 
+class DocumentP2(ndb.Model):
+    name = ndb.StringProperty()
+    file_key = ndb.KeyProperty(kind="File")
+    download_link = ndb.StringProperty()
+    description = ndb.TextProperty()
+    approved = ndb.BooleanProperty(default=True)
+    order = ndb.IntegerProperty()
+    isClientChoice = ndb.BooleanProperty(default=False)
+    created = ndb.DateTimeProperty(auto_now_add=True)
+
 class PlanType(ndb.Model):
     name = ndb.StringProperty()
     image = ndb.StringProperty()
