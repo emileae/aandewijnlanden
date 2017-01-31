@@ -175,6 +175,7 @@ class PlansPricesP2(MainHandler):
 # finish this class it is supposed to display plan options for a particular erf
 class ErfPlansP2(MainHandler):
     def get(self, erfID):
+        contacts = model.Contact.query().order(-model.Contact.created).fetch()
         erf = model.ErfP2.get_by_id(int(erfID))
         logging.error("DISPLAY THE PLANS FOR AN ERF....");
 
@@ -182,7 +183,7 @@ class ErfPlansP2(MainHandler):
         for plan in erf.plan_types:
             plans.append(plan.get())
 
-        self.render("erf-plans.html", erf=erf, plans=plans, phase2=True)
+        self.render("erf-plans.html", erf=erf, plans=plans, contacts=contacts, phase2=True)
 
 class Location(MainHandler):
     def get(self):

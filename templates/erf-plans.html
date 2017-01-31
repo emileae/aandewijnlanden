@@ -48,7 +48,7 @@
         <h2 id="plan_name"> {{plans[0].name}} </h2>
         <p>Plan price: R <span id="plan_price">{{plans[0].price}}</span></p>
         <p>Erf price: R <span id="erf_price">{{erf.price}}</span></p>
-        <p>Total rrice: R <span id="total_price">{{plans[0].price|jinjaAdd(erf.price)}}</span></p>
+        <p>Total price: R <span id="total_price">{{plans[0].price|jinjaAdd(erf.price)}}</span></p>
         <p id="plan_description"> {{plans[0].description}} </p>
       {% else %}
   			<h2 id="plan_name"> - </h2>
