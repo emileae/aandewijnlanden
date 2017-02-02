@@ -152,7 +152,7 @@ class Home(MainHandler):
 
         gallery_images = model.ImageGallery.query(model.ImageGallery.label == "home_banner").fetch()
 
-        self.render("index2.html", year=year, gallery_images=gallery_images, content=content, contacts=contacts)
+        self.render("index.html", year=year, gallery_images=gallery_images, content=content, contacts=contacts)
 
 
 class PlansPrices(MainHandler):

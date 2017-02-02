@@ -12,7 +12,7 @@
         <ul class="right hide-on-med-and-down">
             <li class="active"><a href="/p2/plans_prices">Prices & Plans</a></li>
             <li><a href="/location">Location</a></li>
-            <li><a href="/p2/progress">Progress</a></li>
+            <!-- <li><a href="/p2/progress">Progress</a></li> -->
             <!-- <li><a href="/information">Information</a></li>
             <li><a href="/client_choices">Client Choices</a></li>
             <li><a href="/documentation">Documentation</a></li> -->
@@ -21,7 +21,7 @@
         <ul class="side-nav" id="mobile-demo">
             <li class="active"><a href="/p2/plans_prices">Prices & Plans</a></li>
             <li><a href="/location">Location</a></li>
-            <li><a href="/p2/progress">Progress</a></li>
+            <!-- <li><a href="/p2/progress">Progress</a></li> -->
             <!-- <li><a href="/information">Information</a></li>
             <li><a href="/client_choices">Client Choices</a></li>
             <li><a href="/documentation">Documentation</a></li> -->
@@ -71,6 +71,7 @@
       <tr>
           <th data-field="id">Plan Name</th>
           <th data-field="price">Plan Price</th>
+          <th data-field="total_price">Total Price</th>
           <th data-field="pdf">PDF</th>
       </tr>
     </thead>
@@ -80,6 +81,7 @@
         <tr class="hover underline-hover" data-price="{{plan.price}}" data-erfprice="{{erf.price}}" data-name="{{plan.name}}" data-description="{{plan.description}}">
           <td>{{plan.name}}</td>
           <td>R {{plan.price}}</td>
+          <td>R {{plan.price|jinjaAdd(erf.price)}}</td>
           <td>
             <a href="{{plan.download_link}}">Download PDF</a>
           </td>
