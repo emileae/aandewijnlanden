@@ -119,6 +119,16 @@ class Information(ndb.Model):
     approved = ndb.BooleanProperty(default=True)
     created = ndb.DateTimeProperty(auto_now_add=True)
 
+class InformationP2(ndb.Model):
+    name = ndb.StringProperty()
+    image = ndb.StringProperty()
+    media_obj = ndb.KeyProperty(kind="Media")
+    file_key = ndb.KeyProperty(kind="File")
+    download_link = ndb.StringProperty()
+    description = ndb.TextProperty()
+    approved = ndb.BooleanProperty(default=True)
+    created = ndb.DateTimeProperty(auto_now_add=True)
+
 class Progress(ndb.Model):
     title = ndb.StringProperty()
     body = ndb.TextProperty()

@@ -532,3 +532,13 @@ footer .col {
 /*=========================*/
 /* helpers */
 /*=========================*/
+
+#horizontal_scroll_map {
+	height: 500px;
+	width: 100%;
+	overflow-y: hidden;
+	overflow-x: scroll;
+}
+#horizontal_scroll_map img {
+	height: 100%;
+}

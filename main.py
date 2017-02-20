@@ -224,9 +224,15 @@ class ProgressP2(MainHandler):
 
 class Information(MainHandler):
     def get(self):
-        contacts = model.Contact.query().order(-model.Contact.created).fetch()
+        contacts = model.Contact.query().order(model.Contact.created).fetch()
         informations = model.Information.query().order(model.Information.name).fetch()
         self.render("information.html", informations=informations, contacts=contacts)
+
+class InformationP2(MainHandler):
+    def get(self):
+        contacts = model.Contact.query().order(model.Contact.created).fetch()
+        informations = model.InformationP2.query().order(-model.InformationP2.created).fetch()
+        self.render("information.html", informations=informations, contacts=contacts, phase2 = True)
 
 class ClientChoices(MainHandler):
     def get(self):
@@ -502,9 +508,6 @@ class AdminProgressP2(MainHandler):
             post.put()
 
         self.redirect("/admin/p2/progress")
-
-class AdminInformation(MainHandler):
-    pass
 
 class AdminDocumentation(MainHandler):
     def get(self):
@@ -980,6 +983,10 @@ class AdminPlanTypesP2(MainHandler):
             plan.name = name
             plan.price = price
             plan.description = description
+            logging.error("plan.image:")
+            logging.error(plan.image)
+            logging.error("plan.media_obj: ")
+            logging.error(plan.media_obj.get())
             if image and plan.image:
                 utils.delete_from_gcs(plan.media_obj.get().gcs_filename)
                 plan.media_obj.delete()
@@ -1124,6 +1131,87 @@ class AdminInformation(MainHandler):
             information.put()
 
         self.redirect("/admin/information")
+
+class AdminInformationP2(MainHandler):
+    def get(self):
+
+        information_id = self.request.get("information_id")
+
+        informations = model.InformationP2.query().order(model.InformationP2.name).fetch()
+
+        if information_id:
+            information = model.InformationP2.get_by_id(int(information_id))
+        else:
+            information = None
+
+        self.render("admin-information.html", informations=informations, information=information, phase2=True)
+
+    def post(self):
+        image = self.request.get("image")
+        file_req = self.request.POST["file"]
+
+        name = self.request.get("name")
+        description = self.request.get("description")
+        information_id = self.request.get("information_id")
+
+        if information_id:
+            information = model.InformationP2.get_by_id(int(information_id))
+
+            information.name = name
+            information.description = description
+            if image and information.image:
+                utils.delete_from_gcs(information.media_obj.get().gcs_filename)
+                information.media_obj.delete()
+
+                media_obj = utils.save_to_gcs(image)
+                information.image = media_obj.serving_url
+            try:
+                if file_req.value and information.file_key:
+                    utils.delete_file_from_gcs(information.file_key.get().gcs_filename)
+                    information.file_key.delete()
+
+                    file_obj = utils.save_file_to_gcs(file_req)
+                    information.file_key = file_obj.key
+                    information.download_link = file_obj.download_link
+                else:
+                    file_obj = utils.save_file_to_gcs(file_req)
+                    information.file_key = file_obj.key
+                    information.download_link = file_obj.download_link
+            except:
+                logging.error("something happened error-wise with the file upload for an existing file")
+
+
+            information.put()
+
+        else:
+            logging.error("hello? again?")
+            if image:
+                media_obj = utils.save_to_gcs(image)
+                media_key = media_obj.key
+                serving_url = media_obj.serving_url
+            else:
+                serving_url = None
+                media_key = None
+
+            try:
+                if file_req.value:
+                    logging.error("hello?")
+                    file_obj = utils.save_file_to_gcs(file_req)
+                    file_key = file_obj.key
+                    download_link = file_obj.download_link
+                else:
+                    file_key = None
+                    download_link = None
+            except:
+                logging.error("something happened error-wise with the file upload for a new file")
+                file_key = None
+                download_link = None
+
+            information = model.InformationP2(name=name, description=description, image=serving_url, media_obj=media_key, file_key=file_key, download_link=download_link)
+            information.put()
+
+        self.redirect("/admin/p2/information")
+
 
 # class AdminDeletePlan(MainHandler):
 #     def post(self, plan_id):
@@ -1379,6 +1467,7 @@ app = webapp2.WSGIApplication([
     ('/progress', Progress),
     ('/p2/progress', ProgressP2),
     ('/information', Information),
+    ('/p2/information', InformationP2),
     ('/client_choices', ClientChoices),
     ('/documentation', Documentation),
     ('/p2/documentation', DocumentationP2),
@@ -1397,6 +1486,7 @@ app = webapp2.WSGIApplication([
     ('/admin/home', AdminHome),
     ('/admin/location', AdminLocation),
     ('/admin/information', AdminInformation),
+    ('/admin/p2/information', AdminInformationP2),
     ('/admin/progress', AdminProgress),
     ('/admin/p2/progress', AdminProgressP2),
     ('/admin/documentation', AdminDocumentation),
@@ -1412,7 +1502,6 @@ app = webapp2.WSGIApplication([
     ('/admin/plan_types', AdminPlanTypes),
     ('/admin/p2/plan_types', AdminPlanTypesP2),
     ('/admin/erf_clicks', AdminErfClicks),
-    ('/admin/information', AdminInformation),
     # ('/admin/plan/delete/(\w+)', AdminDeletePlan),
     ('/admin/document/delete/(\w+)', AdminDeleteDocument),
     ('/admin/p2/document/delete/(\w+)', AdminDeleteDocumentP2),

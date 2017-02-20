@@ -12759,3 +12759,15 @@ footer .col {
 /*=========================*/
 /* helpers */
 /*=========================*/
+/* line 536, ../sass/materialize.scss */
+#horizontal_scroll_map {
+  height: 500px;
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+
+/* line 542, ../sass/materialize.scss */
+#horizontal_scroll_map img {
+  height: 100%;
+}

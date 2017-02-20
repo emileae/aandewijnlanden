@@ -24,18 +24,19 @@
           <li class="active"><a href="/p2/plans_prices">Prices & Plans</a></li>
           <li><a href="/location">Location</a></li>
           <li><a href="/p2/progress">Progress</a></li>
-          <!-- <li><a href="/information">Information</a></li>
-          <li><a href="/client_choices">Client Choices</a></li>
-          <li><a href="/documentation">Documentation</a></li> -->
+          <li><a href="/p2/information">Information</a></li>
+          <!--<li><a href="/client_choices">Client Choices</a></li>-->
+          <li><a href="/p2/documentation">Documentation</a></li>
           <li><a href="/contact">Contact</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
           <li class="active"><a href="/p2/plans_prices">Prices & Plans</a></li>
           <li><a href="/location">Location</a></li>
           <li><a href="/p2/progress">Progress</a></li>
-          <!-- <li><a href="/information">Information</a></li>
-          <li><a href="/client_choices">Client Choices</a></li>
-          <li><a href="/documentation">Documentation</a></li> -->
+          <li><a href="/p2/information">Information</a></li>
+          <!--
+          <li><a href="/client_choices">Client Choices</a></li>-->
+          <li><a href="/p2/documentation">Documentation</a></li>
           <li><a href="/contact">Contact</a></li>
       </ul>
     </div>
@@ -60,7 +61,15 @@
 {% if phase2 %}
   <div class="row">
     <div class="col s12 center">
-      <a href="#modal1">
+
+      <div id="horizontal_scroll_map">
+        <img src="/static/img/p2_erf_layout_north.jpg">
+      </div>
+      <div style="text-align: right;">
+        <span style="font-size:0.8rem">Scroll left and right to view plan.</span>
+      </div>
+
+      <!-- <a href="#modal1">
         <img src="/static/img/p2_erf_layout.jpg" class="responsive-img">
       </a>
       <div id="modal1" class="modal bottom-sheet">
@@ -70,7 +79,7 @@
         <div class="modal-footer">
           <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 {% else %}

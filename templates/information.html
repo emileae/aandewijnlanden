@@ -21,19 +21,19 @@
       <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <span class="hide-on-med-and-down">Aan de Wijnlanden</span></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-          <li><a href="/plans_prices">Prices & Plans</a></li>
+          <li><a href="/p2/plans_prices">Prices & Plans</a></li>
           <li><a href="/location">Location</a></li>
-          <!-- <li class="active"><a href="/information">Information</a></li>
-          <li><a href="/client_choices">Client Choices</a></li>
-          <li><a href="/documentation">Documentation</a></li> -->
+          <li class="active"><a href="/p2/information">Information</a></li>
+          <!-- <li><a href="/client_choices">Client Choices</a></li>-->
+          <li><a href="/p2/documentation">Documentation</a></li>
           <li><a href="/contact">Contact</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
-          <li><a href="/plans_prices">Prices & Plans</a></li>
+          <li><a href="/p2/plans_prices">Prices & Plans</a></li>
           <li><a href="/location">Location</a></li>
-          <!-- <li class="active"><a href="/information">Information</a></li>
-          <li><a href="/client_choices">Client Choices</a></li>
-          <li><a href="/documentation">Documentation</a></li> -->
+          <li class="active"><a href="/p2/information">Information</a></li>
+          <!--<li><a href="/client_choices">Client Choices</a></li>-->
+          <li><a href="/p2/documentation">Documentation</a></li>
           <li><a href="/contact">Contact</a></li>
       </ul>
     </div>
@@ -44,6 +44,14 @@
 {% endblock %}
 
 {% block main %}
+
+{% if phase2 %}
+  <div class="row container spaced">
+    <div class="col s12 center">
+      <h2>Hidden Gem of the Stellenbosch Winelands</h2>
+    </div>
+  </div>
+{% else %}
 
 <div class="row container spaced">
 	<div class="col s12 center">
@@ -101,9 +109,15 @@
 	</div>
 </div>
 
+{% endif %}
+
 <div class="row container spaced">
 	<div class="col s12 center">
-		<h2>General Information</h2>
+    {% if phase2 %}
+      <h3>General Information</h3>
+    {% else %}
+  		<h2>General Information</h2>
+    {% endif %}
 	</div>
 </div>
 
@@ -120,9 +134,11 @@
 					<h4>{{i.name}}</h4>
 					<p>{{i.description|safe}}</p>
 				</div>
+        {% if i.download_link %}
 				<div class="card-action">
 					<a href="{{i.download_link}}" class="no-border" target="_blank"> <i class="fa fa-download"></i> Download</a>
 				</div>
+        {% endif %}
 			</div>
 		{% endfor %}
 	</div>

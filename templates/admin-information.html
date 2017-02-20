@@ -14,7 +14,11 @@
 		<div class="row">
 			<div class="col s12">
 				{% if information %}
-				<form action="/admin/information" enctype="multipart/form-data" method="post">
+				{% if phase2 %}
+					<form action="/admin/p2/information" enctype="multipart/form-data" method="post">
+				{% else %}
+					<form action="/admin/information" enctype="multipart/form-data" method="post">
+				{% endif %}
 
 					<div class="row">
 			          <div class="col s12">
@@ -92,7 +96,12 @@
 
 				</form>
 				{% else %}
-				<form action="/admin/information" enctype="multipart/form-data" method="post">
+
+				{% if phase2 %}
+					<form action="/admin/p2/information" enctype="multipart/form-data" method="post">
+				{% else %}
+					<form action="/admin/information" enctype="multipart/form-data" method="post">
+				{% endif %}
 
 					<div class="row">
 			          <div class="col s12">
@@ -177,7 +186,11 @@
 			          {% endif %}
 			      	</p>
 		      		<div class="row right-align">
-				      	<a href="/admin/information?information_id={{i.key.id()}}">Edit</a>
+								{% if phase2 %}
+									<a href="/admin/p2/information?information_id={{i.key.id()}}">Edit</a>
+								{% else %}
+				      		<a href="/admin/information?information_id={{i.key.id()}}">Edit</a>
+								{% endif %}
 			      	</div>
 		        </div>
 	      	</div>
@@ -196,6 +209,3 @@
 </script>
 
 {% endblock %}
-
-
-
