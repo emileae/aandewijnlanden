@@ -167,9 +167,17 @@ class PlansPricesP2(MainHandler):
     def get(self):
         contacts = model.Contact.query().order(-model.Contact.created).fetch()
         plan_types = model.PlanTypeP2.query().order(model.PlanTypeP2.name).fetch()
+        
+        plans = []
+        removed_plan_titles = ["Type C1", "Type C2", "Type E1", "Type F1", "Type G1", "Type H1", "Type K1", "Type K2", "Type K3", "Type L1", "Type L2", "Type L3"]
+        for plan in plan_types:
+            got_plan = plan
+            if got_plan.name not in removed_plan_titles:
+                plans.append(got_plan)
+
         erfs = model.ErfP2.query().order(model.ErfP2.erf_number).fetch()
 
-        self.render("plans-prices.html", erfs=erfs, plan_types=plan_types, contacts=contacts, phase2=True)
+        self.render("plans-prices.html", erfs=erfs, plan_types=plans, contacts=contacts, phase2=True)
 
 # TODO
 # finish this class it is supposed to display plan options for a particular erf
@@ -180,8 +188,11 @@ class ErfPlansP2(MainHandler):
         logging.error("DISPLAY THE PLANS FOR AN ERF....");
 
         plans = []
+        removed_plan_titles = ["Type C1", "Type C2", "Type E1", "Type F1", "Type G1", "Type H1", "Type K1", "Type K2", "Type K3", "Type L1", "Type L2", "Type L3"]
         for plan in erf.plan_types:
-            plans.append(plan.get())
+            got_plan = plan.get()
+            if got_plan.name not in removed_plan_titles:
+                plans.append(got_plan)
 
         self.render("erf-plans.html", erf=erf, plans=plans, contacts=contacts, phase2=True)
 
