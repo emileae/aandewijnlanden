@@ -18,7 +18,8 @@
 		<table>
         <thead>
           <tr>
-              <th data-field="erf_number">Stand Number</th>
+							<th data-field="erf_number">Stand Number</th>
+							<th data-field="erf">Erf Number</th>
               <th data-field="size">Size</th>
               <th data-field="price">Price</th>
 							{% if phase2 %}
@@ -38,7 +39,14 @@
 						{% else %}
 	          	<tr data-action="/admin/erf/{{e.key.id()}}" data-changed="no" data-id="{{e.key.id()}}" class="tr-form form-{{e.key.id()}}">
 						{% endif %}
-	            <td>{{e.erf_number}}</td>
+
+							<td>{{e.erf_number}}</td>
+							<td>
+	            	<!-- {{e.erf}} -->
+	            	<div class="input-field">
+			          <input id="erf_{{e.key.id()}}" placeholder="eg. 3307" type="number" class="erf-input validate" name="erf" value="{{e.erf|check_none}}">
+			        </div>
+	            </td>
 	            <td>
 	            	<!-- {{e.size}} -->
 	            	<div class="input-field">
@@ -192,7 +200,8 @@
 
 	        if ( changed == "yes" ){
 	        	var id = $form.data("id");
-
+						
+						var erf = $("#erf_"+id).val();
 		        var size = $("#size_"+id).val();
 		        var price = $("#price_"+id).val();
 		        var turnkey_price = $("#turnkey_price_"+id).val();
@@ -211,7 +220,7 @@
 
 
 						// double plan_type inputs here one for Phase 1 ->single value and another for Phase 2 -> array
-		        $.post($form.data("action"), {"plan_ids": plan_ids, "plan_type": plan_type, "price": price, "size": size, "turnkey_price": turnkey_price, "status":status}, function () {
+		        $.post($form.data("action"), {"plan_ids": plan_ids, "plan_type": plan_type, "price": price, "size": size, "erf": erf, "turnkey_price": turnkey_price, "status":status}, function () {
 		        	$(".loader-icon").addClass("hide");
 							$(".normal-icon").removeClass("hide");
 		        });

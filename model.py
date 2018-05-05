@@ -38,6 +38,10 @@ class Erf(ndb.Model):
 
 class ErfP2(ndb.Model):
     erf_number = ndb.IntegerProperty()
+    erf = ndb.IntegerProperty()
+    dimensions = ndb.FloatProperty(repeated=True)
+    street = ndb.StringProperty()
+    street_number = ndb.IntegerProperty()
     price = ndb.IntegerProperty()
     turnkey_price = ndb.IntegerProperty()
     size = ndb.IntegerProperty()
