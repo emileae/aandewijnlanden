@@ -782,6 +782,7 @@ class AdminSaveErfP2(MainHandler):
 
         plan_ids = self.request.get("plan_ids")
 
+        erf_no = self.request.get("erf")
         size = self.request.get("size")
         price = self.request.get("price")
         turnkey_price = self.request.get("turnkey_price")
@@ -794,6 +795,11 @@ class AdminSaveErfP2(MainHandler):
         logging.error("plan_ids, list?")
         logging.error(plan_ids)
 
+        if erf_no:
+            try:
+                erf.erf = int(erf_no)
+            except:
+                logging.error("erf_no - probably int error for %s" % erf_id)
         if size:
             try:
                 erf.size = int(size)
