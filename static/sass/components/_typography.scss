@@ -26,8 +26,9 @@ html{
   color: $primary-body-color;
 }
 h1, h2, h3, h4, h5, h6 {
-	font-weight: 400;
-  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-family: $header-font-family;
+  // font-family: 'Open Sans', sans-serif;
 }
 
 // Header Styles

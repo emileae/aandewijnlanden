@@ -333,6 +333,13 @@ nav .button-collapse i {
 	font-size: 2rem;
 }
 
+.erf-plan-link {
+	border-bottom: none;
+	border-top: 1px solid $primary-color;
+	padding: 2rem;
+	cursor: pointer;
+}
+
 
 /*=========================*/
 /* Front-page gallery */
@@ -427,6 +434,10 @@ footer {
 
 footer .col {
 	padding-top: 2rem;
+}
+
+.footer-copyright {
+	margin-top: 5rem;
 }
 
 

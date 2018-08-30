@@ -1,10 +1,12 @@
 nav {
   color: $primary-body-color;
-  @extend .z-depth-1;
+  // @extend .z-depth-1;
   background-color: $primary-color;
   width: 100%;
   height: $navbar-height-mobile;
   line-height: $navbar-height-mobile;
+
+  border-bottom: 1px solid $nav-border-color;
 
   a { color: $primary-body-color; }
 

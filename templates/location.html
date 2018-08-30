@@ -4,23 +4,12 @@
 <header>
 
   <div class="navbar-fixed">
-    <!-- <nav>
-      <div class="nav-wrapper">
-        <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <span class="hide-on-small-only">Aan de Wijnlanden</span></a>
-        <ul class="right hide-on-med-and-down">
-          <li><a href="/plans_prices">Prices & Plans</a></li>
-          <li class="active"><a href="/location">Location</a></li>
-          <li><a href="/information">Information</a></li>
-          <li><a href="/documentation">Documentation</a></li>
-          <li><a href="/contact">Contact</a></li>
-        </ul>
-      </div>
-    </nav> -->
     <nav>
     <div class="nav-wrapper">
-      <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <!--<span class="hide-on-med-and-down">Aan de Wijnlanden</span>--></a>
+      <a href="/" class="brand-logo"><img src="/static/img/maroon_logo.png"></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
+					<li class=""><a href="/">Home</a></li>
           <li><a href="/p2/plans_prices">Prices & Plans</a></li>
           <li class="active"><a href="/location">Location</a></li>
           <li><a href="/p2/progress">Progress</a></li>
@@ -58,13 +47,6 @@
 	</div>
 </div>
 
-<!-- <div class="row">
-	<div class="col s12 center">
-		<img src="/static/img/locality.jpg" style="max-height:500px;">
-		<p>
-			Some text about the above image...
-		</p>
-	</div> -->
 </div>
 
 <div class="row container spaced">
@@ -105,20 +87,6 @@
 			<h3>{{content['adwPhase1'].title|check_none}}</h3>
 			<p>
 				{{content['adwPhase1'].text|check_none|safe}}
-			</p>
-		</div>
-	</div>
-</div>
-
-<div class="row container spaced">
-	<div class="col s12 center card">
-		<div class="card-image">
-			<img src="{{content['adwPhase2'].image|check_none}}=s1000" class="responsive-img materialboxed">
-		</div>
-		<div class="card-content">
-			<h3>{{content['adwPhase2'].title|check_none}}</h3>
-			<p>
-				{{content['adwPhase2'].text|check_none|safe}}
 			</p>
 		</div>
 	</div>

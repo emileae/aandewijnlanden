@@ -26,6 +26,7 @@ import time
 import urllib
 from urlparse import urlparse
 import re
+import math
 
 from google.appengine.ext import ndb
 from google.appengine.api import images
@@ -55,8 +56,14 @@ def check_none(value):
         return ""
 jinja_env.filters['check_none'] = check_none
 
+def roundVal(value):
+    return int(round(value, 0))
+jinja_env.filters['roundVal'] = roundVal
+
 def jinjaAdd(value1, value2):
-    return value1 + value2
+    value1 = float(value1) * 1.15 / 1.14
+    value1 = math.ceil(value1)
+    return int(value1 + value2)
 jinja_env.filters['jinjaAdd'] = jinjaAdd
 
 def format_phone(value):
@@ -200,7 +207,7 @@ class Location(MainHandler):
     def get(self):
         contacts = model.Contact.query().order(-model.Contact.created).fetch()
 
-        labels = ["location_intro", "locality", "adwEstate", "adwPhase1", "adwPhase2"]
+        labels = ["location_intro", "locality", "adwEstate", "adwPhase1"]#, "adwPhase2"
         content = {}
         for label in labels:
             content[label] = model.Content.query(model.Content.label == label).get()

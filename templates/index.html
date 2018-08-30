@@ -22,7 +22,9 @@
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300,400italic' rel='stylesheet' type='text/css'>
+  <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300,400italic' rel='stylesheet' type='text/css'> -->
+  <!-- <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville" rel="stylesheet"> -->
+  <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
   <link rel="stylesheet" href="/static/font/font-awesome/css/font-awesome.min.css">
 
   <!-- favicon -->
@@ -38,7 +40,9 @@
         height: 400px;
       }
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5tM7OubJAOygIIfKGLMGz_yKbs7gdzZI"></script>
+
+    {% block mapScript %}
     <script>
       function initialize() {
         var mapCanvas = document.getElementById('map');
@@ -85,6 +89,7 @@
     ga('send', 'pageview');
 
   </script>
+  {% endblock %}
 
   {% block style %}
   {% endblock %}
@@ -110,9 +115,10 @@
     </nav> -->
     <nav>
     <div class="nav-wrapper">
-      <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <!--<span class="hide-on-med-and-down">Aan de Wijnlanden</span>--></a>
+      <a href="/" class="brand-logo"><img src="/static/img/maroon_logo.png"> <!--<span class="hide-on-med-and-down">Aan de Wijnlanden</span>--></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
+          <li class=""><a href="/">Home</a></li>
           <li><a href="/p2/plans_prices">Prices & Plans</a></li>
           <li><a href="/location">Location</a></li>
           <li><a href="/p2/progress">Progress</a></li>
@@ -146,9 +152,9 @@
 
     <div class="slider">
 
-      <span id="phase-2-coming-soon">
+      <!-- <span id="phase-2-coming-soon">
         <u>Aan de Wijnlanden Second Phase</u> Launching now!<br>Contact Nicho on <a href="tel:+27664761894">066 476 1894</a> to learn more.
-      </span>
+      </span> -->
 
       <span id="slider-overlay-caption">
         <!-- <img src="/static/img/adw_logo.jpg" style="max-width:150px;"><br> -->
@@ -180,7 +186,8 @@
     <div id="primary_cta">
       <div class="row">
         <div class="col s12 center lg-text">
-          Freestanding homes <br>from R1 665 000!
+          <h3>Aan de Wijnlanden Phase 2</h3>
+          Freestanding homes <br>from R1 499 000!
           <br>
           <span style="font-size: 1rem; color: inherit;font-weight: bold;">Phase One sold out and construction nearly complete!</span>
         </div>
@@ -188,19 +195,21 @@
           <h5>Call Us</h5>
           <div class="row hide-on-med-and-up">
             <div class="col s12 m6" style="margin-bottom:1rem;">
-              <a href="tel:+27664761890" class="btn btn-large"><span class="hide-on-small-only">Call: </span>066 476 1890</a>
+              <a href="tel:+27664761890" class="btn btn-large"><span class="hide-on-small-only">Hannes: </span>066 476 1890</a>
             </div>
             <div class="col s12 m6">
-              <a href="tel:+27664761894" class="btn btn-large"><span class="hide-on-small-only">Call: </span>066 476 1894</a>
+              <a href="tel:+27664761894" class="btn btn-large"><span class="hide-on-small-only">Nicho: </span>066 476 1894</a>
             </div>
           </div>
           <div class="row hide-on-small-only center">
             <div class="col s12 m12">
-              <a href="tel:+27664761890" class="btn btn-large"><span class="hide-on-small-only">Call: </span>066 476 1890</a>
+              <a href="tel:+27664761890" class="btn btn-large"><span class="hide-on-small-only">Hannes: </span>066 476 1890</a>
 
-               or
+               <!-- or -->
+              <br/>
+              <br/>
 
-              <a href="tel:+27664761894" class="btn btn-large"><span class="hide-on-small-only">Call: </span>066 476 1894</a>
+              <a href="tel:+27664761894" class="btn btn-large"><span class="hide-on-small-only">Nicho: </span>066 476 1894</a>
             </div>
           </div>
           <!-- <a href="tel:0797088431" class="btn btn-large">Call: 079 708 8431</a> or <a href="tel:0827710932" class="btn btn-large">Call: 082 771 0932</a> -->
@@ -212,6 +221,7 @@
           <a href="tel:0827710932" class="btn btn-large">Call Us - 082 771 0932</a>
         </div> -->
         <div class="col s12 center thin-text">
+            <h5>Email</h5>
           <a href="mailto:sales@aandewijnlanden.co.za" class="hide-on-small-only">sales@aandewijnlanden.co.za</a>
           <a href="mailto:sales@aandewijnlanden.co.za" class="hide-on-med-and-up" style="font-size:1rem;">sales@aandewijnlanden.co.za</a>
         </div>
@@ -224,9 +234,10 @@
 <div class="row container">
   <div class="col s12 center spaced">
 
-    <a href="/p2/plans_prices" class="btn btn-outline btn-large">
+    <!-- <a href="/p2/plans_prices" class="btn btn-outline btn-large"> -->
+    <a href="/p2/plans_prices" class="btn">
 
-      Plans & Prices
+      View Plans & Prices
 
     </a>
 
@@ -277,72 +288,7 @@
 </div>
 {% endif %}
 
-<!-- <div class="row container center spaced">
-  <div class="col s12">
-    <h4 class="thin-text">On the Winelands</h4>
-    <p class="italic-text">
-      Opposite the renowned Meerlust wine estate and at the gateway to the Stellenbosch winelands, a work-life balance starts here.
-    </p>
-  </div>
-</div>
-
-<div class="row container center spaced">
-  <div class="col s12">
-    <h4 class="thin-text">Excellent Value for money</h4>
-    <p class="italic-text">
-      Each home is designed to be aesthetic as well as economical with energy saving measures taken wherever possible.<br>The value of your investment lies in the home.
-    </p>
-  </div>
-</div>
-
-<div class="row container center spaced">
-  <div class="col s12">
-    <h4 class="thin-text">A Convenient Lifestyle Estate</h4>
-    <p class="italic-text">
-      This high security estate boasts kilometres of fynbos walking trails.<br>
-      Set in close proximity to some of the best schools in the Western Cape and is close to several shopping centres.<br>
-      The estate's recreational complex will provide a pre-school, squash & tennis courts an indoor swimming pool and a large clubhouse.
-    </p>
-  </div>
-</div>
-
-<div class="row container center spaced">
-  <div class="col s12">
-    <h4 class="thin-text">State of the art</h4>
-    <p class="italic-text">
-      Each home will have access to new technologies like Fibre internet as well as energy saving innovations.
-    </p>
-  </div>
-</div> -->
-
-<div class="row container spaced">
-
-  <!-- {% if content['homeColumn1'].text %}
-  <div class="col s12 m4 l4 center">
-    <h5>{{content['homeColumn1'].title|check_none}}</h5>
-    <p class="left-align">
-      {{content['homeColumn1'].text|check_none|safe}}
-    </p>
-  </div>
-  {% endif %}
-  {% if content['homeColumn2'].text %}
-  <div class="col s12 m4 l4 center">
-    <h5>{{content['homeColumn2'].title|check_none}}</h5>
-    <p class="left-align">
-      {{content['homeColumn2'].text|check_none|safe}}
-    </p>
-  </div>
-  {% endif %}
-  {% if content['homeColumn3'].text %}
-  <div class="col s12 m4 l4 center">
-    <h5>{{content['homeColumn3'].title|check_none}}</h5>
-    <p class="left-align">
-      {{content['homeColumn3'].text|check_none|safe}}
-    </p>
-  </div>
-  {% endif %} -->
-
-</div>
+<!-- <div class="row container spaced"></div> -->
 
 
 <div class="row">
@@ -399,6 +345,37 @@
   </div>
 </div>
 
+<div class="row">
+  <div class="col s2 m4">.</div>
+  <div class="col s6 m4">
+    <form id="form" name="form" method="post" action="https://cms.gloportal.co.za/RemoteLogin.do">
+      <table width="250" border="0" cellspacing="2" cellpadding="2">
+        <tr>
+          <td>MEMBER LOGIN</td>
+        </tr>
+        <tr>
+    
+          <td width="156"><input name="user" type="text" placeholder="USERNAME" size="23" /></td>
+        </tr>
+        <tr>
+    
+          <td width="156"><input name="password" type="password" placeholder="PASSWORD" size="23" /></td>
+        </tr>
+        <tr>
+    
+          <td><span class="style16">
+            <input type="submit" name="Submit" value="Submit" class="btn" />
+          </span></td>
+        </tr>
+        <tr>
+          <td><div align="left" class="style16"><a href="https://cms.gloportal.co.za/ResetPasswordEmailCell.do" target="_blank">Forgot Your Password?</a><br />
+          </div></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+
 <!-- Floating Contact button -->
 <!-- <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
   <a class="btn-floating btn-large red">
@@ -428,6 +405,13 @@
           <div><a href="http://www.greendev.co.za" target="_blank" class='no-border'>Greenfield Developments</a></div>
         </div>
       </div>
+
+      <div class="col l6 s12 center">
+        <div style="margin-top:50px;padding-top:3em;">
+            <img src="/static/img/Rawson_Logo.jpg" width="100px">
+        </div>
+      </div>
+
       <div class="col l4 offset-l2 s12">
         <!-- <h5 class="white-text">Contact</h5>
         <ul class="spaced">

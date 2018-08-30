@@ -49,7 +49,7 @@
 
   &:hover {
     background-color: lighten($button-color, 5%);
-    @extend .z-depth-1-half;
+    // @extend .z-depth-1-half;
   }
 }
 

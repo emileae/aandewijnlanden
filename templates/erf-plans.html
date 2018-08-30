@@ -7,9 +7,10 @@
   <div class="navbar-fixed">
     <nav>
       <div class="nav-wrapper">
-        <a href="/" class="brand-logo"><img src="/static/img/adw_logo.jpg"> <!--<span class="hide-on-med-and-down">Aan de Wijnlanden</span>--></a>
+        <a href="/" class="brand-logo"><img src="/static/img/maroon_logo.png"></a>
         <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
+            <li class=""><a href="/">Home</a></li>
             <li class="active"><a href="/p2/plans_prices">Prices & Plans</a></li>
             <li><a href="/location">Location</a></li>
             <li><a href="/p2/progress">Progress</a></li>
@@ -48,7 +49,7 @@
 		<div class="col s12 center">
       {% if plans %}
         <h2 id="plan_name"> {{plans[0].name}} </h2>
-        <p>Plan price: R <span id="plan_price">{{plans[0].price}}</span></p>
+        <p>Plan price: R <span id="plan_price">{{( plans[0].price * 1.15 / 1.14 )|roundVal}}</span></p>
         <p>Erf price: R <span id="erf_price">{{erf.price}}</span></p>
         <p>Total price: R <span id="total_price">{{plans[0].price|jinjaAdd(erf.price)}}</span></p>
         <p id="plan_description"> {{plans[0].description}} </p>
@@ -125,12 +126,14 @@
       var name = $this.data("name");
       var description = $this.data("description");
       var price = $this.data("price");
+      var adjustedPrice = parseFloat(price) / 1.14;
+      adjustedPrice = Math.round( adjustedPrice * 1.15 );
       var erfPrice = $this.data("erfprice");
       $("#plan_name").text(name);
       $("#plan_description").text(description);
-      $("#plan_price").text(price);
+      $("#plan_price").text(adjustedPrice);
       $("#erf_price").text(erfPrice);
-      $("#total_price").text(parseInt(price) + parseInt(erfPrice));
+      $("#total_price").text(parseInt(adjustedPrice) + parseInt(erfPrice));
     });
   </script>
 {% endblock %}
